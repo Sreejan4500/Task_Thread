@@ -1,0 +1,199 @@
+In this video, let's talk about some basic concepts including CPU, application, thread and thread
+
+scheduler so that we can have a basic solid foundation in order to understand multi-threading and asynchronous
+
+programming, and be able to create multi-threading programs and or asynchronous programs.
+
+So for any modern computer, we will have to have a CPU, which is the central control unit that processes
+
+all the applications.
+
+Without the CPU, none of the application will be able to run, so the computer wouldn't exist.
+
+So let's find a icon of CPU.
+
+Okay, so we have a CPU here for the developer or any user.
+
+One of the most important thing is the application.
+
+That's the whole purpose of having a computer.
+
+So let's imagine this rectangle represents a application.
+
+And when you have the CPU and then have the application loaded into the memory of the computer, then
+
+when the application wants to run the application have to be processed by the CPU.
+
+However, the CPU can only process a thread, so the thread is the basic unit that can run within a
+
+CPU, not the application.
+
+So therefore one application has at least one thread.
+
+It's impossible that application doesn't have a thread without a thread.
+
+Application wouldn't even exist.
+
+It wouldn't perform its task.
+
+So let's use a circle to represent a thread within the application.
+
+And let's imagine there's only one thread in a application that's the normal application.
+
+It's normal application only have one thread, which usually we call the main thread, or we call it
+
+a primary thread.
+
+All right.
+
+So we have an application and we have this main thread.
+
+And when the application is loaded into the memory of the computer and wants to run, then the thread
+
+has to be assigned to the CPU.
+
+And the CPU will process the application.
+
+So who is responsible for assigning the threat to the application.
+
+And that's something we call the thread scheduler.
+
+Now let's use another rectangle to represent the thread scheduler.
+
+And I'm going to just call it thread scheduler here.
+
+The thread scheduler is this middle person that looks at the available applications, and then assign
+
+this thread to the CPU so that the CPU can take care of the thread.
+
+Remember the key concept here to the CPU application doesn't exist to the CPU, only thread exists.
+
+Thread is the basic unit that a CPU can process.
+
+So the thread scheduler here is responsible to assign a thread to the CPU.
+
+Now it's possible that we have multiple applications.
+
+In fact, that's most of the case.
+
+You have multiple applications running within the computer.
+
+So when that is the case we use multiple rectangles to represent this scenario.
+
+Rectangle represents application.
+
+And remember that we have to have a thread inside the application in order for the application to run.
+
+So when that's the case the this thread scheduler will have to decide which one of the threads can be
+
+assigned to the CPU to run.
+
+Not all of the threads can be assigned to the CPU at the same time.
+
+Imagine there's only a single core CPU.
+
+So at any given moment, there's only one thread can be allocated to the CPU for the CPU to process.
+
+So the schedulers responsibility is to determine who needs to be assigned to the CPU.
+
+The scheduler make the decision based on many different factors.
+
+For example, some of the applications is more mission critical than other applications, so therefore
+
+their thread has higher priorities.
+
+And another factor could be that let's say this is a high priority thread.
+
+Therefore it is assigned to the CPU.
+
+But it's been using the CPU for a long time and the other threads are being starved.
+
+So in that case the thread scheduler will have to remove this thread from the CPU and start giving other
+
+threads some opportunities to be processed in the CPU.
+
+So the task scheduler essentially is assigning the thread in this case based on time slicing, which
+
+means that each thread has a period of time which we call time slice.
+
+And during that period of time, the thread will be assigned to the CPU.
+
+In order to run.
+
+So this is the basic algorithms that a thread scheduler uses in order to process different threads within
+
+different applications.
+
+Now, the thread scheduler is not something that a developer is able to influence, other than assigning
+
+some priorities to your own thread.
+
+The thread scheduler is a part of the operating system.
+
+It's part of our developer control, so you have to be aware of that.
+
+Now we have multiple applications and we have one thread in each application.
+
+This is not a multithreading scenario.
+
+This is multiple application scenario.
+
+When we talk about multi threading scenario we're referring to that the possibility of having multiple
+
+threads within one application.
+
+Let's say the first application utilizes three different threads.
+
+Therefore, we call.
+
+The first application is a multithreading program or multithreading application.
+
+But to the scheduler there's a total of five different threads.
+
+So 1234, five, five different threads in the entire operating system.
+
+It doesn't really matter whether the threads belong to this application or not.
+
+To the thread scheduler, the only thing it sees are the different threads.
+
+So whether there's only one thread or there's a thousand threads, whether those are thousand threads
+
+belongs to one application or belong to many different applications, it doesn't really matter.
+
+Thread scheduler is just doing its work based on its own algorithms, and assign those threads to the
+
+CPU to be processed, so each one of those threads will have its turn to go onto the CPU.
+
+And of course, you will have scenarios where you have multiple cores of CPU, not just single core.
+
+Then here we can use different icons of the CPU to represent the different cores, and it's exactly
+
+the same thing.
+
+The stress scheduler, which is part of the operating system, will be dealing with assigning different
+
+threads to different cores of the CPU, but it's only that this time the thread scheduler will be able
+
+to assign one thread per core.
+
+But as for how it is done, it is entirely up to the thread scheduler and we don't need to worry about
+
+that.
+
+We just need to know that there is the thread scheduler taking care of the threads within our applications.
+
+And when there are multiple threads within one application, we're going to call this a multi threading
+
+scenario for this application.
+
+This is a multi threading program whereas this is just a regular single threading application.
+
+This one is also a regular single thread application okay.
+
+Those are the main basic concepts.
+
+We need to know before we start programming multi threading programs.
+
+If any questions please let me know.
+
+If not I will see you in the next video.
