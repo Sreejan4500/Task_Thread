@@ -1,0 +1,490 @@
+In this video, let's talk about the basic syntax of writing multi-threading programs.
+
+So let's go into Visual Studio.
+
+The Visual studio I'm having is Visual Studio 2022.
+
+And the framework I have is.
+
+Net eight.
+
+So let's create a new application or let's say a new project, and we're going to select the console
+
+application language C sharp and click on next button.
+
+And we're going to call this basic syntax.
+
+Click on Next Framework dot.
+
+Net eight and click on the create button.
+
+The whole purpose of creating any application is to perform a task in this very, very simple application.
+
+There's only one task this program completes which is to output the words hello world, console and
+
+to perform any tasks.
+
+Usually we use a function or method.
+
+In this case we didn't write any custom functions or custom method.
+
+We're using Console.write, which is a method that comes from the.
+
+Net framework.
+
+So let's create a method ourself in order to perform a task.
+
+And we're going to call this method right.
+
+Thread ID.
+
+So it's very simple task that all it does is to output the current thread ID I'm going to write it to
+
+a line on the console.
+
+And in order to output the thread id I'm going to use the thread dot current thread dot manage id.
+
+We don't need to add one to it, so this is the thread id.
+
+We need to remove one of the parentheses.
+
+And now we have a method here.
+
+This method performs a very simple task.
+
+Of course, in your real world scenario you have way complicated tasks to perform other than just output
+
+the manager ID of the thread.
+
+But in this case it's suffice to illustrate the concept.
+
+So we have a method here to perform a task.
+
+And when we want to actually perform a task, we want to invoke this method.
+
+We invoke it this way.
+
+And if we run it.
+
+Well actually let's also do a console line so that we don't just directly exit the program.
+
+Okay.
+
+Let's run the application now.
+
+And now you see we have Hello World which is the first task that is performed.
+
+I forgot to remove that.
+
+And then we have this number 123 now.
+
+So this is the ID of the main thread of this application.
+
+Well let's remove this before we forget.
+
+Okay.
+
+So we have this task that is performed by the main thread, which is why the thread id is number one.
+
+So in this course we're talking about multithreading.
+
+So in order to start another thread we're going to use the thread class.
+
+So what we are going to do is we're going to say thread dot, let's say we call it thread one.
+
+And then we're going to just create a new thread.
+
+And then within the constructor here you can see that we have different signatures.
+
+And all of them takes at least a delegate.
+
+So if you read this, start is a delegate that represents the methods to be invoked when the thread
+
+begins executing, which means that we are assigning a task to the thread.
+
+A thread wouldn't run without doing anything.
+
+There's a reason why a thread runs because it needs to perform a task.
+
+So we assign a C-sharp delegate, which is basically a name of the function or the name of the method.
+
+In this case we only have one, which is the thread id.
+
+So we are going to say that we're going to start a new thread.
+
+And all this thread does is to write a thread ID.
+
+Again it's not realistic, but it sufficed the purpose of demonstrating the basic syntax of starting
+
+a thread.
+
+Okay, so starting a thread, you declare the thread, you assign a task to the thread, and now you're
+
+going to say thread one dot start.
+
+So this is where you actually kick off the processing of this task in this new thread.
+
+Okay.
+
+So now let's comment out this red thread.
+
+So we're not going to actually invoke this within the main thread.
+
+We are only going to invoke it within a separate thread.
+
+And now let's see what is the thread ID.
+
+Let's run the application.
+
+Now you can see that the thread ID is number seven.
+
+So this is the same method that was called by the main thread.
+
+But now it's outputting number seven instead of number one.
+
+So that means this thread ID that is written here, which is the current thread, is the new thread
+
+instead of the main thread.
+
+So what if I am running this thread ID from the main thread and from a separate thread at the same time?
+
+So let's give it a try.
+
+Now you can see that the main thread still outputs number one, and then a separate thread that there
+
+are different thread.
+
+Whether this thread ID is 8 or 7 or 28 or 108 doesn't really matter it assigned by the operating system.
+
+But this example shows us the basic syntax.
+
+Starting a thread.
+
+You declare a thread class, assign a task to the thread, and then you start the thread.
+
+Now let's perform a slightly more realistic task.
+
+Let's say that instead of writing this ID out just once, we want to write the ID out for 100 times.
+
+So we are going to create a loop and it's going to loop from 0 to 99.
+
+It doesn't really matter whether it's from 1 to 100.
+
+Or from 0 to 99?
+
+The point is that we're writing out the same stuff 100 times.
+
+Okay.
+
+And again, let's comment out this.
+
+And now let's start another thread.
+
+So don't worry about the main thread.
+
+Let's start another thread.
+
+And how do we do it.
+
+Remember create a new thread.
+
+Let's call it thread two.
+
+And then assign a task to it, which is the same task.
+
+We're going to write a thread ID and then we're going to say thread number two start.
+
+And when this line runs and this line runs, that means we have two threads that runs at the same time.
+
+And it's up to the thread scheduler to determine who's going to take which core of the CPU, or are
+
+they going to take turns.
+
+We are going to find out.
+
+Let's run the application okay.
+
+So in this case you can see that thread number eight finished.
+
+And then thread number seven started.
+
+But it may not be this case.
+
+All the time because this time the thread scheduler is prioritizing one of the threads, but sometimes
+
+it may not be the case.
+
+Let's run it again.
+
+And this time it's different, you can see.
+
+So I scroll all the way to the top number seven.
+
+It's at the top and then switch to number eight.
+
+And now if we scroll down now I switch to number seven again and then it finishes.
+
+So last time it was number eight for 100 times followed by number seven for 100 times.
+
+This time it started with number seven but it didn't finish.
+
+It's 100 times turn.
+
+Now it's number eight and then followed by number seven to complete.
+
+And we run it again.
+
+You will see another different results.
+
+Scroll up and this time you can see it started with number eight and finish 100 times and then number
+
+seven.
+
+So this is the same as the first time.
+
+So the reason why it's repeating this patterns is because 100 is too fast for CPU 100 loops is not much.
+
+So in order to slow it down, we can say.
+
+Thread.sleep.
+
+So sleep 1000 means 1000 milliseconds.
+
+That's one second.
+
+So that's too long for us.
+
+So we don't want to wait for that long.
+
+Let's say each iteration we're going to pause for 50 milliseconds.
+
+Then when we run it, we'll see something more interesting because we slow it down.
+
+Then the thread scheduler will have to work harder to pull the threads in and out of the CPU.
+
+So let's run the application again.
+
+Now you can see something more interesting.
+
+And it's slower.
+
+Of course it's slower.
+
+Okay, finally I finished writing and you can see that 7878.
+
+They are alternating, but it's not exactly alternating.
+
+Here you can see that thread number seven takes the CPU twice right.
+
+And then followed by number eight.
+
+Well, I shouldn't say take the CPU twice, but it took a little bit longer time slice time so it has
+
+enough time to write twice.
+
+Whereas here it's just seven and then eight and seven and then eight.
+
+And here number eight took longer time.
+
+Slice and be able to write twice.
+
+So we scroll down.
+
+It looks like the longest is just twice.
+
+So from this example you have seen the thread scheduler working.
+
+And don't forget the main thread is also thread.
+
+So if we invoke the right thread id here, that means we have total three threads running in parallel
+
+and we run this again.
+
+We're going to see something completely different.
+
+We're going to see number one is being written many times, 100 times and then followed by ten and 11
+
+alternating.
+
+Why is that?
+
+Because write thread id here is in the main thread it is blocking.
+
+So this has to be completed before these two threads can start.
+
+That's why you see number one being written by 100 times.
+
+And then these stress starts when these threads starts these threads are not blocking.
+
+So this is the nature of using threads.
+
+Threads are not locking.
+
+So if we move these four lines of code above the main thread then things will be different.
+
+Now you can see that we have the three different threads alternating.
+
+We have 7817187.
+
+There's no particular pattern in this.
+
+Sometimes it's taking a longer time slice here the main thread.
+
+Be able to write it twice.
+
+From this example, you are able to see that the thread scheduler is working to assign different threads
+
+within the application into the CPU.
+
+And again, the thread scheduler is part of the operating system.
+
+Whether it's going to favor this one or this one or the main thread, we don't know.
+
+In order to influence it we have some ways.
+
+For example, we can use the priority now before the threat starts, move this line downwards, okay.
+
+And then move this line up.
+
+So here if we say that threat number one and its priority is the highest.
+
+Well first of all let's take a look at what priority we have here.
+
+We have above normal below normal highest lowest and normal.
+
+So five different levels.
+
+If we say threat one is the highest and threat two let's say is threat two is the lowest and the main
+
+threat.
+
+How do we let it know.
+
+So when I say threat dot current threat.
+
+So this is the main threat dot priority.
+
+Let's say this one is normal.
+
+And let's run the application and remove the threat dot sleep because it's going to affect the algorithm
+
+of the threat scheduler.
+
+So let's comment it out for now and let's run the application.
+
+Now you can see number seven starts first because number seven is threat number one.
+
+Oh sorry.
+
+Sorry.
+
+I need to scroll up.
+
+It's not number seven.
+
+It's number eight.
+
+Number eight is thread one.
+
+So number eight finishes and then number one.
+
+So this is the main thread.
+
+And then followed by number seven.
+
+So number seven is the lowest strand.
+
+Number two is number seven three number one is number eight.
+
+And the main thread is number one.
+
+So you can see that the priority actually influences the order.
+
+Now like I mentioned in the previous video that the thread schedulers algorithm has many factors.
+
+The priority is just one of them.
+
+The time slicing is another one.
+
+So even though you have the priorities assigned like this, each time, the work takes too long time.
+
+Let's say that we have this each time.
+
+It takes 50 milliseconds here.
+
+Now the result wouldn't be the same.
+
+So let's run the application and see what happens.
+
+Okay, so we have this running and it's still running.
+
+Let's wait for it to finish.
+
+Scroll all the way up and you can see that this is very similar to where we have seen before.
+
+Each dress has three different dress taking turns and there's no particular pattern.
+
+Why is that?
+
+Why?
+
+This is the highest.
+
+This is the lowest and this is normal.
+
+And it seems that they're not actually affecting the sequence.
+
+Well, it's really just because the task itself, each time it performs it, it takes just too long
+
+time to finish.
+
+So the thread scheduler will have to kick it out of the CPU, where the priority of the thread is,
+
+it doesn't really matter.
+
+So even you can assign the highs to your own thread.
+
+You're not going to have the turn because you're too slow.
+
+Before we finish this video, I also want to show you that a thread can have a name.
+
+So we have thread name and you can call it thread one.
+
+You can give thread two a name, and then we can have the main thread Which is thread dot current dot
+
+name and we can call it the main thread.
+
+So now instead of writing out the id, let's just write current thread name.
+
+So this would be more meaningful at least.
+
+So let's write.
+
+And you can see that they're alternating because the task itself to perform in the thread is just taking
+
+too long time.
+
+So we have the names being written out like all right.
+
+So this is the basic syntax of kicking off a thread.
+
+You declare a thread, assign it a task, and then just call start.
+
+Then it will start the thread and it will not be blocking.
+
+That's the nature of a thread.
+
+Whereas if you perform the task without running in a separate thread, you are going to block the current
+
+thread.
+
+In this case, the current thread is the main thread.
+
+That's why this line will not execute before this task is finished.
+
+And that's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.
+
