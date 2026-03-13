@@ -1,0 +1,106 @@
+In this video let's talk about the basic syntax of using task.
+
+So it's going to be really really similar to using thread.
+
+Using thread we have something like this.
+
+You create a thread and then you assign a work to it.
+
+And you're going to go thread dot start and that's it.
+
+And then of course you're going to define the work just like this.
+
+And let's say we have a super simple task here.
+
+And we're going to just output I love programming with exclamation mark.
+
+And when this starts it's going to just perform task.
+
+I don't think I need to run this, but with task based asynchronous programming, let's comment this
+
+out.
+
+Instead of using the thread class, we just use the task class.
+
+So I'm going to say task and then task equals new task.
+
+So it looks similar right.
+
+And then here you can see that it takes a action which is a delegate.
+
+And of course we can just use the work method here.
+
+And then we say task dot start.
+
+So nothing fancy.
+
+Exactly.
+
+Actually, the syntax is exactly the same.
+
+And if you run this, it's going to run asynchronously.
+
+So in order to see the result we're going to do a console.readline.
+
+And we're going to wait for the result to show up before the program finishes.
+
+So let's run the application and let's check the result.
+
+And it says I love programming.
+
+All right.
+
+So then you can see that there's not much difference.
+
+Another one I want to show you another way to run task, which is my favorite way is instead of using
+
+this way, which is to instantiate an object of task class and then call the task to start, you can
+
+just say Task.run.
+
+And in here it takes a delegate just like before, and you can just put your delegate inside here and
+
+it does exactly the same thing.
+
+Now of course it gives you the green screen line.
+
+It's telling you that you're not waiting for it to complete because this call is not awaited.
+
+Execution of the current method continues before the call is completed.
+
+Consider applying a wait operator to the result of the call.
+
+So that is something we're going to talk about in the future.
+
+So don't worry about the green screen line.
+
+If we want something to run asynchronously, we have to do it like this.
+
+And uh, this is exactly the same as doing task dot start.
+
+It's just that when you do it this way, it doesn't warn you, and if you run it, it gives you the
+
+same result task.
+
+The run method actually returns a task object.
+
+So if we have something like this we will receive the task.
+
+And doing this way you can access a lot of different things in it.
+
+You can see we have continuewith right.
+
+And we have exception.
+
+We can get a waiter, we can access the ID of the task, we can check the the states, you know, whether
+
+it's completed or not, whether it's completed successfully.
+
+And we can wait.
+
+So task can encapsulate a lot of functionalities which we're going to talk about in the future lessons.
+
+So this is the basic syntax of using task.
+
+And I will see you in the next one.
+

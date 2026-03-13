@@ -1,0 +1,92 @@
+In this new section, we're going to talk about task based asynchronous programming.
+
+But the first question to start with in this section is what are the differences between multi-threading
+
+programming and asynchronous programming?
+
+A lot of people actually have this question.
+
+To be honest.
+
+I have to say that they're the same thing, except they have different emphasis from the basic syntax.
+
+They both look very similar, and actually in most cases they do both utilize threads to accomplish
+
+their work.
+
+But the emphasis are different.
+
+Multi-threading programming emphasis the divide and conquer aspect.
+
+Remember, why do we start a new thread?
+
+We have this first reason which is divide and conquer.
+
+That's why we need multiple threads, right?
+
+So in this example we have that mom represents two different threads.
+
+But you could have hundreds of threads running at the same time because you want to divide the task
+
+and then conquer them so that they can be finished in parallel.
+
+So the performance is going to be improved greatly, whereas asynchronous programming emphasizes on
+
+the second reason, which is to offload the long running task.
+
+So we have this main thread going and then we have this big fat task.
+
+So we want to move this big fat task to the side so that it can be accomplished in another thread.
+
+As you can see, this is one thread and this is another thread.
+
+So it's still multi threading.
+
+There's no difference.
+
+It's just that asynchronous emphasize on the fact that there is something that is running aside from
+
+the main thread.
+
+This is to offload the long running task.
+
+Whereas multi-threading emphasizes multiple threads running side by side in order to quickly resolve
+
+an issue.
+
+Now, multi-threading programming is often used for CPU bound operations, and the operation that we'll
+
+use a lot of CPU resources to calculate, for example, games, whereas asynchronous programming is
+
+particularly useful for I o bound operations.
+
+Why is that?
+
+Because.
+
+Because this big fat task doesn't use much CPU.
+
+We just have to sit and wait for something to return.
+
+Mostly it's from a remote server, a remote database, you know, it's from a intranet on the cloud.
+
+Therefore, it takes a very long time.
+
+That's what we call a I o operation.
+
+It doesn't take much CPU resource, but it's just remote and it's a hardware device.
+
+Therefore it takes time to complete.
+
+We want to put it in another thread so that it runs asynchronously.
+
+Aside from the main thread, that's what we emphasize and that's what we call asynchronous programming.
+
+Only difference is the emphasis.
+
+Okay, I hope that is clear.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.
+

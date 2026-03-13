@@ -1,0 +1,345 @@
+In this video, let's talk about why do we need to start a new thread.
+
+And one of the first reasons is to solve divide and conquer type of problems.
+
+So we have demonstrated how to start a thread the basic syntax of that.
+
+But the task that we want the thread to complete is just to write the thread name or the thread id for
+
+100 times.
+
+That's a silly task.
+
+So let's look at some more realistic type of problems that can be solved by using multiple threads.
+
+And one of that is called divide and conquer.
+
+So what that means is that you have a huge task.
+
+So again let's use this rectangle to represent a task.
+
+And I intentionally made the rectangle bigger because I want it to represent a big fat task.
+
+When we look carefully about this task, it appears that we can actually divide this task into different
+
+chunks or different sections so that we can let multiple people working on this task.
+
+If we are talking about a real life task, if we divide this task into, let's say we divide it into
+
+two different tasks, then we can find two different people to work on that in parallel.
+
+So we can have person one working on the left chunk, and person two working on the right one.
+
+In real life we have many types of scenarios like this.
+
+For example cooking.
+
+Let's say we're cooking four different dishes for dinner, mom cooking two and that cook on the other
+
+two.
+
+That way, instead of taking one number, maybe it's only taking half an hour to finish the cooking
+
+process.
+
+And then we have the dinner ready.
+
+So this type of problem is called divide and conquer.
+
+And let's jump into Visual Studio and see whether we can create a scenario where we can simulate this
+
+type of problems So let's close this application that we created previously and create a new project
+
+style console application.
+
+And let's call this Divide and Conquer and click on the create button.
+
+Now what we are trying to do is that we're going to have a array of integers.
+
+So let's say that we have ten integers.
+
+Well it's more realistic to have 1000 or 1 million.
+
+But let's just for example we have ten integers and we want to summarize them.
+
+It's a very simple task you can just use for loop to complete it.
+
+So if we were to use single thread to complete, the job becomes very, very straightforward.
+
+So we can have a sum and we initialize it to zero.
+
+And then we're going to do a for each loop.
+
+So when I say var number in array.
+
+And then as we're looping through the array we're going to add this to to the summary.
+
+And then at the end we are going to output it.
+
+And we're going to say the sum is sum.
+
+So this is going to give us the result pretty quickly because the array is only ten elements long.
+
+All right.
+
+So it says the sum is 55.
+
+Now how do we know how long this takes.
+
+So let's get a timestamp.
+
+Start time equals date time now.
+
+And then at the end we're going to get the end time equals date time now.
+
+And here we're going to add another one.
+
+We're going to say red line.
+
+And we're going to say the time takes is we're going to get a time span.
+
+So I'm going to say time span equals end time minus start time.
+
+And then over here I'm going to say time span dot total milliseconds.
+
+We can use total milliseconds If that's not accurate enough.
+
+We can use nanoseconds.
+
+So let's try milliseconds for now.
+
+And at the end add this red line so the program doesn't exit.
+
+Before we actually test it.
+
+Let's add a thread.sleep here.
+
+So thread.sleep.
+
+I want it to sleep for maybe 100 milliseconds per each iteration.
+
+So this is to simulate a longer calculation because we only have ten elements in the array.
+
+It's not long enough for simulating a CPU intensive calculation scenario.
+
+That's why I'm using the Thread.sleep to simulate that.
+
+If we do it this way and then we give it a try, we'll see.
+
+How long is it going to take to summarize this.
+
+So let's give it a try.
+
+All right.
+
+So the result is 55.
+
+And the time it takes is about slightly higher than 1000 milliseconds which is one second.
+
+But if we look carefully about this problem that we are resolving, this is very similar to the kitchen
+
+problem.
+
+So we're cooking dishes and it can be actually split it for multiple cooks.
+
+Here we're calculating multiple elements in the array.
+
+But we don't have to just use one thread.
+
+We can use two threads three threads.
+
+For example, if we're using two threads the first thread calculates the first five and the second thread
+
+calculates the second five.
+
+And then at the end we can add the result together to get the total summary.
+
+So that way we're going to shorten the calculation time for sure.
+
+So let's give it a try.
+
+We can delete this for each.
+
+And then we can use threads multiple threads to solve the problem.
+
+Let's say we're going to use four different threads okay.
+
+So we're going to have four different summaries three in summary for okay we're going to divide this
+
+task into four different chunks.
+
+And then we're going to work on that separately.
+
+So um over here we're going to say number of threads and I'll just say four.
+
+And then the segment length we need to calculate that.
+
+So I'm going to say array dot length divided by number of threads.
+
+And now I'm going to have an array of threads because we have four different threads.
+
+So here because I have this number of threads.
+
+So I'm going to use the number of threads.
+
+So number of threads.
+
+This creates four different threads.
+
+And then I'm going to assign a task to each thread.
+
+Okay.
+
+So thread number one which is thread zero.
+
+This one equals to new thread.
+
+And what is going to do is to summary this summarize the section.
+
+So before we proceed we need to create a task for the thread to do so each one of these four different
+
+threads work on the same thing.
+
+Basically, they just summarize the section that they are assigned.
+
+So I'm going to create a function.
+
+I'm going to call it some segment.
+
+And it has a start index and an end index.
+
+And this one has a segment.
+
+Some initialize it to zero.
+
+And then we're going to loop from the start to the end.
+
+And here I'm going to say segment sum equals array.
+
+Well this has to be defined first.
+
+So I'm going to move this to the top.
+
+Then here we say array I.
+
+So this helps us to calculate the sum of the segment.
+
+And once it is done I'm going to return the segment sum.
+
+Now that I have the task I can assign the task to my thread.
+
+So the first thread which is thread zero I'm going to say new thread, and then I'm going to use a lambda
+
+expression and I'm going to say someone equals some segment.
+
+And that's from zero to segment length.
+
+So here is not thread but threads.
+
+And we're going to do similar thing for the other four different threads.
+
+So here for the first one I mean the second one some number two equals from segment lens to two segment
+
+length.
+
+And now some number three for thread number three is from segment lens times two three times segment
+
+lens.
+
+Well probably it will look better if I just put this at the beginning.
+
+And then last one is going to be for thread.
+
+Uh, this is number two.
+
+And this is three but some number four.
+
+And this is going to be starting from three times segment length to array length.
+
+Okay.
+
+So we divided the array into four different chunks.
+
+But if we change this number it will be able to divide it accordingly.
+
+Now we are going to start all of the threads.
+
+And for that we're going to loop through the threads array.
+
+And we are going to say thread dot start.
+
+That starts all of the threads.
+
+Now remember this is threading right?
+
+Multiple threading.
+
+When we use thread it starts asynchronously which means that it's not blocking.
+
+And that means that this is going to run through pretty quickly.
+
+And you're going to have the end time very, very close to the start time.
+
+If we do it this way, to get the actual time, we will need to wait over here We need to intentionally
+
+block to do that.
+
+We're going to do for each again.
+
+And then I'm going to say threat dot join.
+
+So when we say thread dot join you can see that blocks the calling thread until the thread represented
+
+by this instance terminates.
+
+But because we're going through all of the thread.
+
+So that means that this line will not run until all of the four different threads finishes.
+
+And then at the end we're going to say the sum is some one plus some two plus some three.
+
+What is the problem here?
+
+It says use unassigned.
+
+So here I just need to assign zero to each one of it before I actually try it.
+
+Don't forget to add a thread.sleep here.
+
+So thread dot sleep for 100 milliseconds.
+
+So this is the same as the single thread scenario.
+
+And now let's try it again to see how long it takes this time.
+
+Okay.
+
+So it takes 400 Milliseconds.
+
+This is way shorter than 1000 milliseconds, which is a single thread scenario.
+
+In this case, it's not really a good example to use because we have only ten elements in the array.
+
+Spinning up four different threads just for ten elements is a waste of time.
+
+But for demonstration purpose, I added a 100 milliseconds delay in each iteration to simulate a long
+
+running, CPU intensive calculation.
+
+So you can see the difference.
+
+But in real life scenarios, you might have thousands of elements in an array, and spinning up multiple
+
+threads like this is going to definitely cut down the calculation time.
+
+So with this example, you notice that with the divide and conquer type of problems using multiple threads,
+
+it's very good for improving the performance.
+
+And that is the second reason for using multiple threading programming.
+
+That's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.
