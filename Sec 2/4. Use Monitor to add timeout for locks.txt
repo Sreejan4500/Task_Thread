@@ -1,0 +1,361 @@
+In this video we're going to talk about another stress synchronization technique which is monitor.
+
+First of all why do we call it monitor.
+
+You can consider it as an action toward critical section.
+
+So previously we're using a lock to protect the critical section.
+
+So when we encounter a critical section.
+
+So let's for example use this block to represent a critical section.
+
+And the monitor represents the action that it monitors the critical section.
+
+Why it needs to monitor the critical section.
+
+Well because it's critical.
+
+And why is critical.
+
+Because the critical section includes the resources that can be shared within different threads, and
+
+because different threads can run in parallel.
+
+So they could potentially run into conflicts.
+
+That's why we call it critical section.
+
+And having a monitor to monitor the critical section so that if one thread already entered into the
+
+critical section, other threads have to be blocked.
+
+Have to wait.
+
+So that's why we call it monitor.
+
+Knowing this concept will help us to understand the syntax and make sense out of it.
+
+Otherwise we'll just have to remember the syntax.
+
+Although remembering syntax is not difficult.
+
+Okay, let's continue with the syntax.
+
+But first of all monitor is actually going to generate a exclusive log, which is this exclusive log
+
+that we have talked about.
+
+In fact the log is based on monitor.
+
+So it's basically a simple form of monitor.
+
+However using monitor gives you more granular control than log.
+
+So this is the basic syntax.
+
+Here you can see we have a monitor dot enter.
+
+We have monitor exit.
+
+And in between of these two lines is our critical section here.
+
+So basically here monitor enter is trying to enter into the critical section.
+
+And here it's trying to exit critical section.
+
+Now once we're able to enter into the critical section we actually generate a exclusive lock.
+
+So monitor dot enter.
+
+Actually generate a exclusive lock.
+
+If it's successfully enter the critical section over here so that no other threads will be able to enter
+
+the critical section.
+
+And then monitor dot exit is always called at the end of the critical section in order to release that
+
+lock.
+
+However, if there is another thread that is already called a monitor, enter and in turn generated
+
+the lock, then this monitor enter will be will be blocking.
+
+So here this is blocking right until the lock is released by the other thread.
+
+Then it will enter into the critical section over here.
+
+And we use the try and finally mechanism so that we are always calling the monitor to exit.
+
+In order to make sure that we always release the lock that is generated from here.
+
+So this is the basic syntax of using monitor.
+
+You can see that this sort of makes sense that we are using this word monitor to monitor the critical
+
+section, and then we enter into the critical section, and then we exit out of the critical section.
+
+And in between of that is our critical section.
+
+So this makes a lot of sense.
+
+Although I personally still prefer the lock exclusive lock syntax over here because it's very, very
+
+simple.
+
+However, when you use the lock, the compiler actually compiles this code into this.
+
+So exactly like this.
+
+That's why when I talk about the exclusive lock, I was saying that there is a try and finally mechanism
+
+that's referring to this particular code.
+
+So this is the basic syntax of using monitor.
+
+If we jump into this particular example that we used before to increment counter.
+
+And because the counter itself is incremented by different threads therefore this becomes a critical
+
+section.
+
+Especially This is not an atomic operation.
+
+That's why it's a critical section here.
+
+And previously we were using a exclusive lock to protect the critical section.
+
+Now, if we were to change this to use the basic syntax of monitor, then it's still quite simple.
+
+We're going to say monitor dot enter.
+
+We're trying to enter into the critical section by monitoring the the lock.
+
+You can say monitor the section.
+
+You can also say monitor the lock over the section.
+
+So both will help you to understand why we call it monitor.
+
+Now I'm going to change to a different way.
+
+I'm going to say we're trying to monitor the lock over the section.
+
+And if there's no lock then we're going to generate a lock.
+
+So monitor enter is monitoring this counter lock.
+
+And if we are successful then we generate a lock over this critical section.
+
+Now we're going to use try and finally to make sure that at the end of the section we always able to
+
+exit the critical section and therefore we're releasing the lock.
+
+So if we were to do it this way, this is exactly the same as lock using the exclusive lock.
+
+Right.
+
+So if we were to run it we're going to see that the result is 200,000.
+
+It shouldn't be less than 200,000.
+
+You can see that the final counter value is 200,000.
+
+No matter how many times you run it, it's going to be 200,000.
+
+Because we're using monitor as a thread synchronization technique okay.
+
+This is the basic syntax.
+
+Now let's revert this back to using lock.
+
+So using lock in this particular example makes sense.
+
+However if we let me close this solution and bring up the ticket booking system or the seats booking
+
+system for for airline company that we did in the assignment number two.
+
+So if we look at the example over here, go to program.cs.
+
+We are surrounding the critical section over here with the lock, so that only one thread can access
+
+the critical section at a time.
+
+That is what we did and it has been working.
+
+However, there is a problem.
+
+Imagine that this is real world application and it is actually a web server and people are accessing
+
+this server through browsers.
+
+If for some reason it's quite busy, it doesn't have to be too many users to cause the problem.
+
+Let's say there are 20 users are working at the same time.
+
+Then everybody is in queue and waiting, right?
+
+So the chances for this to be released, for the locks to be released within five or 10s could be quite
+
+low, could be quite low, and usually for a airline ticket booking system waiting for five seconds
+
+or 10s without being notified of what is going on is quite user unfriendly, not friendly.
+
+So sometimes we want to provide a message in between to let users know that system is busy and try again
+
+later.
+
+There's different mechanism you can apply to it, but usually it involves a notification, and that
+
+notification can only be applied if the thread is not blocked, right?
+
+If you're still blocked, how can you display a message to the user?
+
+That's why the monitor has another feature, which is a waiting timeout time.
+
+So instead of using the lock we can try to use monitor.
+
+So here we can say monitor dot.
+
+There is another method.
+
+It's called try enter.
+
+And this one takes different signatures.
+
+So there is one.
+
+You can see that there is a milliseconds timeout.
+
+Let's say that in order to simulate it we increase this to 10s processing time.
+
+And then this one would be two seconds.
+
+Wait time.
+
+This is not realistic, but in order to trigger the scenario I'm going to do it this way.
+
+Basically, we're trying to acquire a exclusive lock, but we're only going to wait for two seconds
+
+if there is a lock that is already required by some other threads, then I'm going to wait for two seconds
+
+and then this is going to return us false.
+
+See, this return value says true if the current thread acquires a lock, otherwise false.
+
+So when this returns false, that means we didn't succeed in getting a lock.
+
+So therefore we cannot enter the critical section.
+
+So we're going to use a if statement.
+
+And of course if we successfully acquire the lock then we enter into this critical section.
+
+And else here we're going to console and writeline.
+
+We're going to say the system is busy.
+
+System is busy.
+
+Why we say this is because we didn't get the lock right.
+
+Someone else is still executing the critical section.
+
+Therefore we cannot enter into the critical section and we time out so we can say the system is busy.
+
+Please wait.
+
+Something like that.
+
+This is not very user friendly.
+
+A better way to actually do this is to have a loop.
+
+So if this fails, it's going to try again.
+
+But at least when we use try enter we have a timeout.
+
+We can use the timeout to output a message, make it more user friendly so that the user is notified
+
+that we're still trying.
+
+But in the meantime, our system wants to let you know what is happening instead of making the user
+
+waiting the whole time without any message.
+
+By using the try enter and providing a timeout, we are able to notify the user about what is happening.
+
+So that's the good thing about using monitor as opposed to exclusive log.
+
+Both create exclusive lock and hold on to the user lock.
+
+Don't forget here that we need to release the lock.
+
+And where is that?
+
+That's in the critical section over here.
+
+We can do a try and Can catch.
+
+Try.
+
+And finally we're going to move this or actually move this curly brace down over here.
+
+And then we're going to say, finally we are going to release the lock by saying monitor dot exit tickets
+
+lock.
+
+Okay, now that we have increased this to 10s and wait time to two seconds, I think we're still not
+
+able to output this notification.
+
+It's because the processing starts at the very beginning and the wait is over here.
+
+So we have to move this line down.
+
+So the processing is usually within the critical section so that it's part of the critical section.
+
+This time we should be able to see the system is busy.
+
+Please wait.
+
+And let's run the application and see what is going to happen.
+
+All right.
+
+Let's increase the font a little bit.
+
+And I'm going to keep enter letter B to generate a lot of booking in the queue to simulate the situation.
+
+So we'll generate a lot of be like this.
+
+And you can see this is the system is busy.
+
+Please wait.
+
+So we need to wait for 10s.
+
+And finally there is one that completed the booking.
+
+So maybe our wait time is processing, time is too long.
+
+Maybe change this to three seconds processing time and let's try again.
+
+So lots of bees.
+
+And now you can see that we have multiple uh at least two bookings are successful.
+
+Other ones are being blocked out.
+
+And that's why I was saying this is still not user friendly.
+
+Better way to do it is to have a loop loop around the critical section so that, uh, it's going to
+
+repeatedly try to enter the section, but at least it gives us a opportunity to output.
+
+Okay, that's everything I want to cover about using monitor for thread synchronization.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

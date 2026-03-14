@@ -1,0 +1,322 @@
+In the previous section, we have talked about multi-threading programming a lot in C sharp, and you
+
+have seen the basic syntax.
+
+There are not so complicated, but what's getting complicated is that when we are using multi threads
+
+to perform tasks, but performing these tasks require multi threads to share some common resources.
+
+When we have these kind of scenarios, things will get complicated because sharing resources may run
+
+into conflicts.
+
+Thus not only human nature, but looks like computers are just extension of our human brains, so they
+
+have the same problems.
+
+Let's take one of the examples that we had in one of the previous videos.
+
+So sharing the kitchen for cooking the dinner we have dad and Mom split all the dishes in half and that
+
+cooks half of the dishes and mom cooked the other half.
+
+However, when both people are in the kitchen, most of the resources are shared.
+
+For example, the common space is shared, the cooking surface is shared.
+
+Some of the tools are shared like cutting boards, knives.
+
+The spices are shared.
+
+The cookware are shared.
+
+So if we don't actually arrange things properly, mom and dad may run into conflicts.
+
+The whole cooking process may actually slow down because of the conflict.
+
+Let's take another, more concrete example.
+
+Let's think about a bank.
+
+So if this is a bank building and we have two people sharing the same account, let's call them Tom
+
+and Jerry.
+
+They have the same account.
+
+Let's say that in the account there's $1,000.
+
+Tom comes to withdraw $800, and Jerry comes to withdraw 800 as well.
+
+They didn't communicate with each other.
+
+They just come separately to the bank without knowing each other, coming to the bank.
+
+And they're both withdrawing the same amount of money, which is $800.
+
+And when they come, there's teller A and teller B trying to help Tom and Jerry separately.
+
+Now, if the bank didn't implement any procedures to synchronize the process.
+
+And if teller A and teller B are not communicating with each other, let's say Tom and Jerry came to
+
+the bank almost at the same time, and Teller and Teller B trying to inquire the balance of the account
+
+at about the same time.
+
+Now, because when teller, a look at the account is $1,000 left, and teller B look at the account,
+
+there's also $1,000 left.
+
+Imagine that this is before computer time.
+
+Because of that, teller A sees $1,000 is enough, right?
+
+Because Tom only asked for $800.
+
+Teller B also sees there's enough money, and he knows that Jerry wants only $800.
+
+So what's going to happen is teller A is going to give Tom $800, and teller B is going to give Jerry
+
+$800.
+
+Now who's suffering?
+
+The bank is suffering because the account is overdrawn at this moment -$600 in the account.
+
+So this is a classical example where two different threads are performing tasks that are based on shared
+
+resources.
+
+In this case, the shared resource is the bank account.
+
+So if there's no proper arrangement to synchronize the processes that are performed in parallel, then
+
+there is going to be a problem.
+
+And this proper procedure is required to help to solve this type of problems is called threads synchronization
+
+in computer programming.
+
+So this is a real life example.
+
+And now we can jump into Visual Studio and look at how this problem manifests in computer language.
+
+Let's go ahead and create a new project Studio Console application.
+
+Click on next.
+
+And I'm going to call this synchronization overview dot net eight.
+
+And we have a blank application.
+
+Now So what we are trying to do is to add one to a counter and we're going to have a counter.
+
+I'm going to initialize it to zero.
+
+So this is going to be shared between two different threads.
+
+And what is the task that the threads are trying to perform.
+
+It's going to increment the counter.
+
+So I'm going to create a function to represent the task.
+
+And I'm going to call it increment counter.
+
+When we increment we're going to increment it for 100,000 times.
+
+Here I'm going to say counter equals counter plus not plus I but just plus one right.
+
+So easy and simple.
+
+So this is the task the threads are going to perform.
+
+So now let's go back to the top and we are going to declare two different threads.
+
+So thread one is going to perform the increment counter task.
+
+And we're going to have the same thing which is thread two.
+
+It's also going to perform the same task.
+
+Now, if we let them perform the task one after another, which means that we're going to let the threads
+
+run synchronously, we're going to let thread one perform first.
+
+So let it perform first and then we block.
+
+So we use thread one dot join to block it so that thread two cannot start until thread one finishes.
+
+So here I'm going to say thread two start.
+
+And when thread two finishes then what we're going to do we're going to console and output the result.
+
+So the final result I'm going to say the final counter value is counter.
+
+And that's it.
+
+So if we do it this way everything runs synchronously.
+
+There's nothing special about this.
+
+And the expected result is going to be 200,000.
+
+So let's run it.
+
+And as you can see it says the final counter value is 200,000.
+
+However, if we let the thread actually run asynchronously.
+
+So let me move this line down over here.
+
+And then I'm going to put these two close.
+
+So we're going to have thread one and thread two start one after another.
+
+But as you know the worker threads are not blocking.
+
+This worker thread is not blocking.
+
+So once we have these two lines going the threads they're going to work in parallel.
+
+And then here we're just blocking so that after both threads finish we are going to output the result.
+
+And this time before I actually run it, what do you think is going to happen.
+
+Is it going to show 200,000 or is it going to show more than 200,000, or is it going to show less than
+
+200,000?
+
+Let's run and see the result.
+
+Right.
+
+This time you can see that we have less than 200,000.
+
+If I run it again now, the value is different but it's still less than 200,000.
+
+So why does that happen?
+
+Nevertheless, we are executing this line 200,000 times.
+
+That's absolutely correct.
+
+Whether there's any conflicts, synchronization problems, this line will be executed 200,000 times.
+
+However, the result is less than 200,000.
+
+So what is happening here?
+
+Because these two threads are running at the same time.
+
+So this is very similar to this bank account.
+
+The teller A and teller B, they are working at the same time.
+
+And when they look at the account they see that there's $1,000 left.
+
+They see the same value.
+
+And they both think that there is enough money in the account.
+
+Same situation here.
+
+Let's say that this counter is sitting at 1000, and at this moment both thread one and thread two are
+
+looking at the counter value at about the same time.
+
+Then they're going to see that the counter value is 1000.
+
+So then throw one at value one to it, which makes the counter 1001.
+
+While thread two.
+
+Guess what?
+
+Also add one to it which makes the counter also 1001.
+
+It's probably not so easy to understand.
+
+The key problem here is this assignment is not an atomic operation.
+
+There are two steps involved in this line of code.
+
+The first one is is taking a temporary value from the counter.
+
+So it's reading the value of the counter.
+
+The second one is that it tries to increment one based on the value in the temp variable.
+
+Let me copy this code and let's go to the diagram.
+
+Let's use the diagram to help us understand what is actually happening now.
+
+So we have this in thread one.
+
+And we have the same thing in thread two okay.
+
+Because thread one and thread two are running about the same time in parallel, so it's possible that
+
+both are executing this line.
+
+VAR temp equals to counter.
+
+So far temp is to counter the get 1000.
+
+The other thread also get 1000.
+
+But the thread scheduler at this moment prioritize this first thread.
+
+So counter now becomes 1001.
+
+And then it's the second thread turn.
+
+At this moment the temp variable is still 1000.
+
+So now the counter equals 1000 plus one.
+
+So it is still 1001.
+
+That means although these two lines are executed twice, but the result is that the counter didn't increment
+
+by two.
+
+The counter variable still increment by one, but it doesn't actually happen all the time.
+
+If it happened all the time, then the counter will probably just sitting at very low value depending
+
+on how many times this particular situation happens that Determines the final result.
+
+So from this example, you can see that whenever two threads are sharing the same resource, the program
+
+may run into problems.
+
+And we call this type of problems race conditions and inconsistent behaviors.
+
+It's inconsistent because you have seen that every time when I run it, the final result is actually
+
+different.
+
+Although there are less than 200,000 almost all the time, but they're still different and race conditions
+
+is due to the threads are interfering with each other because they are trying to use the same shared
+
+resource.
+
+So this is how a manifest in computer programming.
+
+Therefore, we need a technique to solve this type of problem.
+
+And the technique is called threads synchronization or simply synchronization.
+
+We are going to talk more about this technique in the rest of this section.
+
+And that's everything I want to show you in this video.
+
+Do you have any questions?
+
+Please let me know.
+
+If not, I will see you in the next one.
+

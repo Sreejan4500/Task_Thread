@@ -1,0 +1,103 @@
+In this video we're going to talk about critical section and atomic operation.
+
+In the previous video we used this increment counter program to demonstrate the synchronization problems
+
+that we are potentially going to run into when we have multiple threads running in our program.
+
+So this increment counter function are being called in separate threads.
+
+And you have seen that what is really causing the problem is about this area.
+
+What is special about these two lines of code?
+
+These two lines of code are accessing the shared resource which is the counter variable.
+
+So if we look at our program again we are dealing with the counter.
+
+Basically this counter equals counter plus one.
+
+When the compiler compiles it it's actually separated into two different lines this one and this one.
+
+And they're both accessing the counter variable which is defined outside of the thread.
+
+Unlike this integer I this is defined inside the thread.
+
+So even though multiple threads are being used here, each one instantiate the I variable separately
+
+in their own space, whereas the contour is the shared resource.
+
+Therefore, this section that accesses the shared resource becomes critical, and we call this critical
+
+section.
+
+That's the concept of critical section.
+
+And then we're going to move on to the next concept which is atomic operation.
+
+What is really causing the problem within the critical section is that this particular line of code
+
+is divisible.
+
+It's actually two lines of code.
+
+But imagine that if this line of code cannot be divided into two, it's indivisible, then there's going
+
+to be no problem.
+
+So if these two lines of code.
+
+Let me highlight it.
+
+If the code within the critical section is being executed as one step instead of multiple steps, then
+
+even though we're using different threads to execute the code, let's say thread number one execute
+
+Skewed.
+
+First, the corner one will be increased by one, and then when thread number two is executed, the
+
+counter value will be based on the new counter value instead of the old counter value, right?
+
+So in the previous video, we were saying that the counter is sitting at 1000.
+
+So in this case, if the thread scheduler favors the thread number one, then the code inside the critical
+
+section is being executed as one step instead of multiple steps.
+
+Then thread number one will increment the counter value from 1000 to 1001.
+
+And then when it's the second thread turn to increment the counter, it will see that the counter value
+
+is sitting at 1001.
+
+Therefore it's going to increment it again and becomes 1002.
+
+So there's no problem whatsoever if the code within the critical section is running as indivisible step,
+
+it's just one step instead of multiple.
+
+Then there's no problem.
+
+The problem is really that, first of all, we have a critical section, which means that shared resources
+
+are being accessed within multiple threads.
+
+Secondly, the operation within the critical section is not atomic.
+
+It's divisible because the definition of a atomic operation is that the operation itself is indivisible.
+
+It cannot be divided into multiple steps.
+
+It's always going to be executed as one step if the operation within the critical section is not atomic.
+
+And in that case, we are going to run into synchronization problems.
+
+And what we need to do is to find a technique to make the visible code within the critical section indivisible.
+
+And that is what we are going to cover in the rest of this section.
+
+And that's everything I want to talk about in this video.
+
+If you have any questions, please let me know.
+
+If not, I will see you in the next one.

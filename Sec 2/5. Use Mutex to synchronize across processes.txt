@@ -1,0 +1,551 @@
+In this video we're going to talk about mutex.
+
+Mutex is another thread synchronization mechanism that is used to help us to protect a critical section.
+
+It's very similar to a lock or a monitor that we're going to create some sort of lock around the critical
+
+section in order to protect it.
+
+But usually we don't call it a lock, we just call it mutex.
+
+And its syntax is very, very similar to a monitor and looks something like this.
+
+So first we create a mutex.
+
+It's a little bit confusing here by creating the mutex we don't actually have ownership of the mutex
+
+yet.
+
+So in order to have ownership mutex we're going to use mutex dot wait one.
+
+Once we have the ownership the thread is going to proceed into critical section over here.
+
+And after that we don't forget to release the mutex.
+
+So very similar to monitor and monitor we enter the critical section and then we exit.
+
+Here we use wait one to acquire the mutex, and then we enter into the critical section.
+
+And then here we release the mutex.
+
+So some other thread can acquire the mutex.
+
+So you may ask if we already have monitor and works very very similar to monitor why we need mutex.
+
+Well one of the distinct features of mutex is that it can not only be used within the process, it can
+
+be also used across processes.
+
+And for that we need to cover some basic concept of process in case that you don't know about it.
+
+Because at the very beginning of this course I mentioned that we have this diagram here, we have application
+
+and then we have threads.
+
+So I was using the rectangle to represent a application.
+
+And I was using the little circles to represent different threads here.
+
+So I was omitting on purpose another layer in between, which is process.
+
+So let me make that clear in this video.
+
+So first of all we have something called application.
+
+And then within the application we can have different processes.
+
+For example this application have two different processes.
+
+And then each process can have one or multiple threads.
+
+So in this example the first process only has the main thread.
+
+And the second process have actually two different threads.
+
+So there's three different layers app process and threads.
+
+But in terms of learning about multi threading it's not very important to know about that.
+
+There could be possibility of different processes except in this particular lesson why we could have
+
+different processes within one application.
+
+Well let's look at this task manager for now.
+
+So task manager if I order by name I can see different locations at the top.
+
+And then if you see, for example this, there is a bracket and there's three in it.
+
+This means this application has three different processes.
+
+And then for outlook there's so many.
+
+And then for Microsoft Edge you can see that we have 16 different processes.
+
+And the reason why we need different processes there are different reasons.
+
+One of them is to improve the performance.
+
+For example for this browser modern browsers, each tab could have its own process and then each extension
+
+has its own process.
+
+So from an architecture point of view this is going to be better separation of concerns.
+
+And from performance point of view this could be allowing the browser to utilize multiple cores of modern
+
+CPUs more efficiently.
+
+So therefore we have to be able to deal with multiple processes within the same application, right?
+
+And when multiple processes are trying to access the same resource, for example a file, then although
+
+it could potentially increase the performance, it could potentially cause race conditions in the same
+
+way as resources shared within different threads.
+
+But we can't use monitor or lock anymore because those synchronization techniques can be only used within
+
+the same process.
+
+Then we have to use particular type of synchronization technique.
+
+For example, in this case we use mutex.
+
+Because mutex can be used to lock shared resources exclusively across different processes.
+
+However, the syntax is slightly different.
+
+So this syntax is actually used only for local mutex.
+
+You cannot use this mutex across different processes, but if we slightly change it, then it will be
+
+able to.
+
+We will be able to use it across different processes.
+
+And the way to do that is to have the first parameter passing as early as false.
+
+So this is the initial ownership.
+
+We don't need to worry about this for now.
+
+You drag this okay.
+
+And then the second parameter is important.
+
+The second parameter is the name of the mutex.
+
+So you can give it a name.
+
+So when you give the mutex a name this mutex can be shared between different processes.
+
+So for example I can call it global file mutex something like that.
+
+You can give it any name you want and then nothing change over here within the using statement.
+
+Another thing you notice that we're using the using statement.
+
+This using statement is very important because we want to dispose the mutex at the end.
+
+Why we want to dispose the mutex.
+
+because this is a resource within the operating system.
+
+It's like a file.
+
+So you want to dispose it.
+
+You don't want to leave it in the operating system.
+
+And that could lead to potentially memory leak.
+
+Now let's look at some examples.
+
+So let's take a look at our counter example.
+
+So in this synchronization overview example here we are using the increment counter.
+
+I've been using it for many many times.
+
+And we are just basically incrementing the counter variable which is a shared resource.
+
+And we're using two threads to increase it.
+
+And there's always a possibility that they're going to run into race conditions.
+
+So the inconsistent behavior will be the result.
+
+And the counter, although expected to be 200,000 because we're using two threads doing the same thing.
+
+So when one thread finishes it will be 100,002 threads finished.
+
+It's supposed to be 200,000, but if we run this, it's almost always less than 200,000.
+
+You have seen that.
+
+And as soon as we use a log to protect the resource, the result is consistent consistently 200,000.
+
+Now, if we change this to do the same thing in two different processes, of course we cannot use the
+
+memory.
+
+We cannot use this.
+
+This is also always a memory within the process.
+
+So this cannot be be the shared resource.
+
+So we can use a file to store the counter value.
+
+And then when we increment we first read the counter from the file.
+
+And then after we increment we write the value back to the file.
+
+That way the file becomes the counter, the shared resource in each process.
+
+We just need to loop through not 100,000 times, because opening and closing files is taking too much
+
+time.
+
+Maybe we can try 10,000 instead of 100,000.
+
+Okay, so let's give it a try and see what happens this time.
+
+So let's close this solution and try to create a new one.
+
+Again same thing console application.
+
+And we're going to call it mutex uh example.
+
+And maybe making it more specific.
+
+We're going to have global mutex because local mutex is almost the same as monitor dot eight long term
+
+support.
+
+Now delete the default lines here.
+
+So what are we going to do.
+
+We are going to create a file path.
+
+And I'm going to just call it counter dot.
+
+So it's going to be a text file.
+
+Now I'm going to loop through a Index.
+
+For how long?
+
+How many?
+
+10,000 times.
+
+And each time I'm going to get the counter out from the file, I'm going to say read counter, which
+
+is a function I'm going to create later.
+
+So I'll pass in the file path.
+
+Right.
+
+And then now I'm going to increase it.
+
+So this is I'm writing everything without any thread synchronization mechanism.
+
+And we're going to see what happens if I run it.
+
+So then I'm going to call write counter right back to the same file and with the same file file path.
+
+And the counter value has to be in the parameter okay.
+
+Now at the end I'm going to say console dot write line.
+
+And I'm going to say process finished.
+
+And then I'm going to have a console dot read line just so that we don't accidentally go out of this.
+
+Finish this.
+
+Now we can implement the counter Contour and contour.
+
+I don't want to implement it by just writing every single letter.
+
+I have prepared the code already for you and we can go through that when I paste it over here.
+
+All right, so this is not a I o or basic C-sharp course.
+
+That's why I just paste it over here.
+
+So we basically have a read counter and write counter function implemented.
+
+And we have the file stream.
+
+And we are opening.
+
+We allow different processes to open at the same time because file share is written.
+
+Right right.
+
+And then we open the the stream and read the content and then parse the content.
+
+Same over here with writer content we have the file stream and then we create a stream writer.
+
+So this one is stream reader.
+
+This is stream writer.
+
+And then we write the counter value back to the file okay.
+
+So if I run it.
+
+Basically let me build it first.
+
+Remember, the file mode here is open or create.
+
+So if it doesn't exist it's going to create.
+
+If it does exist then it's going to just open an existing file.
+
+So let me go to the File explorer here.
+
+And now let's go to bin debug donate.
+
+Now I have this global mutex example and I don't have the counter dot txt file in the folder yet.
+
+If I run it now it's going to take a while because we're opening and closing the file all the time.
+
+Right.
+
+Closing and opening the file all the time.
+
+Now it's finished.
+
+So it's about 10s it finished and the result is 10,000.
+
+So that's expected.
+
+So now what if I run.
+
+So let me let me delete this first.
+
+What if I run two different instances of the same application which means two processes are running
+
+separately.
+
+And then I open up again you can see that two processes are running and the reading and writing to the
+
+same counter file.
+
+Each one would do it for 10,000 times.
+
+The expected result is 20,000.
+
+Right?
+
+But moment of truth.
+
+Let's open counter file.
+
+You can see it's way less than 20,000.
+
+And why?
+
+Well, it's the same reason that we have seen before within the same within the same process.
+
+Right?
+
+When we have two different threads running, we experience the same the same situation.
+
+Now again, if I delete it and run it again.
+
+So the result would be different, but it will be always less than 200,000.
+
+Let's wait for about 10s, maybe a little bit more than 10s, because we're trying to open the file
+
+and closing the file at the same time.
+
+Okay, the application finish and let's open.
+
+At this time it's even less.
+
+Now, the reason why is because the file itself is a shared resource and accessing the shared resource
+
+from two different processes simultaneously will cause risk conditions and inconsistent behaviors.
+
+Therefore, we need to apply some kind of synchronization mechanism.
+
+Using monitor wouldn't work.
+
+Using lock wouldn't work.
+
+Let's actually try that.
+
+Okay, so let's say I'm going to just use a lock to protect it.
+
+So we're reading and writing.
+
+So all of these should be a critical section.
+
+And let me declare it.
+
+So I'm gonna say file lock object.
+
+Now I'm going to just lock the file okay.
+
+Lock the critical section and let me build it again and go over here.
+
+So I'm going to delete the counter file for now and let me run it and run it again.
+
+Wait for a while.
+
+It's going to be about 10s first one finished, second one finished.
+
+And let's close the processes and go to the counter.
+
+Now you can see that it's still less than 200,000.
+
+This time it's even less.
+
+So let me close this.
+
+That means the lock doesn't work.
+
+And of course, we don't need to try monitor because lock is monitor explained before.
+
+So let me delete this line and let's try to implement mutex.
+
+So let me delete this as well because it doesn't really work.
+
+And I'm going to do a Ctrl CF to format it.
+
+But I'm going to comment it out for now.
+
+So what are we going to do.
+
+We're going to use using statement.
+
+Remember we have to use using statement in order to make sure that it's disposed.
+
+The mutex is always disposed.
+
+And then we're going to go mutex.
+
+And you can see that there's different signatures.
+
+We're going to use the the third one.
+
+But you can rate this initial initially owned.
+
+So if it's true then it gives the calling thread initial ownership.
+
+We don't need initial ownership.
+
+That's why I'm going to use force.
+
+And then the second one is the name of the mutex.
+
+Let's just call it global file mutex.
+
+And in order to make a difference perhaps I'm going to just add the file name here in case some other
+
+people also create a mutex with the same name here because it's going to use across the operating system.
+
+So that's why I need to add the file name here just to make sure it's always unique.
+
+And then within the using body here I'm going to loop.
+
+So I'm going to just copy this and paste it over here and uncomment it.
+
+So I'm going to loop for again 10,000 times.
+
+But remember this is the critical section.
+
+So before we enter the critical section we need to require the mutex.
+
+And then we're going to try over critical section.
+
+So finally we need to release the mutex.
+
+Don't forget to do that.
+
+Otherwise we're going to be in trouble.
+
+All right.
+
+Now we have this mutex protecting us I want to emphasize again as soon as you give the mutex a name
+
+this mutex mutex becomes global across all of the processes.
+
+So this mutex now can protect shared resource across different processes.
+
+And let's give it a try.
+
+Let's first build the solution.
+
+And now go to the folder.
+
+Delete the counter again.
+
+And let's run the application twice.
+
+All right.
+
+So we have two processes running at the same time.
+
+And let's wait and see what's going to happen.
+
+It's going to take a while again and thank you for waiting.
+
+But it's going to worth it.
+
+Now you can see actually it's taking a little bit longer because it's really kind of open and close
+
+at different times now and it's finished.
+
+And let's go to contour and we see 20,000.
+
+This is the expected result.
+
+No matter how many times you run it, you're going to have the same thing.
+
+Let's delete the contour dot txt and just try it again.
+
+So this time I can try for three different instances and I expect to see 30,000.
+
+So if it works it's going to be 30,000 instead of 10,000 or 20,000 or any number in between.
+
+So let's wait for a little bit more time and then we're going to see the result.
+
+The first one finished.
+
+Now the second one finished third one also finished.
+
+Let's close the processes window and go to contour dot txt and we see 30,000.
+
+That means our mutex is indeed Protecting the critical section across different processes.
+
+One more thing I want to talk about before we finish this video is that if you have a choice between
+
+using mutex and using monitor or lock.
+
+So how can you choose between these techniques?
+
+I would say that if you want to use lock to protect resources within a process, then always prefer
+
+either lock or a monitor over a mutex.
+
+Because mutex is considered as a operating system wide resource, it actually takes more resource to
+
+create a mutex than to create a lock or a monitor, unless you're trying to synchronize between different
+
+processes.
+
+Don't use mutex, prefer lock or monitor.
+
+And that's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

@@ -1,0 +1,443 @@
+In this video, let's talk about reader and writer log.
+
+Reader and writer log is yet another type of synchronization techniques to help with threads synchronization.
+
+We already talked about a regular log in monitor a mutex.
+
+Why do we need a reader and writer log
+
+Let's talk about the reason behind that.
+
+A regular log or monitor or mutex is always exclusive, which means that when a thread acquires a lock
+
+only, this particular thread has access to the shared resource within the critical section.
+
+However, in some cases we want multiple threads read the shared resource at the same time because reading
+
+doesn't cause any change.
+
+And when multiple threads are reading a shared resource at the same time, it wouldn't cause risk conditions
+
+and we use a regular lock, then the performance of the application will be hindered.
+
+So if we look at this application, for example, we have a shared resource over here.
+
+So this is the shared resource and the application is a multi-threading application.
+
+And we use different threads.
+
+So let's say this is a reader thread.
+
+I'm going to use R in the circle to represent a reader thread.
+
+So it could be a reader thread.
+
+And there could be multiple reader threads because we just need to read the resource at the same time
+
+and make decisions.
+
+So multiple threads working together we can divide and conquer.
+
+So it would be a great idea to improve the performance with multiple reader threads.
+
+And there are other types of threads which could be writer threads, which is responsible for writing
+
+to the shared resource.
+
+Writing includes making changes like deleting or update or add to the shared resource.
+
+So I'm just using W to include all of those possibilities.
+
+And of course there could be reader and writer threads so the thread could be reading and writing at
+
+the same time.
+
+So if we have these kind of situations, then we shouldn't just use a regular lock or monitor or a mutex,
+
+because we should allow all of this readers work at the same time.
+
+That's why we need a special type of lock, and that's what we call the reader and writer lock.
+
+So how does a reader and writer lock work
+
+The reader and writer lock has to work in such a way that allows multiple readers to read the resource
+
+simultaneously.
+
+When one of the reader threads, for example, acquires the lock, other reader threads should be able
+
+to acquire the lock at the same time so that they can work simultaneously.
+
+However, when any of the reader threads is holding onto the lock, the writer cannot actually do anything
+
+right.
+
+So the lock is a shared lock between the readers, but it's a exclusive lock against the writers.
+
+Now, when a writer is holding a lock, then dialogue is a absolute exclusive lock, which means any
+
+of the other threads, regardless of the types of the threads, cannot access the shared resource anymore.
+
+So this is the reader and writer lock in reality.
+
+Is there any possibilities that we use the reader and writer lock
+
+Yes, we use them quite a lot.
+
+For example, in database systems we have a database over here.
+
+Let's say this is Microsoft SQL server.
+
+It doesn't really matter.
+
+Any type of database would have to implement similar mechanism for thread synchronization, because
+
+a server is hosted on a central place, and multiple applications across the internet should be able
+
+to access the database at the same time.
+
+The request sent to the SQL server.
+
+Each request is always independent, so to the SQL server itself, these requests generates concurrent
+
+access to the server.
+
+So therefore if there is a database table that that needs to be accessed by all of these different applications,
+
+and each one of them can be reading and writing or just read or just write or read and write at the
+
+same time.
+
+Then similar type of locks reader lock, reader and writer lock should be applied, right
+
+And if you have worked with SQL server before, you probably have heard of shared locks and exclusive
+
+locks.
+
+So when a Select statement is executed, a shared lock is applied to a certain area of the table.
+
+So in SQL server, the lock is more granular.
+
+If there's rows you can lock there's pages you can lock.
+
+There's different areas you can lock.
+
+So select statement will generate a shared lock.
+
+Whereas a update statement or insert statement or delete statement.
+
+Will generate exclusive lock.
+
+So a shared lock would be similar to the locks acquired by the readers, whereas the exclusive lock
+
+would be similar to the locks acquired by the writer.
+
+So this is a real world example where reader and reader lock needs to be used.
+
+Another example it could be a web server.
+
+Let's say this is the web server, and the web server can be accessed by people from different places
+
+using their browsers.
+
+So let's say there are multiple users accessing the web server at the same time.
+
+So in order to improve the performance, the web server loads some configuration information into the
+
+memory and stored globally in the cache.
+
+Use this rectangle to represent the shared cache.
+
+So this is a shared cache, and each time when the user sends a request to the web server and the web
+
+server needs to access the shared cache, there could be a rating and it could be a writing possibility.
+
+So when all of them have different possibilities, whether it's reading or writing, then we encounter
+
+the same situation as this one.
+
+Why
+
+That's because in web server, usually when one request is sent to a web server, it's queued in the
+
+request queue, as we have implemented before, right
+
+We have been simulating the web server with multi-threading programming, although we just created a
+
+console application.
+
+But it's very similar concept, right.
+
+So the requests are queued, and then the requests are distributed among different threads for handling
+
+the requests simultaneously.
+
+Because different requests could require reading or writing, therefore a similar type of lock needs
+
+to be in place.
+
+We need reader and writer lock to lock the shared resource, which is the shared cache that will allow
+
+readers to read at the same time, but allow writers to gain exclusive access to the shared cache.
+
+This will guarantee the integrity of the shared resource.
+
+Same thing.
+
+This technique will guarantee the integrity of the data within the SQL server database.
+
+So that's the theory.
+
+So now let's now let's take a look at one example that is used for this particular scenario where we
+
+want to use a cache.
+
+And before we go into the code I want to give some more information.
+
+So usually the configuration data could be stored in a file or it could be stored in a database.
+
+Sometimes you may find that loading the configuration data from the database or from a file into a shared
+
+cache within the memory of the application.
+
+The web application is a good idea.
+
+For example, if every request tends to access configuration data, then just load it into the memory.
+
+It would improve the performance a lot, because it would decrease the number of round trips between
+
+the web server and the database, or from the web server to a file you don't want to read and write
+
+all the time, just put it into the cache and then eventually dump that cache into the file or back
+
+to the database.
+
+So it could be a good idea to to load everything into the shared cache.
+
+In this example, especially when there could be reading requests and there could be writing requests,
+
+then in that case, we should apply the reader and writer log.
+
+So let's take a look at examples where we don't apply the reader and writer log first and see what potentially
+
+could happen.
+
+So let's jump into Visual Studio.
+
+Close this and try to close this solution.
+
+And let's create a new project.
+
+And let's call this.
+
+So still select Console Application.
+
+And let's call this Reader Writer Lock.
+
+So if I create a class here I'm going to call it public Class Global Cache or call it Global Configuration
+
+Cache.
+
+Then the purpose here is to just cache the key value pairs in a dictionary.
+
+So I'm going to create a dictionary here with a integer as a key and a string as the value.
+
+So the cache would be like this.
+
+And we're going to the instantiate the instance here.
+
+Now we have a add method here that allows us to enter the key and value.
+
+Visual studio generated code for me.
+
+And now for reading we just use get and with the key.
+
+And here we just return it.
+
+So that's it.
+
+Quite simple.
+
+Maybe this could cause issues.
+
+So let's use a safer technique.
+
+So I'm going to say cache dot try get value.
+
+So we try to get value of this particular key out for into the value variable.
+
+And if it's successful then we're going to return this value variable as the result.
+
+Otherwise maybe we just return null instead of empty.
+
+So then here we can use a question mark.
+
+All right.
+
+So this looks like it's going to work quite well for our purpose.
+
+And indeed if you try this in your web application you might be using it.
+
+No problems.
+
+but once in a while there could be weird errors in consistent state.
+
+Why this is happening
+
+Well, it's really because that these requests that comes from different users comes to come to the
+
+web server at the same time that is handled by different threads from a.
+
+Net thread pool.
+
+So because it's handled by different threads, they can be running in parallel, simultaneously running
+
+in different core of the CPU.
+
+Therefore, they might be accessing the dictionary at the same time.
+
+So there could be different threads reading and writing at the same time.
+
+And because the dictionary itself is not actually thread safe, right
+
+We haven't talked about thread safety for data structures, but the easy way to understand the thread
+
+safety problem is that this particular operation looks like one line of code.
+
+This one also looks like one line.
+
+One line of code.
+
+They're not really atomic.
+
+We talk about atomic operation before, right
+
+So they're not really atomic.
+
+So if this is atomic, absolutely executed or not executed, then this implementation would have no
+
+problems.
+
+However, these are not atomic operations, so they are broken into different parts when the compiler
+
+compiles the code.
+
+So therefore when multiple threads are running them, you might just run into inconsistent state against
+
+the dictionary because the dictionary itself handles the the state within the data data struct.
+
+Therefore, when multiple threads are running at the same time and running with different parts of of
+
+this operation, it just could really mess up the state of this particular dictionary.
+
+And eventually we're going to talk about concurrent data structures.
+
+And there is a particular one that is called concurrent dictionary.
+
+If we use concurrent dictionary then then we don't actually need to do anything.
+
+But if we use a regular dictionary then we have to use locks to protect it.
+
+But we can't use a regular lock like this, right
+
+We cannot use a lock like this.
+
+We cannot use a lock like this or it's going to compile.
+
+It doesn't complain.
+
+But for your reader, threads will not be able to access the cache at the same time.
+
+And if your web server is quite popular, a lot of users are using it, then you might run into performance
+
+issues.
+
+So what's recommended is the reader and writer lock.
+
+And the syntax is quite similar to the mutex or the monitor.
+
+So let's try to use the reader and writer Rotor lock.
+
+So what we can do here is we can, first of all, declare a reader-writer lock.
+
+It's better to use a slim version.
+
+So we create a new instance of this lock.
+
+And then when we are trying to do anything with it, let's say we're trying to add to it.
+
+We just say lock dot, enter, write lock because this is add and add or update actually.
+
+So here it's doing add or update.
+
+Then in this case we're entering into a write lock.
+
+So this is going to be the exclusive lock.
+
+And we don't need the curly braces.
+
+Let's delete them.
+
+And here we're going to say finally don't forget to exit.
+
+And then over here we're going to do the same thing.
+
+So let's remove this code.
+
+And then we are going to say lock.
+
+And this time we're going to say enter read lock.
+
+So this is going to be a shared lock between the readers.
+
+And then same thing here.
+
+We're going to put a try catch and we're going to say finally read log.
+
+So when we are using the reader and writer log this way, then when the web application is using them,
+
+we're going to allow different reader threads to just access the cache simultaneously, whereas it's
+
+going to always block the writer log.
+
+And when the writer log gains access, it's going to block any of the other threads.
+
+So there's only just one thing that we need to pay attention here.
+
+What if this throws exception before it's successfully gain or acquire the lock.
+
+So this throws exception without gaining or acquiring the lock.
+
+And then we still tries to exit the log.
+
+Then that could be potential issues.
+
+So for that we can use a technique like this.
+
+So I'm going to say uh, lock acquired equals false at the beginning.
+
+Right.
+
+And if the line can be executed so this line can be executed, that means we successfully acquired the
+
+lock.
+
+So we turn it into true.
+
+And then finally here we are going to check whether the lock has been acquired or not.
+
+So I'm going to say if lock acquired then we are going to exit the reader lock.
+
+So same technique can be applied here.
+
+Again lock acquired set to true over here.
+
+And if the lock is actually acquired then we're going to exit the read lock.
+
+So this would be a thread safe global global configuration cache that can be used within your web application
+
+that allows multiple readers and a unique writer in a given type.
+
+Okay, that's everything I want to cover in this video.
+
+If any questions, please let me know If not, I will see you in the next one.

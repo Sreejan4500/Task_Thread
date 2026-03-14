@@ -1,0 +1,364 @@
+The second reason why we want to start a new thread is to offload a long running task to be handled
+
+by a different thread, and when we talk about this type of task, we're referring to the main thread.
+
+So that means that we are referring to a regular single thread application.
+
+And for a single thread application, everything runs as one task after another, like in a sequence.
+
+So for example, if I just use this to represent a task and then the next one is next task, next one
+
+is the next task.
+
+So this is a sequential task performing thread.
+
+So when one thread is performing all of these tasks one by one, and for example, that the third task
+
+is a pretty big task, let's say this one is pretty big.
+
+So I'm making it big, in fact.
+
+And for a big and fat task when we use one thread, it still means that the application will have to
+
+perform this task and then go on to the next one, and then the next one.
+
+So this means that when we have a big fat task, this is blocking the thread to perform its tasks,
+
+and this thread is happened to be the main thread, which is very critical.
+
+Especially this application has a UI, so it has a user interface.
+
+So the user is waiting for the task to be completed and while the user is waiting, the whole application
+
+appears to be frozen.
+
+So that's not a good user experience.
+
+And that's where we talk about offloading this to a different thread, so that the rest of the task
+
+can be immediately performed after this one is started, because this one is started in a different
+
+thread.
+
+Therefore, the next task will immediately be performed and then when this is completed, the result
+
+of this task will be handled accordingly.
+
+So this is where we use the word offload.
+
+And this is where we refer to a instead of we say multithreading, we say asynchronous programming.
+
+But we'll talk about that later anyway.
+
+Whether it's asynchronous programming or multi-threading programming is more or less the same thing.
+
+We're using multiple threads.
+
+In this case it's a main thread.
+
+And then a second thread, and we call it the worker thread to complete this task.
+
+Okay, let's jump into Visual Studio and see some examples.
+
+Let's create a new project.
+
+And this time let's create a windows form application.
+
+If you don't see the windows form application in your Visual Studio, you will need to open up Visual
+
+Studio Installer.
+
+Think.
+
+Let's take a look.
+
+So Visual Studio Installer and once it's open you select your version.
+
+I'm currently using this Visual Studio Community 2022.
+
+I'm clicking on modify and then make sure you select this.
+
+Net desktop development check this and then click on install.
+
+And then you will see.
+
+So after installing you will see Windows Form app appear here.
+
+So I'm just using this as an example.
+
+So click on next and let's name this Offloading Tasks.
+
+And then let's click on the create button.
+
+All right so we have this form one.
+
+So what I want to do is I want to put two buttons on the form.
+
+So let's go to view and let's click on toolbox.
+
+And let's open up the common controls.
+
+And we have button here.
+
+So let's drag one button here and another button here.
+
+So we can align them up so that it looks slightly better.
+
+Maybe pull this down to the middle and then go to properties.
+
+And we see the text here button one.
+
+So maybe we'll change this to message one and then change this one to message two.
+
+So what I'm intending to do is when I click on the button it will just display a message.
+
+But I'm going to simulate a long running task.
+
+So let's double click on this.
+
+And then it will automatically generate a event handler which is a click event handler for the button.
+
+Which means that everything that I code within this event handler will be executed when I click on the
+
+button again, task is that we are going to display a message on the form.
+
+So coming back to the form, where do we want to display it?
+
+Let's drag a label here.
+
+And we're just going to display the message on this label.
+
+And let's right click on it.
+
+And then go to property and name of the label which is label one.
+
+So we can call it label message.
+
+So label message and this is where we're going to display the message.
+
+So let's go to the event handler of button number one.
+
+And what we want to do is when we click on button number one we want to display the message in the label.
+
+So we're going to say label message dot.
+
+TXT is whatever the message is.
+
+And for this example I'm going to say first message and then in button number two when I click on the
+
+message button I'm going to do the same thing but with a different message.
+
+But this is going to be really, really quick.
+
+So in order to simulate a long running task I'm going to use Thread.sleep.
+
+So we have used this before.
+
+This just means that we're going to hold on to the thread and make the thread pause for 1000 milliseconds,
+
+which is one second?
+
+So that's probably not long enough.
+
+Maybe let's make it two seconds.
+
+And then for this one, let's make it three.
+
+Before we run it, I have to let you know that this code by itself has thread affinity problem, which
+
+is a topic that we're going to cover in the future.
+
+For now, in order to run it, first of all, you have to update your.
+
+Net framework to the latest at least to.
+
+Net eight.
+
+And also when you run it, do not run it in debug mode, just run it without debug.
+
+Okay, let's try to run it and see what's going to happen.
+
+First of all, I'm going to see the form pop up hopefully.
+
+All right we see the form pop up.
+
+And if I click on message number one I wait for two seconds.
+
+Text first message is displayed right here.
+
+And then if I click on position number two I wait for three seconds.
+
+The second message is also displayed.
+
+Now I click on message number one again and then come back.
+
+Click on message number two Before one is displayed.
+
+Let's try again.
+
+So let's display message number two first.
+
+Okay.
+
+So it's displayed.
+
+And then when I click on message number one before it's displayed I click on message number two.
+
+And let's see what happens.
+
+So clicking on message number one and then two you see that when I click on message number two the button
+
+is even frozen.
+
+The focus is not even shipped over to message number two, which means that the event handling of this
+
+is being blocked by event handling of the first event handler, because all of these are using one single
+
+thread.
+
+That's why clicking on this is being blocked by the first one, but eventually second message is being
+
+displayed.
+
+That's because the I o device has a queue as a separate queue, the queuing my click event, and then
+
+once the main thread releases the first event handler process the second event handler.
+
+So if I go back and forth message one and two and then one and two and then one and two, you will see
+
+that all of them, one by one, be displayed because every click is being queued inside the I o processing
+
+queue.
+
+That's not so important.
+
+What I want you to focus on is that when I click on message one and then message two, immediately this
+
+clicking is being blocked.
+
+Let's watch that again.
+
+So clicking on the first one and then try to click on this one.
+
+The interface is frozen.
+
+So each one of this task can be considered as a big fat task.
+
+I'm going to actually code a function to represent the showing message for each task.
+
+And I'm going to have a parameter here.
+
+And then I'm going to move this over.
+
+So here I'm going to assign a message to it.
+
+And then the delay is passed over here.
+
+Now before we use thread I want to show you something.
+
+So I'm going to call this again message.
+
+And this is going to be first message.
+
+And the delay is going to be let's say three seconds.
+
+And then this one is going to be second message.
+
+And let's delay this for five seconds.
+
+Okay.
+
+And let's run this simple application now.
+
+And if I click on the message number two when I do this, and if I try to see I'm trying to grab this
+
+window, it doesn't move until this message is displayed.
+
+That means the long running task is finished.
+
+Now I can move this when I go click message number one.
+
+I still cannot move this until the message is displayed here.
+
+So you can see that this is one thread and the long running task is blocking.
+
+So in order to fix this issue, we're going to use a different thread.
+
+We can offload this task to a different thread for each one of them.
+
+Instead of removing this, let's just keep it here and then remember how to start a thread.
+
+We're going to declare the thread first and then assign a task to it.
+
+But this time we cannot just say show message because the show message method actually contains parameters.
+
+So in order to supply the parameters, we can use lambda expressions or we can call it arrow functions.
+
+And here we can call this show message method.
+
+And we're going to do the same thing here For the second one, I'm going to copy this and paste it over
+
+here.
+
+Change this to second message and this 1 to 5 seconds.
+
+Okay.
+
+So if you're trying to foresee what's going to happen, the threat is going to be started when we call
+
+threat dot start.
+
+But because this is all flowed right.
+
+This big task is offloaded to a thread.
+
+The main thread which is the UI thread is not going to be blocked anymore, although each task is still
+
+going to take a very long time.
+
+But because the task is offloaded to a different thread than the main thread is not going to be blocked.
+
+So let's run the application now.
+
+And now if I click on the button, I'm going to see something different.
+
+If I click on the first one I can immediately move the window.
+
+And then you notice that the first message is being displayed.
+
+Click on number two.
+
+I can still move and after five seconds the second message is being displayed so I can switch back and
+
+forth between the buttons and it's not going to be frozen.
+
+You're going to see that the focus changes from one button to another.
+
+It's just that the message is not going to be displayed until the time comes.
+
+So let's try that message one and two, one and two, one and two.
+
+You notice that the color changes, which means the focus changes.
+
+It's not being blocked, but all of the clicking are being killed in the I o processing queue.
+
+And each task takes a long time to finish.
+
+So this is the concept of loading a long running task to a different thread.
+
+And we often call this worker thread.
+
+And the purpose of that is so that it doesn't block the main thread.
+
+And that's usually the case when you have a UI application, which means that the user is waiting and
+
+we don't want the user to wait for a long time.
+
+Therefore, we use threads to offload work to the worker thread instead of blocking the main thread.
+
+And that's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.
+

@@ -1,0 +1,127 @@
+One of the synchronization techniques is called exclusive lock.
+
+The basic syntax of the exclusive lock is basically just saying lock and then parenthesis.
+
+So within the parenthesis is a lock object we're going to talk about when we jump into Visual Studio.
+
+And then you use curly braces to surround the critical section we call the everything within the curly
+
+braces the body of the lock.
+
+So everything that is within the body of the lock is usually the critical section.
+
+And when you apply the lock this way, the body of the lock can only be executed by maximum one thread.
+
+No other thread will be able to access the code within the body of the lock, while a lock is being
+
+held by another thread, so this essentially makes the operations within the body of the lock atomic,
+
+although they are divisible, but it's as if they are atomic just because they can only be executed
+
+by one thread.
+
+So let's jump into Visual Studio and see it in action.
+
+So in order to apply the lock, first we need to have a lock object.
+
+I'm using donor eight in dotnet nine.
+
+Things is slightly different, but in.
+
+Net eight or previous versions which is C-sharp 12 including C-sharp 12 which you can do is you can
+
+just declare an object like this and you're going to say counter lock.
+
+And you can just say new object like this.
+
+Now this can be used to lock a critical section like this.
+
+So now let's go to the critical section right here.
+
+And then we can say lock.
+
+And then we apply that to the counter lock.
+
+And we use curly braces to specify which is the critical section to be included in the body.
+
+And it's just like this.
+
+It's very simple.
+
+Now when we do this, the this code can only be executed by one thread.
+
+It's not possible that both threads are executing this right And it's going to avoid the problem that
+
+we had before.
+
+All right.
+
+So let's run this and see what happens.
+
+All right.
+
+Now you can see that the final counter value is 200,000.
+
+Now, if I run it again, it's going to be the same thing.
+
+See, every single time it's going to be 300,000.
+
+And that's just because we applied the exclusive lock.
+
+And it's as if this line becomes a atomic operation, although it's not.
+
+We are using the lock to make it behave like atomic operation.
+
+Now, one more thing I want to mention is that the lock has within itself a try catch mechanism.
+
+Try catch and finally mechanism.
+
+That means that you don't have to worry about what if inside here, because this is just one one line
+
+of code in real world project.
+
+You may have complicated operations within the body of the lock.
+
+And what if it throws exception?
+
+You may worry that if it throws exception and the lock is not released, then other threads won't be
+
+able to get the lock and everything is blocked.
+
+You don't actually have to worry about that because within the lock there is a try and finally mechanism
+
+there.
+
+So inside the finally section there, the lock is always released.
+
+You don't have to worry about releasing the lock when you use the lock keyword.
+
+And another thing, as I mentioned in C sharp 13, which comes with 9.9 and is still in preview at this
+
+moment, I haven't installed it yet, but in there, what's recommended is that instead of using an
+
+object, you use a system dot threading dot lock.
+
+I think it's called dot.
+
+As you can see that it's not actually available in my version because I'm using C sharp 12.
+
+So I have to do I think it would be look like something looked like this in C sharp 13.
+
+So I have to do what is recommended by the previous versions.
+
+So I'm just using a object here.
+
+Um this can be a any reference type.
+
+It doesn't have to be object.
+
+And the best practice is to use a dedicated lock that has only one purpose, which is to protect the
+
+critical section here.
+
+And I think that's everything I want to cover in this video.
+
+You have any questions, please let me know.
+
+If not, I will see you in the next one.
