@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Assignments/Multithreading_Task/Assignment2/obj
+/Assignments/Multithreading_Task/.vs/Multithreading_Task.slnx
+/Assignments/Multithreading_Task/Assignment2/bin/Debug/net10.0
