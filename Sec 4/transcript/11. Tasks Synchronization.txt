@@ -1,0 +1,128 @@
+In this video, let's briefly talk about task synchronization.
+
+In one word, task synchronization is exactly the same as thread synchronization.
+
+So all of the techniques that we learned about synchronization can be applied to tasks.
+
+For example you learn about locks.
+
+You learn about monitors mutex reader writer lock semaphore auto reset event manual reset event.
+
+So all of them can be applied here.
+
+Let's actually go ahead and try to replace thread with task for one of our previous exercises where
+
+we learn about semaphore.
+
+So let's go into the original code that we completed for the semaphore one.
+
+Here we're using a semaphore to limit the number of processing threads here.
+
+So we have the initial thread three and we have maximum threads three.
+
+So this means that the maximum number of threads that can be parallelly processing the request are three.
+
+R3.
+
+So this is kind of simulating a processing pool where only three requests can be processed in parallel.
+
+We also have a exclusive lock here that is used to protect the request queue.
+
+Because our request queue is not a concurrent queue.
+
+Therefore, we're using a lock to make sure that accessing the queue is thread safe.
+
+Now when we use task, we also need to think about thread safety because a task in most cases uses a
+
+thread under the hood.
+
+So here all we need to do is to replace thread with task.
+
+And then you will observe that the exclusive lock, the semaphore are still working the same way as
+
+before.
+
+So let's go ahead and do that.
+
+The thread we're going to change the task here.
+
+We're going to change it to task.
+
+In fact you can basically do a search and replace.
+
+But I don't want to do that because we do have some places that actually require at least the word thread
+
+there.
+
+So I'm going to change this to task.
+
+And then here we're going to change this to task this one.
+
+And we're going to change this to task and this one as well.
+
+So thread here we're going to still make it sleep for 100 milliseconds here.
+
+We don't need to change the task delay.
+
+Let's just keep it as is.
+
+Here.
+
+We're using thread to get the current thread and manage thread ID here.
+
+By changing the task we have the benefits of using task as.
+
+One of the main benefits is that we are potentially using a thread pool thread instead of a new thread,
+
+but in this case we're only using three threads at a time.
+
+Therefore, we might still have to spin up the threads at least at the beginning.
+
+And then we're going to reuse the thread pool threads.
+
+So let's run this and see whether it runs properly or not Okay is a server is running type exit to stop.
+
+We never actually try to type exit to stop.
+
+So just to test it and it works.
+
+So let's run it again.
+
+Now I'm going to just continuously hit the keyboard for a few times and see what happens.
+
+All right.
+
+So you can see that it still works the same way as before.
+
+So the previous count is zero.
+
+I think I've explained that before because once it's released, it's immediately used again.
+
+Just because we have a loop and it's looping through pretty quickly here.
+
+Right?
+
+And it's only sleeps for 100 milliseconds.
+
+And then the next one is going to be in.
+
+Therefore the previous one is always zero or until we reaches the last two.
+
+Okay.
+
+As explained that's about synchronization for tasks.
+
+It's basically exactly the same as threads.
+
+You learn them from the threads.
+
+You can use them in tasks.
+
+That's all I want to talk about in this video.
+
+You have any questions?
+
+Please let me know.
+
+If not, I will see you in the next one.
+

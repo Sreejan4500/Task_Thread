@@ -1,0 +1,163 @@
+In this video, let's continue with task continuation.
+
+And we're going to talk about when all and when any.
+
+So when we reimplemented the divide and conquer example like this one where we're using tasks.
+
+But the problem is that when we use t dot result this line is blocking.
+
+So how do we use continuation technique so that we can wait for all of the tasks to finish, and then
+
+continue to create a new task and then calculate the summary.
+
+That's the objective.
+
+Now how do we know for sure that this line is blocking.
+
+We again use console dot write line.
+
+And then we can say this is the end of the program just like this.
+
+And we're going to execute it again.
+
+And we'll see that this is the end of the program will show later.
+
+See the summary shows first and then the end of the program shows later.
+
+That means that this line is blocking.
+
+The purpose of this blocking is to wait for all of the tasks to finish.
+
+So to get the result.
+
+And then this line is output.
+
+So we need to come up with a new technique so that this line will show up at the top.
+
+And that technique is the window method.
+
+So let's try to do that.
+
+And we're going to have the task class.
+
+And this is a static method.
+
+So it's one all.
+
+You can see that the parameter of this takes a array of tasks.
+
+And that's exactly what we have.
+
+So I'm going to put the task inside it.
+
+So if you hover over this method you can see that it returns the result of the previous task which is
+
+a array of integer.
+
+But we know that it's a task.
+
+So we can continue with.
+
+And what is this T represents.
+
+This t represents the return value of this one.
+
+All right.
+
+Because this one and all is a task of integer array.
+
+So this t is also a task of integer array.
+
+Now we can use this t which is the basically the previous task.
+
+And then we're going to say result.
+
+This is basically the integer array.
+
+And now we can use this and summarize them together to get the result.
+
+So we're going to say console dot write line.
+
+And we can say the summary is.
+
+And here we can use string interpolation.
+
+And then here we use t dot result.
+
+Dot y is not doing intellisense.
+
+So because I have extra quote so t dot result dot sum and this should give us the result.
+
+And if we do this you can see that green circle line comes up.
+
+This is basically telling us this is asynchronous call.
+
+So it's not going to block.
+
+And if you want to do something afterwards you have to use the await keyword which we're going to talk
+
+about later.
+
+But that's exactly what we want.
+
+We want all of these tasks to run asynchronously, and we want the new task that is created after all
+
+of those tasks finishes.
+
+That's why we say when all, which basically means when all of the task finishes, we create a new task,
+
+and inside a new task we get the summary and we have this line output.
+
+And we expect this one output at the beginning.
+
+So let's give it a try again.
+
+Close the previous program and then the new program will automatically show up.
+
+You can see that this is the end of the program shows up first.
+
+Which means that when our method is not blocking and then when all method is working right here and
+
+tell us that the summary is 55 and that's the correct calculation.
+
+So this is when all again it means that I'm going to create a new task.
+
+I'm going to continue with that by saying continue with.
+
+So this shows you that you can chain continue with with when all.
+
+Now what is when any.
+
+Well when any just means that with any of the task finished, you don't have to wait for all the tasks
+
+to finish.
+
+So if you need to do that, then you do when any.
+
+Now, if you put the task over here and you hover the mouse over that, see it returning a task of task
+
+of integer.
+
+And if you read the description here, it says create a task that will complete when any of the supply
+
+tasks have completed.
+
+So if your requirement requires this type of continuation, use when any.
+
+Otherwise, if you want to wait for all your tasks to finish, which is mostly the scenario is, then
+
+you use when all.
+
+So that's all I want to cover in this video.
+
+I'm going to delete this when any.
+
+And I'm going to keep this in here and this line can be deleted.
+
+I don't think the time matters now.
+
+So let's delete all of the time calculation here.
+
+This one we don't need that anymore.
+
+And that's the end of this video I will see you in the next one.

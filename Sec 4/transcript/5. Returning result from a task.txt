@@ -1,0 +1,61 @@
+In this video, let's talk about returning value from a task.
+
+Let's jump back to Visual Studio.
+
+And here remember that when we check the property here we don't see the property result.
+
+So if I say R there's nothing except this run synchronously.
+
+But if I change the work a little bit I say result variable.
+
+And we're going to return this result.
+
+So imagine that you're doing something.
+
+For example you are adding up some value.
+
+And of course here we're going to have a integer.
+
+And if we use this delegate right here for the Task.run method it's going to give us a task.
+
+But here you can see that this is not just a regular task, it's a task with a generic over here and
+
+it's of the integer type.
+
+Let me actually comment this out for now just so that you see every aspect.
+
+Let me change this to void.
+
+Again.
+
+Now if I hover the mouse over it, you can see that the T is of the type task.
+
+There is no generic, but if you return something from it, then this result is it becomes task angle
+
+bracket integer.
+
+Now if I look into this property and I say r, you see this result and we can output the result.
+
+So let's say console dot write line.
+
+And then I'm going to say the result is then I can use the result just like so.
+
+And of course I need to add a dollar sign here for string interpolation.
+
+Let's run it and let's see what's going to happen.
+
+I love programming and then I'll put two for the Threadpool thread and the result is 100.
+
+I need a space here, but you can see that the result is actually returned.
+
+So this is how you can access the result from a task.
+
+So now you know it's much easier to use a task in order to return a result.
+
+Because when you use a thread you have to use a shared variable.
+
+And you can't return a result.
+
+That's everything I want to cover in this video.
+
+Just remember to say task dot result and you will get your result.

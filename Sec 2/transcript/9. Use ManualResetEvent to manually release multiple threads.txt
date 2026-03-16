@@ -1,0 +1,205 @@
+In this video we're going to talk about signalling with manual reset event.
+
+Manual reset event is similar to auto reset event except that the reset is not automatic.
+
+So what do I mean by reset?
+
+Let's go back to the auto reset event here.
+
+Once the pig goes into the station feeding station to eat, remember the signal here is automatically
+
+turned off.
+
+The turning off of the signal is called reset.
+
+Turning on off the signal is called set.
+
+The auto reset event just means that when the waiting thread precedes, the signal is turned off automatically
+
+without the developer manually turn it off, whereas in the manual reset event, the developer is responsible
+
+to call the method reset in order to turn off the binary signal.
+
+It's still a signal with an on and off two different modes, but you will have to turn it on manually.
+
+You will have to turn it off manually as well.
+
+So where are the scenarios in real life that we need such, such.
+
+Mechanism of signaling.
+
+Let's still use this farm analogy here.
+
+Previously we were seeing that only one pig can go into the feeding station, but that's not realistic,
+
+right?
+
+Realistically, the farmer produces food in batches.
+
+It produces a lot of food, and probably more than enough for three little pigs to go into the feeding
+
+station and eat at the same time.
+
+So in that case, we should allow multiple consumers to consume the products at the same time.
+
+And some other examples I can think of is, for example, really like traffic light.
+
+If we are thinking that each vehicle as stress and the traffic light will be the signal.
+
+Once it turns green, everybody will go at the same time.
+
+Everybody goes until it turns red again, so it's not one car at a time.
+
+Other scenarios I can think of is, for example, a file is produced and the file is huge and you need
+
+separate threads to divide and conquer at the same time.
+
+Therefore, you will signal those threads to say go ahead, divide the file and conquer it.
+
+And once the file is finished, then we can signal the producer again to say, hey, the file is finished,
+
+go ahead and produce more.
+
+This is where we use many reset event and the syntax is pretty similar to auto event.
+
+Still here we're going to say menu reset event.
+
+And then the variable name.
+
+Let's just call it call it menu Reset event.
+
+And we're going to create this.
+
+And this is the initial state for many reset events.
+
+There is actually a slim version, so I would encourage you to use a slim version instead of the original
+
+version.
+
+And here again, you can use the using statement to make sure that the reset event object is automatically
+
+disposed after the program exit, and then at the place where you want to turn on the signal, you call
+
+the set method, just like the auto reset event, and then add the place.
+
+Whoever is responsible to turn it off will have to call the reset method to turn it off.
+
+So that's the basic syntax.
+
+So let's create a very simple application here where let's say three different worker threads are waiting
+
+for a signal to proceed.
+
+They're all blocked at the beginning until a signal is provided from the main thread.
+
+So I'm going to say four and then use a for loop to create three different threads here, and a thread
+
+equals new thread and it's going to do some work.
+
+So I'm going to do this work which I will create later.
+
+And then thread name equals thread.
+
+I need to be either thread one, thread two or thread three.
+
+And then I'm going to say thread dot start.
+
+Start the thread.
+
+Now in the main thread we are going to output some message first.
+
+So I'm going to say press enter to release all threads because all of the threads are being blocked
+
+at the beginning because the initial state is false.
+
+And then we're going to say console.readline to wait for the user to press enter.
+
+And at this moment the main thread is going to set the signal.
+
+Turn on the signal to release.
+
+So after the user press readline Now the main threat is going to signal the worker threads to proceed.
+
+And then at the very end we're going to say read line again just so that we don't automatically exit
+
+out.
+
+And then over here we're going to define the work method here.
+
+And we can just provide some messages with saying which thread Redcurrant thread name is waiting for
+
+the signal.
+
+And then here we use the wait method.
+
+So this is the slim version.
+
+So it has a wait method.
+
+This wait for the signals.
+
+So once they receive the signal then it can process the products that the producer produces.
+
+In this case the producer is the main thread which produces this.
+
+Enter this enter keystroke.
+
+Here we can use Thread.sleep just to simulate a longer process time.
+
+And then here we're going to say read line.
+
+And then we can say whoever over here released.
+
+All right.
+
+So this is a simple program.
+
+Although we don't have a reset over here.
+
+We don't need to do a reset in this simple example.
+
+But it demonstrates that multiple threads be released at the same time.
+
+So let's run this and then you can see that thread one two, three are waiting.
+
+And press enter to release all of the threads.
+
+So this message is in between.
+
+And I don't like that.
+
+So maybe we can move this console.
+
+All right to the top.
+
+This will fix this particular issue.
+
+Let's run it again.
+
+So press enter to release all of the threads.
+
+And it tells you that all of the three threads are waiting.
+
+It's is like all of the three little pigs are waiting for the food.
+
+Now, if I just hit enter, um, you can see that after a brief moment, the threads are released.
+
+So this is how the menu reset event works because it is not reset automatically.
+
+Therefore, all of the threads are allowed to enter.
+
+The reason why the auto reset event only allows one thread to enter is really just because it automatically
+
+reset it as soon as it receives the signal.
+
+As soon as one thread receives the signal, the signal is turned off, so no other thread will be able
+
+to receive the signal anymore here, because the reset has to be called manually.
+
+Therefore, all of the threads has an opportunity to enter to pass this wait line.
+
+So this is how it works.
+
+And then in the next video we're going to actually practice a little bit using the menu reset event
+
+in the next one.

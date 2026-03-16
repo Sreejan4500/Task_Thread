@@ -1,0 +1,38 @@
+A task object uses thread pool by default at runtime.
+
+So let's jump into our.
+
+I love programming program here, and if we set a breakpoint right here and we run our application,
+
+you can see that the breakpoint is currently at the work function which is performed by the task.
+
+And here are the threads.
+
+And it's pointing to this worker thread which comes from TP.
+
+So what is TP thread pool.
+
+Right.
+
+And to be accurate let's output is thread pool thread property.
+
+So we're going to just say thread dot current thread dot is thread pool thread.
+
+And I'm expecting to see true.
+
+So let's just run this okay.
+
+We can see this is true.
+
+So this is actually a thread pool thread.
+
+So tasks by default uses thread pool thread efficiently.
+
+You don't need to control the pool.
+
+You don't need to worry about the maximum size, the minimum size and everything about it.
+
+You can just use task and itself uses the thread pool efficiently.
+
+And this is one of the reasons why you want to prefer task instead of thread.
+

@@ -1,0 +1,209 @@
+In this video, let's talk about the task continuation with the continue with method.
+
+So when we look at the last example in the previous video, we know that using task the result is actually
+
+blocking the main thread.
+
+And we want to do something that is not blocking.
+
+So in order to do that you would automatically think that we need to create another task, right?
+
+And that task need to be only started after the completion of the previous task.
+
+And that's exactly the continue with method does.
+
+So this is the first task.
+
+And then you wait until this task finish and then you start another task.
+
+But none of the first task or the second task should block the main thread.
+
+So that's the requirement because what one might start thinking is that's simple.
+
+That requirement is simple.
+
+I just need to get the result first, and then I use the result in the second task.
+
+And then I get the result from the second task.
+
+But that will make the first task block.
+
+And then it will also make the second task block.
+
+And that's exactly not what we want by using tasks that continue, none of the tasks will be blocking.
+
+Let's try this.
+
+So we have the task.
+
+So far we're not blocking.
+
+And then we can use continuous.
+
+So the continuous expects.
+
+You can see that this is a delegate.
+
+And we can use lambda expression here with this lambda expression this t which stands for task it represents
+
+the previous task.
+
+Now if we hover the mouse over the continue width you can see that it's actually returns another task.
+
+And this is a new task that is different from this task.
+
+So this is exactly what we said that we want to create a new task which will be started only after the
+
+first task completes.
+
+And this function continue with does exactly that.
+
+But in order to get the previous task result, it conveniently provides us the previous tasks right
+
+here so we can get the result like this.
+
+And if we say result equals this, you may say that, well, this is blocking.
+
+Yes, it is blocking, but it's blocking inside this thread.
+
+But it's not blocking the main thread.
+
+So once we get the result, then we can use the result to do something.
+
+Let's say that we just output the result and it's a silly thing to do here, but at least it demonstrates
+
+that we can change the task together.
+
+First task.
+
+Second task.
+
+And then in the second task, we can get the result from the first task.
+
+And we can actually continue to the third task.
+
+The fourth one the unlimited infinite.
+
+And we're going to talk about that later.
+
+So if we do it that way don't let the program exit.
+
+Otherwise asynchronous work will not finish before the entire application finishes.
+
+So let's run this and let's see the result.
+
+And now you can see that we get the result from this line right here.
+
+Of course this just print out but it's not reasonable.
+
+A more reasonable requirement is.
+
+So for example we want to get the first Pokemon name and URL inside the second task.
+
+And we don't actually want to block the main thread.
+
+How do we know that we're not blocking the main threat.
+
+Well, let's close this right here and let's output something.
+
+So we're going to say console dot write line.
+
+This is the end of the program.
+
+And we're expecting this to show up first before the console right line of the result show up.
+
+Let's go ahead and do that.
+
+And now you can see that this shows first.
+
+Afterwards we see the JSON.
+
+So you can see that none of the two tasks are blocking okay.
+
+Now let's perform our requirement.
+
+We get the result which is the JSON.
+
+And we want to use that JSON to do some real work.
+
+So let's delete this line.
+
+And we want to parse the JSON.
+
+Of course the requirement is to print out the first pokemons name and URL.
+
+So for that we will need to use either Newtonsoft or just use the JSON document.
+
+So let's use the built in way from Microsoft.
+
+We get a JSON document and you can see it automatically.
+
+It's using the text JSON.
+
+And then we're going to parse Haas.
+
+The result?
+
+Just like that.
+
+And from here we can get the root element.
+
+So JSON element I'm going to say root equals document dot root element.
+
+Once we have the root element then we can access some of the information there.
+
+And if we go to here you can see that from the root element we can we can access count next previous
+
+and results.
+
+So because we want to get the first Pokemon therefore we want to access the results element here.
+
+So from the root what we can do is we can say get property and we specify result.
+
+This will give us another element.
+
+So when I say results equals this let's get the first Pokemon again.
+
+It's a JSON element.
+
+And we can say first Pokemon and I'm going to say result.
+
+The first result.
+
+So once we get the first result then we can output.
+
+So let's say Console.WriteLine.
+
+And I'm going to say first Pokemon name is first Pokemon get property and its name name property.
+
+And here this is the first Pokemon URL.
+
+Change this to URL and that's it.
+
+So this is the end of the program.
+
+Let's run this.
+
+And now you can see that this is the end of the program shows first, which demonstrates that the calling
+
+thread is not being blocked by those two tasks.
+
+Now the second task output the first Pokemon name, Bulbasaur.
+
+I don't know how to pronounce that and the first Pokemon URL.
+
+So following this URL you can go to the details of the first Pokemon.
+
+So now you can see that this continuous method is very helpful to chain task together.
+
+First of all, it has to be dependent on the completion of the first task, and secondly, you can get
+
+the result from the first task and then you can continue to chain task like that.
+
+All right.
+
+That's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

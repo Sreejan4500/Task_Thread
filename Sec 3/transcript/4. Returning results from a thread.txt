@@ -1,0 +1,100 @@
+In this video, let's talk about returning results from a thread.
+
+Well, actually, it's not possible to return a result from a thread if we are using the thread class.
+
+Later when we learn about tasks, actually in the task class, there's actually a built in functionality
+
+to return a result.
+
+But since we're still on the thread class, we have to admit there's no built in way to return a result.
+
+So the only way you can return a result is through a shared variable.
+
+So let's jump into Visual Studio.
+
+Let's say that in the main thread we're to create a new thread here.
+
+We're going to do some work and then we're going to start the work.
+
+Now inside the work.
+
+Now let's define the work right.
+
+Let's do some work here.
+
+So how do we do some work console.readline.
+
+So do some work.
+
+And let's just use this to simulate that.
+
+We are actually doing some work.
+
+So started doing some work.
+
+And then don't forget our friends Thread.sleep.
+
+We like sleeping.
+
+And then at the end, we need to return a result.
+
+There is no way to return a result other than define a shared resource here.
+
+So let's say it's a string.
+
+And then we're going to say here is the result.
+
+And then in the main thread we have to wait for the worker thread to finish.
+
+So to do that we can say thread join.
+
+And after that we can use the result.
+
+And of course for teaching purpose, the way to use result is to just output the result.
+
+And we're going to say the result from the worker thread is.
+
+And then we use string interpolation and we just say result.
+
+Now it complains that result could be null.
+
+If it's null, then we can say an A and it asked me to initialize it.
+
+I can just initialize it to null okay.
+
+So when we run this we will see that we can get the result, but we are not actually returning the result
+
+because we are just using a shared variable.
+
+So it says started doing some work and it says the result from the worker thread is here is the result.
+
+So that's exactly what we expected.
+
+So remember that we actually did this in the divide and conquer example.
+
+So let me find the example right.
+
+The example is right here.
+
+So we use this example to demonstrate divide and conquer.
+
+And we used four different threads.
+
+And in each thread we're summarizing the segment.
+
+And we get a temporary result.
+
+And then at the end to get the actual summary we add them all up.
+
+So we used four different results in our main thread right here.
+
+And you can see that we just declared some shared variables right.
+
+Shared resources.
+
+And we use them in our worker thread as well as in our main thread.
+
+So this is the only way to get the result from a worker thread.
+
+And that's everything I want to cover.
+

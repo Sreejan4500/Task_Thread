@@ -1,0 +1,402 @@
+In this video.
+
+Let's talk about thread pool so far in our course.
+
+Whenever we need a thread, we always create a new one.
+
+So when we need a thread, we create a new one like this.
+
+And then it's disposed.
+
+And after that, when we need another one, we create another one.
+
+And then when we need a thread, we'll create a new one.
+
+And after it's used, dispose it again.
+
+So, so on and so forth.
+
+Always have a new thread created when you need a thread.
+
+The problem with this approach is that a thread takes time and space, just like any object in our universe.
+
+When we say take time and space in computer language, it actually takes time to create it and it takes
+
+memory to create it.
+
+And always creating new thread just means it affects the performance of our application.
+
+Therefore, programmers think that why not use a pull mechanism so that we can reuse a thread within
+
+the pool?
+
+So how does the pool works?
+
+So let's say we have a thread pool like this.
+
+And it has a number of threads available already.
+
+So any time we need a thread, we just take.
+
+A available thread, right?
+
+Some of the threads might be already working for some other tasks, and when you need a new thread,
+
+you just take one that is not busy and after it finishes task, it returns back to the pool.
+
+So when when it's used, it's used.
+
+When it's not busy, it goes back to the pool waiting for the next assignment.
+
+Therefore, with this approach, we don't have to create a new thread every single time, which saves
+
+time and resource and improves the performance.
+
+However, it has its drawback.
+
+Of course, everything has pros and cons.
+
+There's a maximum available threads in the pool, and if you exceed that number, if your program actually
+
+needs a lot more threads than your request has to wait for a thread to finish its task.
+
+So pros and cons, you just have to experiment and see whether it works for you or not.
+
+Now the question comes, is the thread pool a entity from a operating system or as part of the application?
+
+The answer is that every application has its own thread pool, so you don't need to worry about whether
+
+the thread pool is working or the entire operating system or not, because it's not.
+
+If we take a simple hello world program and we set a break point, and then we run the application now
+
+from this thread window, you can see that we actually have a thread pool L.
+
+So this thread is actually coming from the thread pool.
+
+So like I said every application has a thread pool.
+
+A thread pool has maximum number of threads defined.
+
+Actually it also has a minimum number of threads defined.
+
+Obviously a maximum number makes a lot of sense.
+
+So what does a minimum number mean?
+
+Let's say that the minimum number is two.
+
+In this case.
+
+And at the very beginning if there are no threads available, if there's no threads created for the
+
+pool yet.
+
+Of course, when your application just run it, there may be no threads created and you want a new thread
+
+for your work, then the thread pool will create a new one and it will put it back in the thread pool
+
+after it finishes work, right?
+
+Remember the minimum is two.
+
+Now the second task needs a thread.
+
+It's not actually going to take the first one even though it's finished its work, because the current
+
+thread is still less than the minimum number.
+
+So it's going to create another one, and then it's going to work on your stuff.
+
+And after it finishes, it's going back to the pool.
+
+Now when you need the third one and it sees that the minimum number is still not exceeded, so then
+
+it's going to create a new one.
+
+It's going to work on it.
+
+Right after that it's going to return back to the pool and the next one when it needs a new thread,
+
+it's actually going to rely on the thread pool to decide whether to take existing one, or whether it's
+
+going to create a new one.
+
+I don't know exactly what the algorithm is, but this is how it's going to work.
+
+The minimum number of threads in the pool determines whether to create a new thread or not.
+
+And then it has its own algorithm to figure out what action is going to take afterwards.
+
+But of course the maximum number of threads is very obvious.
+
+Once you exceed the maximum number, then your request for going to the pool will have to be enqueued.
+
+And then it's going to wait for available thread to be assigned for your task to work on.
+
+So let's look at some examples.
+
+Let's remove this code and let's look at some numbers.
+
+So we're going to use this thread pool object here.
+
+So thread pool dot get maximum threads.
+
+And it has two kinds of threads.
+
+One is worker thread.
+
+The other one is IO thread.
+
+So I want to get the maximum number of worker threads.
+
+And I also want to get the maximum number of IO thread.
+
+So I.
+
+Oh, let's say Max, I o threads just like that.
+
+And here maybe I change it to max worker thread.
+
+And then I'm going to console and output the information here.
+
+So I'm going to say max workers thread is max workers and max IO threads is okay.
+
+Let's output this information to the console and see what is current configuration.
+
+So max worker threads is this much right.
+
+And max io authorized is 1000.
+
+So this is the default.
+
+And this information is specifically for this current application.
+
+Now there is another information which is interesting and it's good to know which is thread pool dot
+
+get available threads.
+
+So what does this mean.
+
+If you hover the mouse over it it says that retrieves the difference between the maximum number of thread
+
+threadpool threads returned by the maximum threads method and the number currently active.
+
+The difference between the max threads and the currently active threads, so those are the available
+
+threads to be assigned for your new task.
+
+So we can get that number again.
+
+So let's just take this one and paste it over here.
+
+I'm going to say get available threads.
+
+So here I'm going to say available worker threads and available IO threads.
+
+I don't actually want to get the available worker threads.
+
+I want to see how many threads currently is active.
+
+And I can get that number by taking this one and subtract this available worker threads.
+
+So I'm going to do console read line and I'm going to say active worker threads and active IO.
+
+And I'm going to put these two numbers in, and now I need to get the maximum worker threads and subtract
+
+this number and maximum IO threads and subtract this number.
+
+So that way I can get the active threads and let me run the application.
+
+Okay.
+
+So you can see that active worker thread is one.
+
+So there's one that is active.
+
+And an active IO threads is zero.
+
+So there's no IO threads that is active.
+
+So as you can see that the thread pool is by default created for any application.
+
+There's always one.
+
+And those threads that is currently running actually belong to the system threads.
+
+They are here to support your application to run.
+
+So the thread pool is already there whether you want to use it or not, it's up to you.
+
+Another information I want to share with you is that the thread pool itself actually has a method sex
+
+max threads and set min threads.
+
+You can play with these two numbers, but it's not actually recommended by Microsoft.
+
+So you can read the documentation.
+
+So let's talk about how to use the thread pool for our applications.
+
+So the way to use it to just to set thread pool.
+
+And then you can say queue user work item.
+
+So there are different ways to to do this.
+
+So this is the one I'm going to talk about in this video.
+
+Later we are going to talk about tasks.
+
+And tasks are actually going to use thread pool automatically.
+
+You don't actually need to specify it here.
+
+We have to specify that a work needs to be performed with a thread pool instead of creating a new thread.
+
+If we look at the signature here, it has a wait callback thing here, and the wait callback that represents
+
+the method to be executed.
+
+So the callback is actually a method.
+
+So let's actually press on F1 and let's check the documentation from Microsoft.
+
+So what is a wait callback.
+
+You can see the wait callback is nothing more than just a delegate.
+
+And the signature is basically an object with a question mark.
+
+So if our task is created as a method that follows this, then you can just directly pass that as the
+
+first parameter.
+
+Let's check the signature again.
+
+So the first signature is just the delegate.
+
+The second one is you can pass a state right.
+
+So let's say a and then you can check the second one.
+
+It says state and the object containing the data to be used by the method.
+
+So what is the method that is this wait callback thing.
+
+Remember the wait callback takes a parameter.
+
+And in order to pass parameter to that method.
+
+Here it is.
+
+You use this right?
+
+B here represents the information that you need to pass into the delegate the method.
+
+Okay.
+
+So that's the basic syntax.
+
+So let's use a existing program that we have written before to play with this.
+
+So I paste this over here immediately.
+
+You should realize that this is our web server assignment.
+
+So we created this web server simulation.
+
+And again we have this monitor thread monitoring the request queue.
+
+And whenever there is a request in the queue we're going to create a new thread.
+
+So if there's millions of requests coming at the same time, that means that we are creating millions
+
+of threads at the same time.
+
+And it's really expensive to do that.
+
+So it's good to use a thread pool over here.
+
+So let me comment out this code.
+
+So then how do we use thread pool?
+
+As I said you do thread pool and then you do dot and then you do queue user Workitem.
+
+And now we need to have this work that follows the delegate definition.
+
+And our work here is process input.
+
+And it's very similar to definition of dot delegate.
+
+The only thing is that this is string.
+
+So we have to change this to object.
+
+and if we do that, then we can just use process input.
+
+You see, it doesn't actually complain.
+
+Now I need to pass this input into this process input method.
+
+And to do that I can just use the second parameter and that's it.
+
+Nothing else needs to be done.
+
+And if we run the application let me increase the font a little bit.
+
+And if I just keep typing simulating the request you can see that it's working and it works the same
+
+as before.
+
+You can't tell whether it's using a thread pool thread or not.
+
+So how do I know whether it's a thread pool thread?
+
+Well, the easiest way to determine that is to get it from a property.
+
+I can say thread dot current thread dot is thread pool thread.
+
+Here is thread pool thread.
+
+And then I can use this here so that you will know whether the thread is a thread pool triple threat
+
+or not.
+
+So let's run the application and then we're going to enter information and increase the font.
+
+And you can see that every single one returned true.
+
+All of the threads currently are threadpool threads.
+
+And you can also debug this.
+
+Right.
+
+So let's say I have a breakpoint here and I run the application.
+
+And now the server is running.
+
+Let's enter something.
+
+And you can see that this one has process input right.
+
+So this is the thread pool thread that is currently working on the process input because I only enter
+
+one letter.
+
+So there's only one thread.
+
+So now you know how to use thread pool.
+
+And specifically using the queue user work item to perform your task by using thread pool threads instead
+
+of creating threads every single time.
+
+And that's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.
+

@@ -1,0 +1,158 @@
+In this video, let's learn about thread states.
+
+A thread can have different states and if we check the documentation, you can see that a thread state
+
+can have several possibilities defined in an enumeration.
+
+So it can be aborted, can be aborted, requested, background running, so on and so forth.
+
+When a thread is defined but not started yet, it's always unstarted.
+
+Every thread starts with n started until stopped.
+
+So let's jump into Visual Studio and see how that works.
+
+So we have the same example as before, except that everything is in a array, so that I can use the
+
+array and observe the the states of the threads later.
+
+Okay.
+
+So I have ten different threads and each one of them will be started right here.
+
+But before it started I output the state.
+
+The expected state here is n started.
+
+Once the thread starts, then it's going to go into the running state.
+
+The running state is actually output right here.
+
+And the state of that I expect this to be running.
+
+The state is running.
+
+And then after the sleep, the state is also running because when it runs this line it's still running.
+
+So let's give it a try and see that thread.
+
+One state is Unstarted, two is Unstarted.
+
+And then because we are using a loop.
+
+So some early threads have already started.
+
+Therefore you see thread zero started working.
+
+The state is running right.
+
+So it changed from unstarted to running and everything is running afterwards.
+
+So let's do something with this code so that we can observe some other states here.
+
+If we wait for three seconds, let's wait for three seconds.
+
+Once we wait for three seconds, all of the threads should be already inside or except the main thread.
+
+All of the worker threads should be already executing the thread or sleep line.
+
+Right?
+
+We blocked here so then I can use a loop like this.
+
+Loop through all of the threads and then output the status of that.
+
+And if we execute that, what do you expect the state to be?
+
+Let's run it and see.
+
+All right.
+
+So unstarted and start it.
+
+Now you can see that after three seconds all of the worker threads are in the wait and sleep and join.
+
+Wait sleep join.
+
+So if we go over here you can see that we have this wait, sleep and join, which means the thread is
+
+blocked.
+
+This could be the result of calling sleep or join requesting a lock.
+
+So once the thread is in this state, the thread scheduler.
+
+The system thread scheduler will kick the thread out of the CPU.
+
+Because you're sleeping, you're waiting.
+
+Then you should not occupy the CPU resource so the thread scheduler will kick it out.
+
+All right, now after all of the threads finish what the state could be.
+
+So let's copy this code and just paste it right here.
+
+So this is when all of the threads As including the main thread finish already.
+
+I mean the main thread is calling.
+
+This function is finished already.
+
+Main thread didn't finish right?
+
+Main thread is always there, so we're calling this within the main thread to check the status of all
+
+of the other threads.
+
+So if we do it this way, let's observe the result.
+
+Okay 123.
+
+Okay so all of the threads are in wait sleep and join.
+
+So then we need to wait for another seven seconds which is happening already.
+
+Okay so thread seven finished working.
+
+The state is running.
+
+So this all of this thread already finished working and then we wait for another three seconds.
+
+All the threads now are in stopped state, right?
+
+All of the worker threads after this three seconds.
+
+Wait time.
+
+All of the worker threads are in stop, as you can see right here.
+
+Okay, so can we see the thread state during debug mode?
+
+Well unfortunately we can't.
+
+So if I run this And then pause the running and come over here and check the columns.
+
+We don't see the state, and if we go to immediate window and then try to say thread dot current thread
+
+dot thread state and you run it, it says cannot evaluate expression because the code of the current
+
+method is optimized.
+
+So you can see that you can see the thread state column over here.
+
+The suggested way to check the state is basically just use some logging or the output to console window.
+
+And this is usually used for debugging purpose.
+
+And if you check the documentation it also I think it mentions that it says your code should never use
+
+the stress state to synchronize the activities.
+
+It's of interest only in a few debugging scenarios.
+
+See, you only use the thread state enumeration to check the state of a thread for debugging purpose.
+
+And that's everything I want to cover in this video.
+
+I'll see you in the next one.
+

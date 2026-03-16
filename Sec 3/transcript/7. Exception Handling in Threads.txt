@@ -1,0 +1,220 @@
+Let's learn about exception handling when we use the thread class to work on multi-threading programs.
+
+You know that when we use the main thread to call different methods, we have a call stack like this,
+
+and whenever there is an exception, it will be actually bubble up.
+
+Whereas in a thread each thread has its own call stack.
+
+If there are exceptions, it will be also bubble up, but it will not be propagated to the calling thread.
+
+So if the main thread rated this worker thread, you won't be able to catch the exception from the main
+
+thread because each thread works independently and has its own call stack.
+
+So let's jump into Visual Studio and see that in action.
+
+So suppose that I create a thread.
+
+So var thread equals new thread.
+
+And then I use lambda expression to create a work here.
+
+And I'm going to just do nothing but throw a invalid Valid, let's say invalid operation exception.
+
+And I'm just going to say an error occurred in this worker thread.
+
+This is expected.
+
+That's what this thread do.
+
+Nothing else.
+
+And then we can start the thread.
+
+And we can use join just to wait for it to finish.
+
+So in this case we're throwing the exception within the worker thread.
+
+It's not going to be reflected in the calling thread which is the main thread, but it's going to be
+
+reflected in the application domain.
+
+So your application will still crash.
+
+However, you won't be able to receive this exception from the calling thread.
+
+So let's run the application.
+
+And then immediately there is an exception here.
+
+And if you continue with it you can see the exception over here.
+
+And it tells you which line this is it.
+
+However, if you attempt to handle the exception gracefully and within the main thread, which is the
+
+calling thread.
+
+Let's move this inside the try and then catch over here.
+
+Let's just catch an exception and you just try to, let's say output exception.
+
+And of course this way of writing wouldn't be correct.
+
+Let's create a thread object outside of the track catch here.
+
+And let's say this is null.
+
+And then over here we instantiate it.
+
+And I'm just going to use a question mark here and here.
+
+And now if I set a breakpoint over here and let's see whether the exception can be caught or not.
+
+So here throws exception.
+
+Let's continue.
+
+You see it finishes.
+
+It never comes to this line.
+
+And this inherent exception is output from the application domain instead of from here.
+
+So you will never actually come over here.
+
+So then the question comes how to handle exception gracefully within a thread.
+
+Of course, you need to handle the exception gracefully within the thread.
+
+So you need to use your try catch within the thread itself.
+
+So in this case you need to put a try catch over here.
+
+Well, it looks pretty silly because the thread does nothing but throw exception.
+
+But you get what I mean, right?
+
+So you use your try catch within the thread in order to gracefully handle the exception if that's what
+
+you want.
+
+But sometimes your thread may create other threads, or there could be multiple exceptions within the
+
+calling stack.
+
+So how do you handle that scenario gracefully?
+
+So you can only receive one exception if you do it this way.
+
+How do you handle multiple exceptions so that you can react to those exceptions accordingly?
+
+And just like any other solution, we need a shared resource to do that.
+
+For example, if we have a list of exceptions like this.
+
+So exception.
+
+And then we're going to call this just exceptions.
+
+And we're going to create this.
+
+And once we have this list then inside this thread we can add the exception to the collection here.
+
+So let's remove this.
+
+And let's say that we have two different threads.
+
+Thread one equals new thread.
+
+And this thread is just going to do some work.
+
+I'm going to define the work later.
+
+And then thread two is going to also do the work.
+
+Now we're going to start both threads.
+
+So thread number one start and thread number two start.
+
+And I'm going to wait for them to finish.
+
+So thread number one join.
+
+And then number two join.
+
+Now let's define the work.
+
+So I'm going to do work here.
+
+And what are we going to do.
+
+We just simply throw an exception.
+
+And I'm going to throw again.
+
+An invalid operation exception.
+
+And I'm going to say an error occur.
+
+This is expected.
+
+Now here in the work which is going to be executed within this thread, we if we want to handle exception
+
+gracefully, we need to do it with the try catch like this.
+
+As we as I mentioned previously.
+
+So here we're going to put this inside the try.
+
+And then over here you're going to add the exception to the exception list.
+
+Just like that.
+
+Then at the end after everything finishes then we can loop through the exception.
+
+So var x in exceptions.
+
+And we can examine each exception and react accordingly.
+
+But of course over here we're just going to output everything to the console.
+
+Now we know that this exception list is a shared resource.
+
+Therefore, we need to use a lock to protect it.
+
+We say lock exceptions equals new object and then we can use it as a lock.
+
+So we come over here and we say lock exceptions.
+
+And then we're going to move this line.
+
+All right.
+
+So let's give it a try and see what this result is going to be.
+
+Let's run the application.
+
+And now you can see two errors.
+
+So obviously we're able to add both exceptions from two different threads into the exception list.
+
+And we are able to output that in your application.
+
+If you need to log it somewhere then you can use the exception list.
+
+So that's how you handle exceptions.
+
+If you were to use the thread class later.
+
+When we talk about tasks, task has its own built in way to handle exceptions, and it's going to be
+
+similar to this exception collection way.
+
+That's everything I want to cover in this video.
+
+You have any questions?
+
+Please let me know If not, I will see you in the next one.
+

@@ -1,0 +1,285 @@
+In this video let's talk about continuation chain.
+
+So previously when we create a task and when we want to do something after this task finishes we use
+
+continue with method.
+
+And that will chain this task and the next task together.
+
+And this task only starts after the first finish.
+
+Of course, naturally you will be thinking that in a lot of scenarios you want to continue with this
+
+chain.
+
+So you can go on and on and on.
+
+So let's try to do that.
+
+And while we're doing this we're going to encounter this unwrap method.
+
+So the scenario is a continuation from our previous previous video where we are using the continue with
+
+method to get the Pokemon information.
+
+See here we have two tasks.
+
+The first task is to get a Pokemon list JSON string.
+
+The second task is when the first task completes, which means that we have that JSON string.
+
+Then we output the first Pokemon name and the first Pokemon URL.
+
+So what if we change the requirement a little bit?
+
+We want to get the first Pokemon's detailed information and for example, the name of the Pokemon.
+
+The weight of the Pokemon, the height of the Pokemon.
+
+So how many tasks are there?
+
+So first, let's remove some of this.
+
+The first task for that is to get the list JSON for the Pokemon.
+
+Once we have the list JSON, the next task is to get the first Pokemon's URL.
+
+So this would be get first Pokemon URL.
+
+So this is the second task, and once we get the first Pokemon's URL, then we can go ahead and try
+
+to grab the first Pokemon's details JSON.
+
+Now once we have the first Pokemon's details JSON, then we can move forward to the last task.
+
+Here I thought it's going to be three different levels, but it turned out to be four.
+
+Now here actually I'll put the first Pokemon, let's say weight, height and different information here.
+
+Of course we want to put the name here to indicate to which Pokemon this information belongs to.
+
+So now let's jump into Visual Studio and let's continue with the previous previous video where we have
+
+just two levels of tasks.
+
+Right?
+
+Because we have so many different levels of tasks, let's name the tasks.
+
+So here the first one is to get a list JSON.
+
+So Pokemon list JSON or let's just simplify it.
+
+Let's call it task list JSON.
+
+And here I'm going to use this new variable.
+
+And instead of just printing this out we want to get the list URL here.
+
+So we're going to return this URL from the get property function.
+
+And we can change it to string.
+
+Now this one returns a task and this is the second task.
+
+So let's go back.
+
+The second task is to get the first Pokémon's URL.
+
+So I'm going to say task get first Pokemon.
+
+Or let's just ignore Pokemon.
+
+Let's just say get first URL.
+
+So the first task, the second task.
+
+Now once we get the URL, what do we do?
+
+Let's again go back to the diagram.
+
+Once we get the URL, we get the first Pokémon's details JSON.
+
+So we can continue from here.
+
+So I'm going to say task get first Pokemon URL.
+
+And we're going to say continue with.
+
+And again as a result equals t dot result.
+
+So what is the result.
+
+This result is a string.
+
+And what is the string represent for.
+
+It's the URL right this one.
+
+Now this one is simple.
+
+We can just say return client dot get string async and we can do this.
+
+Now what is this task okay.
+
+This is a new task.
+
+This is the third task which is to get the first pokemons details JSON.
+
+So task get JSON equals this.
+
+Now this one is a special one.
+
+And I see a problem here.
+
+So this is get string async just like the first one should be get string async.
+
+And now you hover over this.
+
+This is the task of task of string right.
+
+You see that once you have multiple level of continue you continue and continue Again.
+
+You would have task of a task, of a task, of a task right over and over again.
+
+So before you get to the third layer, you want to unwrap it so that you always get the task that you
+
+want to do, right.
+
+The task here you want to do is to get the first Pokemon.
+
+You don't want to get a task of task of that JSON.
+
+So in order to change this to a task or string, you do unwrap.
+
+Basically it's like a layer of onion over another layer of onion, but you don't want to have that.
+
+You want to unwrap it.
+
+Now this one returns you a task of JSON, and that's what you want to do so that you can continue again,
+
+right.
+
+So here you hover again.
+
+You can see this is the task of the details JSON.
+
+And then we can have our next layer.
+
+We can say the task to get the details JSON and continue with.
+
+And this is the last step.
+
+This is where we want to output the weight and height and different information.
+
+Again we can get the result.
+
+And this result if you hover the mouse over this is the string.
+
+So what is this represents for.
+
+This is a details JSON.
+
+So now we're going to do the same thing.
+
+We're going to parse that and we're going to get the root element.
+
+Let's copy this.
+
+So this is not the result.
+
+We don't even need this.
+
+We can just do this.
+
+So root dot get property.
+
+And we want to get the name.
+
+And we can do a toString.
+
+And we can output this.
+
+Just keep it simple like this.
+
+All right.
+
+And the weight is this.
+
+And the height is this.
+
+So we're going to have name.
+
+And then we're going to have weight.
+
+And we're going to have height.
+
+So this is the last level.
+
+So the key takeaway here is that once you continue and continue again you're going to have a task of
+
+a task of something.
+
+And before you continue you unwrap it.
+
+Then when you continue this result here is what you want right.
+
+The JSON string.
+
+So if you don't unwrap it then you're going to see a problem here.
+
+This task, this result here is not actually what you want.
+
+Let's finish with a semicolon here.
+
+This result is a task of string.
+
+So this is not what you want.
+
+So you just want to unwrap this first and then you continue.
+
+And this is what you want.
+
+And let's run this and see what happens.
+
+All right, so we have the result, uh, and it shows that it's a non-blocking.
+
+Right.
+
+All of the continuous non-blocking, because this is the end of the program shows first, and then it
+
+shows the name of the first Pokemon, the weight and the height.
+
+I think the weight and height actually changed.
+
+Yet last time I thought it was 185 kilo.
+
+I thought maybe that's the last Pokemon.
+
+But anyways, let's double check that we actually grabbed the data correctly.
+
+So the first Pokemon is this.
+
+And let's get the URL here.
+
+And let's go over here and let's check.
+
+So the weight is 69.
+
+Surprisingly I think it changed.
+
+Or maybe we were looking at the last Pokemon last time.
+
+Anyways, this proves that we're pulling out the correct Pokemon over here, right?
+
+All of the information is correct.
+
+And again the key takeaway is this unwrap method.
+
+You want to unwrap it if it has multiple layers of task.
+
+That's all I want to share in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

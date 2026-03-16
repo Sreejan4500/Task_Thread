@@ -1,0 +1,124 @@
+In this video, let's talk about making a thread.
+
+Wait for a period of time and there are about three different ways to do this.
+
+There's this thread.sleep and thread spin wait and then spin wait spin until.
+
+So the first one we have been using it in our course.
+
+And this is usually used for teaching and learning purpose.
+
+Another purpose of this we actually use that in our program is to put a little pause to prevent busy
+
+checking a certain criteria.
+
+Let's open up our program right here in our web server program, we have this monitor work that needs
+
+to be done by the monitoring thread over here.
+
+Right.
+
+And in here we put a thread.sleep why we did this?
+
+Because we have an infinite loop here.
+
+And within the loop the work is to check request queue because the loop goes too fast and that could
+
+pack the CPU.
+
+We don't want to exhaust the CPU.
+
+So we put a little bit wait time over here and the sleep time over here just so that we can prevent
+
+that from happening.
+
+The second one is the spin weight.
+
+The spin weight.
+
+If you check the parameter here it says iterations.
+
+So what does it do.
+
+It says it causes a thread to wait the number of times defined by the iteration parameter.
+
+So this is basically spinning.
+
+And this is like a for loop right.
+
+So if you say I want to spin wait for ten iterations.
+
+This would be very similar to do a loop for ten times just like this.
+
+So from zero to 10 to 9 actually.
+
+So this would mean that the CPU would just spin for ten iterations.
+
+Same as this, except the spin rate is optimized for busy waiting for loop is not optimized for busy
+
+waiting.
+
+So they're slightly different but very very similar.
+
+So the difference between the spin weight and thread.sleep is huge.
+
+So if we thread sleep for 100 milliseconds, this would make the thread scheduler kick the thread out
+
+of the CPU, because this would change the state of the thread from running to wait, sleep, join,
+
+and therefore the thread scheduler will notice that oh, you state changed to sleep, then I'm going
+
+to move you out of the CPU, whereas spin wait, it keeps the thread within the CPU because it's basically
+
+just looping.
+
+So the thread scheduler is thinking that you're still very busy running.
+
+The state of the thread is running.
+
+So when you use the spin wait, you have to be very careful.
+
+Don't do it for too much, otherwise you're exhausting the CPU.
+
+You're always occupying the CPU.
+
+The thread scheduler will still kick you out because you're occupying for too long.
+
+Remembering the time slice.
+
+Factor in the thread scheduler algorithm.
+
+Another thing about this is it could potentially negatively affect the performance of your application.
+
+So you have to be careful with this.
+
+Another one that we can use is called spin weight.
+
+Dot spin until.
+
+So this is similar to spin weight.
+
+Let me move this here.
+
+So spin until takes different parameters.
+
+And you can see that it takes a function delegate.
+
+And the delegate will be executed over and over until it returns true.
+
+And there are different signatures here.
+
+The second one has a millisecond timeout, which means that if the delegate doesn't return true, it
+
+will timeout after the specified number of milliseconds.
+
+And the third one is the same thing, but with a time span.
+
+So both of these will make the CPU spin and you just have to be very careful.
+
+Don't exhaust the CPU.
+
+Okay that's everything I want to talk about in this video.
+
+I will see you in the next one.
+

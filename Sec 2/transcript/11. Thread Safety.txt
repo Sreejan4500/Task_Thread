@@ -1,0 +1,63 @@
+In this video, let's briefly talk about thread safety.
+
+We actually have been talking about thread safety all along during the synchronization section.
+
+But I just want to mention this concept because you will see that in the documentation or in the blog,
+
+people are saying that this is thread safe, that is thread unsafe.
+
+You need to know by this point what they are talking about when they say something is thread safe.
+
+So in multi threading computer programming, a function or a data struct or a class is thread safe when
+
+it can be used concurrently by multiple threads without causing race conditions, unexpected behaviors
+
+or data corruptions.
+
+So which means that within the function or the data struct or the class, proper locking mechanisms
+
+have already been used.
+
+For example, we were using a regular queue in the producer and consumer example.
+
+When we use a regular queue, there's going to be a problem, which I mentioned.
+
+So because the queue itself is not thread safe, what it means is that when multiple threads are using
+
+this instantiated variable, data within the queue can be corrupted.
+
+The behavior or the end result can be unexpected.
+
+It depends on which thread.
+
+Get to it first.
+
+Which thread get it later.
+
+And therefore you're going to see unexpected behavior.
+
+Sometimes it turns out to be wrong in one way.
+
+Sometimes it turns out to be wrong in a different way.
+
+It's really just because the class queue does not internally use any thread synchronization techniques
+
+like locks, mutex, semaphore to make the shared resource within it thread safe.
+
+That's what we call thread safety.
+
+Next time when you see a documentation it says something is thread safe.
+
+You know what it actually means.
+
+Just remember one thing.
+
+Something is thread safe.
+
+It's because it can be used within multiple threads concurrently without causing any problems.
+
+All right, that's everything I want to talk about in this video.
+
+If you have any questions, please let me know.
+
+If not, I will see you in the next one.

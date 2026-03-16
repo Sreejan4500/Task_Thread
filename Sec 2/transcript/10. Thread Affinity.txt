@@ -1,0 +1,379 @@
+In this video, let's learn about thread affinity.
+
+We have talked about thread affinity when we talk about semaphores and locks and monitor.
+
+At that time, we were saying that any lock that is acquired by a thread has to be released by the same
+
+thread that its thread affinity.
+
+Whereas semaphore doesn't have a thread affinity concept.
+
+So a thread can acquire the semaphore and another thread can release it.
+
+But thread affinity concept is not limited to thread synchronization.
+
+Any resources that are used within a thread usually have thread affinity, which means that only the
+
+thread itself can access those resources.
+
+For example, we have.
+
+This application is a windows form application for demonstrating offloading long running tasks.
+
+And we created.
+
+Remember we created two buttons to show different messages on a label.
+
+So these are the two buttons.
+
+And we're showing the message on the label.
+
+So if we go to the code behind or the CSS file, here we have the event handler.
+
+However, we created two separate threads and each thread is calling this.
+
+This has been working for our example, but if we set a breakpoint over here, if we run it in debug
+
+mode we will see some exceptions.
+
+So let's run it and you will see exactly what I mean here.
+
+So click on the message one button and just wait for three seconds I believe.
+
+Okay so now you can see the message is first message.
+
+And if I just press on F10 to continue immediately you see this cross thread operation.
+
+Not valid message here.
+
+And it says control label message accessed from a thread other than the thread it was created.
+
+See this is thread affinity, which means that the label is created within the main thread the UI thread.
+
+However, here is a function that is used within a different thread.
+
+It's a background worker thread that is triggering this, and it's the background worker thread is trying
+
+to access a resource that is created within the main thread, and that's why it's complaining.
+
+It cannot be like that.
+
+Why it was working at one time.
+
+So if I just run it without debug, it will be working.
+
+Why it's working at runtime.
+
+Actually, I'm not too sure.
+
+I have been expecting the exception even at runtime.
+
+I think my assumption at runtime is that the windows form, kind of like the framework, hides that
+
+type of exception on purpose, although I didn't find any documentation about this.
+
+So this is thread affinity problem.
+
+So in order to still access this label from a different thread, we need to use something that is called
+
+invoke by calling the invoke method on the control, which is in this case the label.
+
+It kind of synchronizes context.
+
+So what I mean by that is that we have different contexts here.
+
+We have a thread which is a different thread than the main UI thread that owns this label.
+
+We need to kind of make these two threads become one when we try to access the label from a worker thread.
+
+So that's that's what I mean by synchronization context.
+
+So we need to do something like this um LPL message dot invoke.
+
+And then here you can see that it takes an action.
+
+For that we can use a lambda expression.
+
+And within that we can move this message over alt and then use the arrow to move it and format it.
+
+So if we do it this way then there will be no problem anymore.
+
+Because if we call the delegate through the invoke method.
+
+We're basically calling the delegate within the thread that the label was created in.
+
+I set a breakpoint and if I run it now, if I click on message one and just wait for three seconds,
+
+then I'm going to do F10 and you can see that it passes through without any problems coming back in
+
+as the first message.
+
+Right.
+
+So using the invoke method is basically synchronizes the contact between the two threads.
+
+And you can see that the documentation says that I execute the specified delegate on the thread that
+
+owns the controls underlying window handle.
+
+It basically just synchronizes just like what I mentioned.
+
+Another thing I want to point out is that it's better to use something like this.
+
+So if I go to label Dot and you can see that I have this invoke require.
+
+So this is a boolean.
+
+What you can do is that you can check whether invoke is required or not.
+
+So if the invoke is required, then you can do uh, you can use the invoke method.
+
+Otherwise you don't have to.
+
+So this takes the guesswork away.
+
+You don't have to always be aware of whether the invoke method needs to be used or not.
+
+You can just do this and it will work for all the cases.
+
+If this show method is called within the UI thread, then this will be executed instead of using the
+
+invoke method.
+
+So you can do this and still it's going to work for you.
+
+No problem.
+
+I can do method one is not going to throw me any exception.
+
+I'm going to do message two and it's going to work as well after five seconds.
+
+See the change to message to.
+
+All right.
+
+So this is the example with windows form application I want to give you another example which is in
+
+ASP.Net core, Blazor.
+
+And no, it could be a slightly complicated concept, but it's going to help you to understand that
+
+the thread affinity is everywhere.
+
+So I'm going to create a Blazor web application.
+
+I'm going to say Blazor Thread Affinity and then Interactive Mode.
+
+I select the server interactive mode into your activity location.
+
+Just keep it as global or just select global if it's different and then click on create.
+
+You don't have to worry about what this means.
+
+I'm just creating a simple scenario so that I can demonstrate that to you.
+
+So this is a web application, right.
+
+And then I can go to components and go under pages.
+
+Here I can go to home.
+
+So this is the home page I want to add something to to the home page.
+
+First of all I want to add two line break.
+
+And then I'm going to create a button.
+
+So the type of the button is button.
+
+and then go to a different line.
+
+And then over here I'm going to say that the class is button and button primary.
+
+So this is from bootstrap.
+
+I'm going to just make the button look better.
+
+And then after that I'm going to react to the click event by saying add onclick.
+
+And here is a delegate.
+
+And I'm going to say display time.
+
+So the caption of the button I'm just going to say display time.
+
+Now the display time should be a delegate which needs to be created.
+
+I'm going to create a code block over here.
+
+And then I'm going to go ahead and create the display time method here.
+
+Once I do that, you can see the red line is gone.
+
+So I can go ahead and implement this display time functionality here.
+
+So what I can do is I have to display the time somewhere.
+
+And for that I'm going to declare a variable to store the current time.
+
+So I'm going to say current time.
+
+And I'm going to initialize that to empty string.
+
+And when I click on the display time button, the current time needs to be assigned Datetime.now dot
+
+toString.
+
+And that's it.
+
+So if I do it this way and run it, if I click on the display time button, nothing is happening.
+
+Well, that's because we didn't do anything here.
+
+We did have this current time, but it's not displayed anywhere.
+
+So what I can do is I can have another two line breaks.
+
+And then over here I'll just display my current time.
+
+This is going to display the current time just above the button.
+
+And then I'm going to do.
+
+Ha!
+
+Reload doesn't work for me, I know that.
+
+So I'm going to just restart the application.
+
+Coming back to this, click on the display time.
+
+So immediately you can see the time displayed right here.
+
+Right.
+
+And there's no problem with this.
+
+However, if I use a different thread for this then you're going to see problems.
+
+So let's create a different thread.
+
+I'm going to say thread.
+
+Thread equals new thread.
+
+And we need to provide a task to it.
+
+And to simplify this I'm going to just use lambda expression to have that.
+
+And we are going to say we're going to move this into it.
+
+Right.
+
+And then if I do it this way, nothing is going to happen.
+
+Actually I want to show this to you.
+
+Let me add a little bit delay Thread.sleep.
+
+We're going to sleep for half a second and let's run it again.
+
+All right.
+
+We're going to click on Display Time and see nothing is happening.
+
+Well, that's just because we're using a separate thread and the UI rendering has already finished before
+
+this line is executed.
+
+Therefore, we need to do something special here.
+
+We need to say state has changed.
+
+So this is from the base class.
+
+You can see component base.
+
+So this when I say status changed it will trigger the UI which is the web page to rerender.
+
+Right.
+
+And this will help us to display this current time or kind of refresh the current time on the page.
+
+However, at this point we're going to run into thread affinity problem.
+
+So let's restart the application.
+
+Okay.
+
+And click on Display Time.
+
+Nothing is going on.
+
+And not only that you can see that it says attempt to reconnect.
+
+So this means that something is happening.
+
+So if we go to F12 you can see all kinds of errors.
+
+So this is the developer tool in case you haven't worked with web application.
+
+Pressing on F12 will bring up this tool which is called the developer tool.
+
+And then under the console you can see the error messages.
+
+It has all kinds of errors, but it doesn't really tell you what is going on here.
+
+This is really just because we're running into the thread affinity issue.
+
+So what this issue is really is that we are trying to call this status change method, which tries to
+
+rerender the UI.
+
+However, the UI should be rerendered through the main thread.
+
+So there is this problem, the conflict.
+
+So same solution.
+
+You have to synchronize the two threads context.
+
+So in order to do that we use the same thing the invoke method.
+
+We're going to say based invoke async.
+
+And then this will also take an action Which is a delegate.
+
+So we can just call the status change method within the invoke method.
+
+And this will solve the problem, because this just kind of synchronized the two threads context as
+
+one.
+
+Run the application again, come back and click on Display Time.
+
+And now you can see that we have this new time.
+
+Now wait for a little bit and click on it again.
+
+And you can see the time refreshes.
+
+By showing you this two examples you can see that we have this thread affinity issue.
+
+And we have to pay attention that we only access the resources that are created within the thread in
+
+itself.
+
+You cannot access it from a different thread unless you use the invoke method to synchronize the different
+
+contexts.
+
+And we are going to come back to thread affinity when we talk about async and await keyword later in
+
+the course.
+
+Okay, that's everything I want to talk about in this video.
+
+If you have any questions, please let me know.
+
+If not, I will see you in the next one.

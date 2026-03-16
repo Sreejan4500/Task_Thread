@@ -1,0 +1,268 @@
+In this video, let's talk about task cancellation.
+
+Previously we have talked about threat cancellation where we have to use a shared variable, this shared
+
+variable here shared resource.
+
+We use the cancel thread Boolean variable.
+
+And then we use that inside the method that run by the thread.
+
+And if the cancel thread boolean variable is changed to true, then we're going to break out from this
+
+loop and the work is finally done.
+
+So when we use thread we have to use a shared variable.
+
+Now use task we have some options.
+
+What is recommended by Microsoft is to use a.
+
+Net built in class which is called Cancellationtokensource.
+
+So let's modify this code.
+
+First of all we're going to change the thread to use task.
+
+And then we're going to use the Cancellationtokensource to help us to cancel the task.
+
+So first of all we're going to have a task right here.
+
+So let's actually remove this.
+
+And then we're going to say task dot run.
+
+And the first parameter is the actual delegate, the work itself.
+
+And there's actually different signatures, right?
+
+Different overloads.
+
+One of them, like this one, takes a cancellation token so we can pass in a cancellation token by,
+
+first of all creating a cancellation token source.
+
+So new cancellationtoken source just like that.
+
+And then we're going to get the token out from the Cancellationtoken source and feed that to the second
+
+parameter of this Task.run.
+
+And this Task.run of course returns a task.
+
+And then here instead of use thread dot join, we're going to say task dot wait.
+
+And this is to prevent the program from exit out.
+
+Now this should still work because we're still using shared variable.
+
+Nothing wrong with using shared resource even when we work with task right?
+
+This is going to still work.
+
+Another thing I added this before I started this video.
+
+I added this line to output the date time and I made the spin weight a little bit longer.
+
+Now let's take a look at the result now.
+
+All right.
+
+Every second it outputs the current time.
+
+And if I press on C and enter you see it says user requested cancellation and iteration 14.
+
+Work is done.
+
+So shared resource still work.
+
+But what is recommended by Microsoft is to use this token.
+
+We feed the token to this task.run, but we actually didn't use it.
+
+So now let's remove this shared resource here.
+
+And here.
+
+What we're going to say is we're going to say cancellationtokensource cancel when the user presses on
+
+C and enter.
+
+And we are going to say cancel this task for me.
+
+And over here, instead of checking the cancel thread, we're going to say token dot is cancellation
+
+requested.
+
+So if it's requested then we can break out.
+
+Right.
+
+So this would work the same way as before.
+
+All right.
+
+And then it's going.
+
+So I press on C and press enter.
+
+Now it says user requested cancellation and iteration five.
+
+So when we do it this way the task status is basically run to complete I believe.
+
+So let's take a look.
+
+So we're going to upload the task status I'm going to say right line and task status is the dollar sign
+
+the beginning.
+
+And here I'm going to say task status.
+
+So if we do it this way and move this line we have to move this line after task.
+
+Dot wait.
+
+So after it finishes.
+
+So then let's run it again.
+
+Increase the font a little bit as it's going I press on C and enter.
+
+And now it says work is done and task status is run to completion.
+
+So this is a normal completion of the task.
+
+But this is just one way.
+
+Usually what it's done is to actually throw an exception.
+
+So instead of calling break here we can just throw an exception.
+
+And it's not just any exception.
+
+Microsoft recommends to throw the operation canceled exception.
+
+Of course we're using task here, so it's not going to be actually thrown to the application domain.
+
+It's going to be stored in the task.
+
+And then afterwards you can check the status.
+
+And if it's faulted if the status is faulted then you can check the exception of the task.
+
+So let's run this I'm going to press on C.
+
+And now the exception is actually thrown.
+
+Why.
+
+The exception is thrown because we called task the wait.
+
+We call the task wait.
+
+And it says user requested cancellation and iteration four.
+
+That is our message.
+
+And then it says unhandled exception aggregate exception.
+
+I think it also gives us the inner exception which is um, operation was canceled.
+
+So this is usually what's happening here.
+
+An easier way to do this is to say token dot throw if cancellation Requested.
+
+And so we can do this.
+
+And then I'm going to press C and enter.
+
+Now the same thing happened because the exception is thrown right here.
+
+You might be thinking, well this is no different from using a shared boolean variable.
+
+Well that's true.
+
+However, this is a pattern that is followed by most of the developers.
+
+So for example, previously we were calling this using an HTTP client to get the Pokemon list JSON from
+
+this URL.
+
+And if you look inside here, it has different overloads and one of them actually takes the cancellation
+
+token.
+
+So most developers implement this pattern.
+
+So if you want to cancel this task, then you can create a cancellation token, something like this.
+
+And then you can pass in that token to this method.
+
+And if for some reason you cancel it from outside for example, for the same reason, if the user requests
+
+request cancellation.
+
+Inside this particular method, it will look at the token to see whether a cancellation is requested
+
+and if it's requested, it's going to finish the execution.
+
+That's why, although using cancellation token is pretty similar as using a shared variable, I would
+
+still suggest to use the cancellation token here, because most of the developers are following the
+
+same approach when they create asynchronous method for you to use.
+
+The usually provide a cancellation parameter as one of the overloads.
+
+Another thing before I finish this video is that when you create a cancellation token, or at least
+
+the cancellation token source, you can actually provide a timeout.
+
+So for example source cancel after right here.
+
+So let's say I'm going to cancel after one second.
+
+And then I provide it over here.
+
+And then over here I'm going to say Console.WriteLine.
+
+And I'm going to just write the result out now.
+
+I provided one second timeout and I am expecting this is going to finish within one second.
+
+So I'm going to expect I'm able to see the result.
+
+So let's run this.
+
+And as you can see I'm able to see the JSON result.
+
+But if I make it pretty short let's say I'm going to make it timeout after ten milliseconds.
+
+This might cancel the getString async function before the result actually comes back from the remote
+
+endpoint.
+
+So if that happens here it's going to give me nothing.
+
+And let's run it.
+
+All right.
+
+So it gives me nothing because there is a unhandled exception which is internally a task cancellation
+
+exception.
+
+Right.
+
+So the same implementation pattern that we have seen previously that I just showed you is being used
+
+by the getString async.
+
+Okay.
+
+That's everything I want to show you in this video.
+
+If you have any questions please let me know.
+
+If not, I will see you in the next one.
+

@@ -1,0 +1,460 @@
+In this video, let's talk about exception handling in tasks.
+
+There are a few aspects regarding exception handling in tasks, and the first one is that the exceptions
+
+in tasks are actually hidden.
+
+Remember, when we talk about exceptions in thread, we were using this diagram to reflect that in thread.
+
+Each thread has its own call stack, but the feature of exceptions in threads is that the exceptions
+
+are still thrown out to the application domain, which means that the exceptions are actually bubbled
+
+up to the top, and although not to the calling thread, the application still crashes if there is a
+
+application, even when the exception is within a thread.
+
+However, in tasks, an exception in a task is completely hidden.
+
+So let's look at our code and see how that works.
+
+Let's take this Pokemon example, which we worked with previously.
+
+Now, in order to create an exception, what we can do is we can add something like one, two, three
+
+at the URL, which means that there's no such URL and this doesn't actually exist.
+
+And when we do this, the task itself actually includes an exception.
+
+Therefore we would expect an exception is thrown and the application crashes, but it doesn't actually
+
+happen.
+
+So let's run the application and see what's actually happening.
+
+As you can see it says this is the end of the program, which is output from here and within the task.
+
+It's supposed to output the first Pokemon name and the URL.
+
+It doesn't work.
+
+Why?
+
+It's because this URL doesn't actually exist.
+
+So the first task actually includes an exception.
+
+Therefore, the second task cannot actually continue.
+
+Let's close this program.
+
+And the second aspect here is that using try catch doesn't work.
+
+So what I mean is that if you try to do something like try and catch over here.
+
+Let's catch a generic exception.
+
+And let's move this inside here.
+
+And the console output the exception like this.
+
+This will not actually work either.
+
+Let's actually set a breakpoint here and see whether we can go to the catch section here.
+
+Okay.
+
+You can see that exception is still thrown but it's hidden inside the task.
+
+So this is the end of the program.
+
+However this breakpoint is never being hit.
+
+Okay that's the second point.
+
+Now let's go to the third point.
+
+Exceptions are actually stored in the task itself.
+
+So how do we know exception is actually stored.
+
+So let's actually delete the try catch.
+
+I'm going to revert the code back to before.
+
+And now let's change this.
+
+So this is task one.
+
+And then we're going to have task two.
+
+So I have two tasks.
+
+Now let's console output the status of the task.
+
+So a task class actually have a status property, which is very helpful.
+
+That is different from the thread state.
+
+So if we output this it wouldn't work.
+
+Why?
+
+Because this is too fast and the task haven't finished yet.
+
+So let's do a thread.
+
+Sleep for one second and then we output the status of both tasks and let's run the application.
+
+You can see that the status for both tasks are actually faulted, which means there is an exception
+
+in each one of those tasks.
+
+Let's close this.
+
+Now we know the status is faulted.
+
+So we know that there is an exception.
+
+So let's run it by setting a breakpoint in here.
+
+Now the exception is thrown right here.
+
+We're going to talk about this later.
+
+But let's continue for now.
+
+And it comes over here.
+
+If we hover the mouse over any of the tasks let's say the first one, you can see that the status is
+
+faulted.
+
+And there is an exception.
+
+And this exception it So shows count one, which means internally it has one exception.
+
+See, this is like an exception array because within the task there could be multiple exceptions.
+
+And for this particular one there's only one exception which is no such host is known.
+
+Name resolution error.
+
+The message is no such host is known at this particular place.
+
+So that's the first task.
+
+If you look at the second task still the status is faulted.
+
+Exception is one.
+
+And then the message is different this time internal exceptions.
+
+And then here it says no such host.
+
+This is the same stuff.
+
+So now that we know that the exceptions are within the task, we can actually look at them in order
+
+to handle them accordingly.
+
+Especially there could be multiple ones.
+
+That's why we need to iterate.
+
+And the way to do it, what we can do is we can use this code.
+
+So this is going to be task one.
+
+So if task one is faulted and if task one dot exception is not null, then we can loop through task
+
+one dot exception.
+
+Dot inner exceptions.
+
+So let's hover our mouse over the exception property.
+
+Here you can see that this is a aggregate exception.
+
+Aggregate exception which means there are multiple exceptions within it.
+
+Aggregate exception can contain multiple exceptions.
+
+That's just because one task can contain multiple exceptions.
+
+And that's why we're looping through the inner exceptions.
+
+And this inner exception is a collection of exception class or objects.
+
+Right.
+
+And then we can output each one of those messages.
+
+So if we do it this way and run this application, then we can see that no such host is known.
+
+This is the exception that is thrown out for task number one.
+
+And let's cover this point that multiple exceptions can be stored as we need to iterate them.
+
+So in this particular case, although we have two tasks continued one after another, the first task
+
+or the second task only have one exception.
+
+So in what situation?
+
+We have multiple exceptions within a task.
+
+That's when we have parallel tasks running at the same time.
+
+So let's take an example.
+
+Let's say we're going to have a array of tasks.
+
+And the first one is going to throw an exception.
+
+The second one is also.
+
+So let's do that.
+
+So the first one is we're going to use Task Run to generate the first one.
+
+And all it does is just throw an exception maybe not implemented because it doesn't make sense.
+
+We are actually implementing it by throwing an exception okay.
+
+So that's our first one.
+
+And then we continue with the second one.
+
+Let's just copy and paste.
+
+And then we're going to change the exception type.
+
+The second one is going to throw.
+
+Let's say we're going to throw an argument null exception and perhaps we give some message.
+
+I'm going to say invalid operation.
+
+And here we're going to say argument null.
+
+And the next one copy and paste.
+
+Here we probably just throw a regular exception.
+
+And then we're going to say this is a general exception.
+
+Okay.
+
+So we have our task array here.
+
+And there's three tasks in the task array.
+
+Each one of them throw exception.
+
+Now what we want to do is we want to say task dot when all when all the task finishes we want to continue
+
+with something and we can output something.
+
+We can say Console.WriteLine T new after all three tasks finished.
+
+And then at the end we're going to say Console.WriteLine.
+
+Press enter key to Who exit.
+
+So if we run it this way, you can see that it says press enter key to exit.
+
+Continue.
+
+After all three tasks finish.
+
+So this actually runs properly.
+
+There's no exceptions.
+
+Why?
+
+It's because the exceptions are actually hidden within the task.
+
+So therefore, although it actually continued there are actually three different exceptions within this
+
+T.
+
+This T represents the task that is created by the well-known method.
+
+So let's read this description of the well-known method.
+
+It says it creates a task that will complete all of the task objects in an array have completed.
+
+So this t is created by the Whenall method.
+
+And this T actually contains all of the three different exceptions.
+
+So let's use the code that we used previously.
+
+Let's loop through the inner exceptions here.
+
+We need to use a lambda expression properly and we don't need to output this anymore.
+
+So this should work.
+
+So within this continue with.
+
+Which means after all of the three tasks finishes, we check whether it's faulted or not.
+
+And if there is an exception which is aggregate exception, then we're going to loop through all of
+
+the inner exceptions.
+
+Let's see what happens this time.
+
+All right.
+
+So we can see that we have three different exceptions written out right here.
+
+Because we have this message here.
+
+It says invalid operation general exceptions.
+
+Value cannot be null.
+
+So argument null exception.
+
+So we finish looking at the fourth point which means multiple exceptions can be stored within an exception.
+
+So you can iterate them.
+
+And then you can act accordingly if that's what your requirement is.
+
+Now other than the four different points we actually have number five which is using wait or result
+
+will make the stored exception thrown.
+
+So let's take this example.
+
+And instead of continuing this we are going to delete this and come over here and I'm going to say var
+
+t equals one zero.
+
+So this is going to be the task that starts when all of the tasks in the array finishes.
+
+Now if I say t dot wait this is actually going to trigger the throwing of the exception.
+
+And let's try that by setting breakpoint here.
+
+So we come to the breakpoint and I'm going to step over this.
+
+And now you can see that we're throwing exception.
+
+And I'm just going to continue and look at the result on the screen.
+
+Unhandled exceptions aggregate exception.
+
+One or more exception occurred.
+
+And then we're going into the inner ones.
+
+We have the general exception.
+
+We have the argument null exception.
+
+And you can see that when you call await it's going to throw one exception which is the aggregate exception.
+
+And within the aggregate exception, there's inner exceptions, which contains all of the three different
+
+exceptions over here.
+
+And the same thing if you do t dot result, it's going to give you the same thing.
+
+The only thing is here there isn't a property here because when all doesn't create a task with a result.
+
+But if I say return one, this one return two, and this one return three, although the code cannot
+
+be reached here, have result and I'm going to say result equals t dot result.
+
+When you call t dot result it effectively calls the weight method.
+
+And it's going to throw exceptions again.
+
+So let's run this and you can see that same thing happens.
+
+One or more exceptions occurred.
+
+So this is the aggregate exception.
+
+That's what I said.
+
+There's only one exception thrown.
+
+And inside this we have this inner exception which contains all of these three exceptions okay.
+
+That's the fifth aspect of the exception handling in the task.
+
+Before I continue to the next one, I also want to mention that when you encounter a situation like
+
+this right over here.
+
+So if this one fails, sometimes the requirement may say that if the first one fails, then don't continue.
+
+So the continue with method has different signatures here.
+
+So let's go to continue with.
+
+And you can see that there's like 40 different signatures.
+
+And one of them takes task continuation options.
+
+So if I say task continuation options then I can go here and provide different things.
+
+And one of them just says not on faulted.
+
+So if a task is faulted then don't continue.
+
+So you can use this if you don't want to continue when there is exception thrown in the first task.
+
+And another point is about the await keyword, which we're going to cover later.
+
+But if we use the await keyword, let's It's for example, over here, instead of using task, I'm going
+
+to say await.
+
+And this is going to actually give us the result.
+
+So if I hover the mouse over you can see the return result is a string.
+
+And if we do this the exception is going to be directly thrown.
+
+So this is like the wait keyword.
+
+It's going to throw exception.
+
+But there is a difference.
+
+So let's run this.
+
+Now you can see that it throws exception.
+
+But the type of that exception is HTTP request exception.
+
+No such host is known.
+
+So this is different from the wait method.
+
+When you use the wait method or the result property, you're going to get an aggregate exception.
+
+When you use the await keyword to get the result, you only get the first exception within the aggregate
+
+exception.
+
+That's the difference.
+
+I'm going to talk about async and await keywords later, but I just want to mention this for now because
+
+this is related to exception handling.
+
+Okay, that's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.
+

@@ -1,0 +1,463 @@
+In this video, we're going to talk about the auto reset event, which is used for signaling between
+
+different threads.
+
+And the best way to describe it is to use the producer and consumer scenario, because there has to
+
+be a signaling mechanism between the producer and consumer, so that the consumer knows whenever there
+
+is product produced by the producer.
+
+So let's use the farmer and pigs analogy to learn about this signaling mechanism.
+
+Let's say we have this farm where we have the farmer, this is the feeding station, and we have some
+
+animals.
+
+In this case we have three little pigs.
+
+Whenever the farmer produces some food, the farmer will have to let the little pigs know that there's
+
+food in the feeding station.
+
+Come and consume.
+
+Come and eat.
+
+So the way to let the pigs know is to put out a sign in front of the feeding station and because the
+
+pigs are waiting so they once they see the signal, one of the pigs will go into the feeding station.
+
+And as soon as this little pig goes into the feeding station, the sign will be automatically taken
+
+away.
+
+So the other two pigs are like, okay, no sign of food.
+
+So we're going to wait for the next one.
+
+And when this one finishes, this comes out and continuous wait.
+
+And when there's more food comes, the farmer will hand out the sign again.
+
+And this time maybe this pig goes in.
+
+Maybe still this pig goes in.
+
+Maybe another pig goes in.
+
+There's not actually a pattern.
+
+One of the pigs will be able to get into the feeding station, and again, the sign will be taken away
+
+when the little pig is eating in the feeding station, the farmer still producing.
+
+So it's possible that when the pig is still consuming another portion of food is ready.
+
+So the sign is hanging out again.
+
+So this little pig goes in for example.
+
+Then the sign is automatically taken away.
+
+And if the farmer is very efficient, then there's enough food produced for the third time and the sign
+
+is hanging out again, and the third little pig goes into the feeding station, also tries to consume
+
+the food and the sign is taken away.
+
+So this is how the signaling works, right?
+
+So with this scenario, you have to understand the most important thing in this scenario, which is
+
+this signaling.
+
+It's a binary signal.
+
+It's whether on or off.
+
+When it's on it's like hanging out of the feeding station.
+
+When it's off, it's on automatically taken away.
+
+And this is one thread which is the producer thread.
+
+And these are the consumer thread.
+
+Of course it doesn't have to be just one producer, but let's use the example of one producer thread
+
+and multiple work Multiple consumer thread.
+
+And the signaling works this way is that whenever there is a product produced, the signal.
+
+Remember this is a binary signal and there's only one signal, right?
+
+The signal will be turned on, and the consumer who's waiting will be able to consume the product.
+
+And once one of the threads starts consuming the product, the sign will be turned off.
+
+And whenever there is more product produced, the sign is on again and a thread will be able to consume.
+
+So this binary sign, which is a single binary sign, has only two state signal state or non signal
+
+state, and whenever the sign is in signal state, one of the threads that are waiting will be able
+
+to proceed.
+
+If it's off, then the threads will have to be waiting.
+
+So let's jump into Visual Studio and see how this works in action.
+
+Let's go to Visual Studio and create a new project And this time we're going to call it signaling auto
+
+reset event.
+
+All right.
+
+So over here first of all what is the basic syntax of using the auto reset event.
+
+You're going to declare the auto reset event just like you declare any other variable right.
+
+Create an instance of this.
+
+There's one parameter here and you have to pay attention.
+
+This one is the initial state.
+
+So when the program starts running do you want the sign to be turned on already or do you want it to
+
+be turned off?
+
+Usually at the beginning of the program, I want it to be turned off because I don't have any food,
+
+but some programs already have food.
+
+When the the program starts running, depending on your situation, you want it to to be false or true.
+
+If you have product already to be consumed, then use true.
+
+Otherwise use false.
+
+Right?
+
+And this auto reset event also has some unmanaged resources, so it's better to use the using statement
+
+a different so that it's always disposed when the program exits.
+
+Now for the consumer thread.
+
+The consumer thread will be calling auto reset event dot.
+
+Wait.
+
+It's not called wait.
+
+It's called wait one.
+
+So I'm waiting for one of the product.
+
+You can sort of understand it this way.
+
+Wait one.
+
+The producer the producer thread will be saying, okay, I'm ready.
+
+I have some food for you or some product for you.
+
+Go and get it.
+
+So it's simple, right?
+
+So you declare the object and then you wait and you set it to send the signal.
+
+So when you say set, you turn on the signal.
+
+And once the consumer starts consuming it, the signal is automatically turned off.
+
+So that's how it works.
+
+Okay.
+
+So let's say that we're going to have a main thread and a worker thread.
+
+The main thread is responsible to provide a signal for the consumer thread to either proceed or wait.
+
+So it's like a traffic cop, right?
+
+The main threads are like a traffic cop, and the worker thread is like the train is waiting for the
+
+signal.
+
+So let's remove this and I'm going to use the auto reset event just like this.
+
+And we're going to have a user input.
+
+Right.
+
+So this is the signal that the user provides.
+
+And we're going to use console dot write to signal to uh just provide some information.
+
+So server is running type go to proceed.
+
+That's it.
+
+Now the main thread receives user input and send signals.
+
+So we're going to have a infinite loop here.
+
+And it's waiting for the user to enter something.
+
+So I'm going to say user input equals to console dot read line.
+
+And now we're going to signal the worker thread.
+
+Signal the worker thread if the input is go right.
+
+So if the user input equals let's do a two lower two lower.
+
+So if this equals go then we're going to signal the worker.
+
+So I'm going to say auto reset event set.
+
+So signals the worker thread to proceed.
+
+Now the task for that worker thread.
+
+So let's create a task.
+
+First the worker thread is going to do some work here.
+
+And again the worker thread is going to be an infinite loop waiting for the go signal.
+
+So I'm going to say console dot write line.
+
+And I'm going to say worker thread is waiting for the signal.
+
+No.
+
+Okay.
+
+And then the worker thread is going to say I'm going to come here and wait.
+
+I want to have a signal once it comes over here, the program blocks right.
+
+Blocks and waiting.
+
+So once it actually receives the signal, it's going to proceed to the next line, which is this line
+
+28.
+
+Here I'm going to say uh worker thread precedes and then I'm going to say thread.sleep for maybe two
+
+seconds.
+
+This is to simulate a processing time.
+
+Um, the worker thread proceeds to do some work which takes two seconds.
+
+And then when the user.
+
+So here's a green screen line.
+
+Maybe I'm just going to do this to remove it okay.
+
+And then when the user provides another go signal then the worker thread is going to again proceed to
+
+do some work.
+
+And after two seconds is going to come back and wait for another signal.
+
+So this is going to be an infinite thing that goes on and on.
+
+And before we run it, actually we need to start the worker thread before the while loop.
+
+So here I'm going to say start the worker worker thread.
+
+And I'm going to say worker thread equals new thread.
+
+And what kind of work does it do.
+
+It does its worker work.
+
+So just like this.
+
+And then we say worker thread start.
+
+All right.
+
+Let's go ahead and run it.
+
+Okay.
+
+So server is running.
+
+Tap go to proceed.
+
+And then it says worker thread is waiting.
+
+So our worker thread is currently waiting.
+
+It's like a train is waiting for traffic cop to say go.
+
+So I'm going to type in go as the traffic cop.
+
+And then I hit enter and then it says worker thread proceeds.
+
+Two seconds later it says worker thread is waiting for the signal again.
+
+And then you can do this.
+
+You can do go and worker thread now proceeds and now worker Workerthread is waiting for a signal again.
+
+You can see how this works, right?
+
+As soon as the worker thread says wait, it's just waiting for that binary signal to be turned on.
+
+And as soon as you turn it on by saying auto reset event set, it basically turns on the binary signal.
+
+And once it's turned on one of the worker threads, in this case, we only have one worker thread that
+
+is waiting.
+
+It will proceed, and as soon as it proceeds, the binary signal is turned off.
+
+So if we have multiple worker threads waiting for doing the work, then because it's turned off, only
+
+one worker thread can proceed.
+
+Only one worker thread can proceed.
+
+The other ones will be still waiting.
+
+Just because once one of the workers precedes, the signal is turned off again.
+
+Right.
+
+So we can try to do multiple worker threads.
+
+So for that instead of using just one thread can use a loop to create multiple worker threads, and
+
+instead of ten, I'm going to use just three worker threads here.
+
+And we are going to say thread dot thread worker thread equals new thread.
+
+And again it's going to do the same type of work.
+
+And I'm going to provide a name to the worker thread and I'm going to say worker I plus one okay.
+
+And then worker thread dot start I'm going to start all of the threads.
+
+And here in the main thread it's going to do the same thing.
+
+Just main thread provides the go signal.
+
+And in the worker thread here I want to provide more information.
+
+So I'm going to use string interpolation again.
+
+So worker.
+
+So we're going to remove this.
+
+And here I'm just going to say thread dot current thread dot name Okay.
+
+And I'm going to do the same thing for this one.
+
+So so that we know which thread is actually proceeding.
+
+So this one precedes.
+
+Okay.
+
+Add a dot at the end.
+
+Now we can run this again.
+
+And this time we have three different worker threads waiting for a signal.
+
+So this is like the three little pigs waiting for the food.
+
+Let me turn off this so that the new one can be running okay.
+
+So we have worker one waiting two waiting three waiting.
+
+And then I type go.
+
+Worker one proceeds.
+
+And then once worker one finishes it's waiting for the signal again.
+
+Right.
+
+And if I do two continuously you can see.
+
+You can see that worker two precedes worker three proceeds.
+
+And then each one of them finishes and waiting for the signal again.
+
+If I enter a go three different times Right.
+
+So worker one, two and three proceeds.
+
+You can see that there's no particular pattern.
+
+Who's going to get the get the get the food right.
+
+And of course our program in this case has flaws.
+
+Has flaws.
+
+Not all of the food can be consumed, which you can try to fix that with a queue.
+
+Because if I enter this for like more times, and if I increase the wait time over here, there could
+
+be more food produced.
+
+Um, and more signals provide.
+
+Right?
+
+So this could be set for ten times and only three of them might get the signal.
+
+Because once one of the thread precedes, the signal will be turned off no matter how many times you
+
+have set it.
+
+In order to not lose the product, you need to put the product in a queue, which is very similar to
+
+the web server scenario that we created, right?
+
+We put everything in the queue and then our monitor thread It's like the producer, right?
+
+And the other threads are like the consumer threads.
+
+And that's everything I want to cover for the auto reset event.
+
+Again, I want to emphasize that you can see that we're not using the auto reset event to protect a
+
+critical section.
+
+We're using it to signal to send signal between different threads.
+
+Right.
+
+So this is for threads interaction purpose instead of shared resources.
+
+However it's all related.
+
+It's all related.
+
+We want to, uh, send a signal for the purpose of consuming the shared resource.
+
+In this case, the shared resource is the signal.
+
+Go.
+
+Although we don't have to, uh, to get the signal from the worker thread.
+
+But most of the case, you want to get the data, which is the product.
+
+Anyway, this is everything I want to cover in this video.
+
+If any questions, please let me know If not, I will see you in the next one.

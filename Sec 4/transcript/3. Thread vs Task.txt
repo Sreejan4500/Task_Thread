@@ -1,0 +1,70 @@
+In this video let's talk about task versus threat.
+
+Those are two different classes that we have been talking about, but it's the difference between them.
+
+While a task is a promise right.
+
+Remember that this is a keyword here.
+
+We have to really pay attention.
+
+It's called promise.
+
+So if it's a promise, that means that it doesn't necessarily have to involve a threat, right.
+
+It's just a promise that we're going to get a task done sometime in the future when exactly we don't
+
+know.
+
+So that is the aspect of asynchronous programming.
+
+Whereas a threat is a basic programming unit for running something in a CPU.
+
+Now a task most of the time actually uses threat to perform the task, but it doesn't have to.
+
+Sometimes it doesn't actually use a threat to do things.
+
+Tasks are recommended by Microsoft instead of using threat.
+
+It's not because task is new and flashy.
+
+It is really because it is a higher level abstraction that provides many benefits out of the box, whereas
+
+thread is the basic programming unit.
+
+So with thread, if you want to achieve the same thing as task achieved, then you need to do everything
+
+manually so the benefits out of the box from using a task.
+
+They are the following tasks.
+
+Uses thread pool by default and with task you can return values.
+
+So returning values becomes easier.
+
+Whereas using thread you have to use a shared resource which run into different problems like synchronization
+
+problems, race conditions and easy continuation.
+
+You have seen that there is continue with method in the task class, and we're going to talk about that
+
+in this chapter.
+
+And then there is a better exception handling.
+
+You also saw the exception property in the task class.
+
+And then we have this async and wait which makes writing asynchronous code feels like writing synchronous
+
+code.
+
+And it's also easy for synchronizing context, which is to help us solve the thread affinity problems
+
+that we were facing.
+
+And we talked about that in the previous chapter.
+
+Okay.
+
+So these are everything we're going to cover in this section, and I will see you in the next video.
+

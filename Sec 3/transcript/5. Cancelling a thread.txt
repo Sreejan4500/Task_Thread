@@ -1,0 +1,161 @@
+In this video, let's talk about canceling a thread.
+
+So far, when we have a main thread and we create a worker thread within the main thread, then the
+
+worker thread becomes independent from the main thread.
+
+The main thread can continue to execute and it doesn't know the lifespan of worker thread.
+
+However, in the scenarios, for example, a user is using the application and the main thread creates
+
+a worker thread in order to pull some information from a remote server.
+
+For example, we have a remote database, but for some reason the data doesn't come back in a long time
+
+and the user is impatient and wants to cancel this work here because although the main thread is not
+
+being blocked, the user can still continue using the main thread.
+
+It's not like it's frozen.
+
+However, he or she is still waiting for the result from the worker thread.
+
+So if the user wants to cancel this process, then he or she needs to be able to do that.
+
+That's why we need the ability of canceling a worker thread.
+
+So let's jump into Visual Studio and see how that works.
+
+Let's remove the previous code.
+
+We can have an example where we allow the user to cancel a thread.
+
+And first of all, we can create a thread again thread class, declare a new worker thread.
+
+And here we can just call it work as before and then can kickstart the thread.
+
+Now let's define what kind of work worker thread does.
+
+Of course it's going to be really simple, but for this case we want to demonstrate a long running task
+
+and we want it to split.
+
+So we're going to have a for loop and we want it to spin.
+
+Let's say for maybe 100,000 iterations.
+
+And inside it we want to actually we don't want to use thread sleep.
+
+We might just want it to use the spin weight.
+
+So we don't want to use the CPU and we want to spin wait for 300,000 iterations like that.
+
+And at the end we can say Console.WriteLine.
+
+Work is done.
+
+Of course, at the beginning we can say something like started doing the work, and then we can wait
+
+for the thread to finish in the main thread.
+
+And also here we can have a read line.
+
+We exit out the application and if we run this without any cancellation mechanism, we're going to wait
+
+a long time before it actually finishes.
+
+So the person who's using the application knows that although it's not frozen, he or she wants to exit
+
+out from this.
+
+He doesn't want to wait anymore.
+
+So how do we do that?
+
+We can create a shared again a shared variable, and we're going to call it cancel thread or any name
+
+you want to give it.
+
+And at the beginning you want to assign false to it.
+
+And then when we're spinning inside we're doing the work.
+
+Then we want to check the value.
+
+So if cancel thread is true then we can just simply break from it.
+
+And of course, here you can output some information and say user requested cancellation at iteration.
+
+So here we can use the string interpolation and add the iteration I be working.
+
+So of course here we want to output some information to the console and say that two cancel press letter
+
+C and now define an input.
+
+And we want to read from the console.
+
+And then we check if input equals c what are we going to do.
+
+We are going to set the cancel thread variable to true.
+
+So that way the thread is going to see that the cancel thread is changed from false to true.
+
+And it's actually going to break out from this long running loop.
+
+So let's give it a try and see whether this works or not okay so started doing the work, and we're
+
+waiting and waiting.
+
+And when we get impatient, we press on.
+
+See and enter.
+
+Now it says user requested cancellation at iteration 719 and work is done now, right?
+
+The work is still done at the end because we recently broke out from.
+
+But if you don't want this to happen, then you need to do some work.
+
+Maybe only when the cancel variable is false do we do this, put this work is done.
+
+Or maybe you can provide a different message.
+
+So this is a very basic way to provide a cancellation functionality for multi-threaded applications.
+
+However, we do have a class or a group of classes that can be used for cancellation purposes.
+
+You can see that cancellation in managed threads.
+
+This is from learned Microsoft.com, and you can see that it's part of dotnet framework.
+
+So it has different functionalities comparing with our simple solution.
+
+But I wanted to provide this simple solution because then you know how the class is implemented, right?
+
+The cancellation, I think it's called Cancellationtokensource.
+
+So you basically create a Cancellationtokensource and this is what you pass to the threads.
+
+Here it's using thread pool.
+
+We're going to talk about thread pool later.
+
+And it's passing the token cancellation token into the threads.
+
+And then it's within the iteration it's going to check is cancellation requested property of the token.
+
+And if it's true then it's going to break over here.
+
+So this is the same concept.
+
+But we are going to just use this simple scenario, simple solution for this lecture.
+
+Because we are going to talk about cancellation tokens because when we talk about tasks later in our
+
+course.
+
+So this is all I want to talk about in this video.
+
+Any questions please let me know.
+
+If not, I will see you in the next one.

@@ -1,0 +1,266 @@
+In this video let's talk about task continuation.
+
+And we're specifically going to talk about the wait wait all and the result property.
+
+If task is a promise of getting the task done sometimes in the future, then it is very logical to ask
+
+the next question when is it going to be done?
+
+Right.
+
+Because after it's done, we need to perform some other tasks.
+
+And one of the first ways to do that is to use wait or wait.
+
+All these are very similar to the thread join.
+
+So basically it will just make you block until the task finished and it will make the program synchronous
+
+instead of asynchronous.
+
+But sometimes we need it just like the thread join.
+
+So let's talk about the wait method first.
+
+Let's jump into Visual Studio and create a very simple task.
+
+We're going to summarize from 1 to 100 with a 100 milliseconds delay.
+
+So we need to do that in task.
+
+Instead of thread we're going to declare a summary variable.
+
+And then we're going to create a new task.
+
+And we're going to say task Taskrun.
+
+And within this we're going to loop from, let's say from 1 to 100, and then we're going to add them
+
+all together.
+
+So sum equals sum plus I.
+
+And we can add a delay in here.
+
+Instead of using thread dot sleep we're going to use a different thing which is called task delay.
+
+Since we're using task let's use task dot delay instead of thread.sleep.
+
+So now we want to get the result.
+
+How do we do it?
+
+We know that if it's a thread then we can do thread join.
+
+But this is task.
+
+So what we can do is to use task await.
+
+So this is very similar to thread join.
+
+And then at the end we can output the result.
+
+I'm going to say right line.
+
+And then I'm going to say the result is.
+
+And we provide the number here at the very end we're going to read line or read key.
+
+Doesn't really matter.
+
+And we run it.
+
+This is going to be getting the result correctly.
+
+So you can see that the weight method is intuitive.
+
+You just weight blocking everything.
+
+So this actually block the calling thread which is the main thread until this task finishes and then
+
+we can get the result.
+
+So what does wait all wait all you cannot do task dot wait all.
+
+Because what does it all mean here.
+
+So what you can do is to use the class and then it has a weight all.
+
+And now here you can say task one.
+
+Task two.
+
+If you have multiple tasks like that, or you can have a task array that is passed in.
+
+So you can see that here you can have a task array.
+
+So basically this is helping you to wait until all of them finishes.
+
+Then you can continue.
+
+It's going to block and wait for all of the tasks to finish.
+
+That's what it is.
+
+Now we're going to continue to talk about the result.
+
+So we have been using the result but we don't know what it actually does.
+
+So if I say task result here of course this doesn't give me that I can do is I can return the summary
+
+here.
+
+And now you can see that I have the result.
+
+And this result is the summary.
+
+So I can use this inside here.
+
+And that way this doesn't have to be a shared variable.
+
+This can be declared inside.
+
+And if I do it I will get the same result as before 5050.
+
+So what is this result.
+
+What does it do?
+
+Whenever you call test result, this is the same thing as test weight.
+
+You get the result but you are blocked here.
+
+So if I do something like this, if I say var result equals task dot result, this line is blocking.
+
+It's blocking the current thread until the task finished.
+
+This is the feature of the result.
+
+You have to know that whenever you use that, you have to know that you're actually blocking.
+
+So then you may ask what is the point In order to get the result, I have to block the calling thread.
+
+Then it's no longer asynchronous.
+
+It's synchronous.
+
+Well, you are right.
+
+And that's why we have the method continue with.
+
+And we are going to talk about continue with in the next video.
+
+So here I'm going to delete the line.
+
+And this is the code that's going to go into the source code file.
+
+Before we finish this video I just want to give you a more like a real world example of using tasks
+
+for getting information online.
+
+So there is this test public API where you can use to get Pokemon informations.
+
+So if you go online let's let's actually try it right now.
+
+Let's go to this new browser window and then let's go to go to this URL.
+
+You can get a list of pokemons.
+
+And you can see there's more than 1000 pokemons.
+
+And uh, each page has 20 pokemons.
+
+And you can see that this is the first 20 Pokemon.
+
+This is the last one name is radical radical and the ID is 20.
+
+So you can get detailed information from this URL.
+
+Detailed information from for eradicate.
+
+And there's abilities and everything I think there is if you scroll all the way down there's weight
+
+185 I don't know the unit of measure maybe kilo.
+
+So this is the URL.
+
+And we want to use this URL to get some information.
+
+And the result is going to be a string.
+
+And this is a JSON string.
+
+So let's do something with tasks.
+
+First of all in order to get information we need to declare a client and we can use the HTTP client.
+
+And then we are going to get a task from the client.
+
+Because if you say get string async this, you can see that this is going to return you a task of string.
+
+So here the URL is going to be just the URL that I provided.
+
+And because this is a task, it's going to execute this asynchronously.
+
+So you have to wait till it finish to get the result.
+
+So what is the result.
+
+So when we say result is task dot result.
+
+When I do this it's going to block right here until the get string async finish.
+
+And we're going to get the result like this.
+
+And we can output it to the window.
+
+So console dot write line.
+
+And let's run it.
+
+And you see you get the information like this.
+
+But this is not right I don't want to get the detailed information.
+
+I just want to get the list of Pokemon.
+
+So let's do it again okay.
+
+So this is the list of Pokemon.
+
+And if you want to analyze it, just copy this and go to Google and just say search JSON viewer.
+
+I usually just select the first one.
+
+You can use anything and just paste it in here and go to viewer.
+
+And then you get the format of this JSON.
+
+You can see that it's called next page previous page URL.
+
+Currently this is the first page.
+
+That's why it's null.
+
+And then you get all of the 20 pokemons information.
+
+And that's all.
+
+You will find that a lot of API's in.
+
+Net framework offer you the asynchronous version as well as the synchronous version.
+
+So it's good to use asynchronous version, because using asynchronous version means that we're using
+
+a thread from a thread pool, and because this is I o bound operation, when it is blocking there,
+
+the thread is going to return back to.
+
+The thread pool is for other purposes.
+
+So it's good to follow this practice so that the thread pool threads can be used more efficiently.
+
+Okay, that's everything I want to cover in this video.
+
+If any questions, let me know If not, I'll see you in the next one.
+

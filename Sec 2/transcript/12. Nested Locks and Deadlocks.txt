@@ -1,0 +1,195 @@
+In this video, let's talk about deadlocks.
+
+Deadlock in a situation usually happens within threads that have nested locks.
+
+So basically let's take two thread example.
+
+Let's say this is the first thread and this is the second thread.
+
+So when both threads are trying to wait for each other.
+
+So thread one waits for thread two.
+
+Thread two waits for thread one.
+
+Then they get into a deadlock situation.
+
+No one can proceed.
+
+Let's jump into Visual Studio and see an example.
+
+Let's close the current solution and try to create a new one.
+
+Let's create a console application and let's call this deadlock example and click on the create button.
+
+Now let's imagine we are working with a e-commerce system.
+
+So where we have users and we have orders.
+
+So depending on which functionality you're looking at sometimes you're managing users, sometimes you're
+
+managing orders.
+
+So let's say we could be managing users.
+
+And another one is managing orders.
+
+And managing users could mean that we're managing a order within a user.
+
+Right.
+
+So this would go from user to order.
+
+And managing a order could sometimes mean that we're managing a user within the order.
+
+So the other way and because of this, we might run into a complicated resource management when we want
+
+to get consistent behaviors by using multi-threading programming.
+
+So in that case one thread.
+
+So for example thread one wants to lock the user object first, lock user first and then lock the order.
+
+Now thread threat to want to lock the order object first and then lock the user.
+
+So let's have some code going.
+
+So we might have a function that is called manage uh order or manage user first for example.
+
+And in here we're going to have a lock.
+
+So here because we're managing users we we lock the user lock first.
+
+We don't have the user lock declared yet.
+
+But let's continue writing so that we don't break our flow of thoughts.
+
+We lock the user lock first and then let's just Console.WriteLine.
+
+And we say user management acquired the user lock and do a Thread.sleep.
+
+And let's sleep for let's say a second.
+
+So this is to simulate the work takes some time.
+
+And then Internally.
+
+Once it finishes doing something with the user, it wants to continue to do something with the order.
+
+So it needs to order object.
+
+So I'm going to do a order log.
+
+And here I'm going to just console dot write line.
+
+And I'm going to say user management acquired the typo.
+
+Here.
+
+Let me remove one of the CS.
+
+So acquired order lock right.
+
+And now we're going to have the reverse which is the order.
+
+Let me just copy and paste and just change a few words.
+
+So instead of manage user we're going to change this to manage order.
+
+And first it wants to acquire order log first right.
+
+And then here I'm going to say Order management acquired the order log.
+
+And now inside it once we process the order we want to process the user within the log.
+
+So we log the user.
+
+Secondly And here we're saying the order management acquired the user log.
+
+And let's say that the user managed user this managed user functionality takes longer time.
+
+Let's say two seconds.
+
+And manage order takes a shorter time, which is one second.
+
+And let's just declare those logs.
+
+So object user log new object and order log equals new object.
+
+All right.
+
+Now let's create a thread.
+
+So we'll have a new thread.
+
+And what this new thread does is to manage order because I'm going to call manage user within the main
+
+thread I'm calling this function directly within the main thread.
+
+Now two threads are going.
+
+One is the worker thread, the other one is the main thread.
+
+And I'm going to say thread dot join.
+
+So let's wait till it finish and let's do a console dot read line.
+
+And then here we're going to say console dot write line.
+
+The program finished.
+
+And now let's run the application.
+
+Okay.
+
+So now you see those two lines but you don't see program finished.
+
+Press any key to exit.
+
+Why is that.
+
+Well let's look at these two lines.
+
+User management acquired the user log.
+
+Order management acquired the order log, but never actually print the other line within the nested
+
+log in each thread.
+
+It doesn't do it.
+
+Why is that?
+
+Well, you can see that manage user is called within the main thread and it takes two seconds and manage
+
+order takes one second to complete.
+
+So when the start is called and when this manage user function is called, what happened was that each
+
+order acquired its own log right.
+
+So manage user acquired the user log and manage order function acquired the order log, but when the
+
+manage order tried to proceed to acquire the user log, it knows that it's being blocked by the user
+
+management, right?
+
+Because it's still holding this, whereas the user management is waiting for the order log to be released
+
+in order to continue it.
+
+But at the same time the order management is being blocked by the user management.
+
+Therefore, no one can release the log and no one can continue.
+
+So in this type of scenario, when we have a hierarchy and we have a complex resource sharing, we need
+
+to try our best to avoid having such a strategy of nested logs, because nested log can potentially
+
+cause deadlocks.
+
+Okay, that's everything I want to cover in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

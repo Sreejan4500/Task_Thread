@@ -1,0 +1,374 @@
+Visual Studio has some wonderful tools for debugging multi threads.
+
+In this video, let's try to see how to use Visual Studio to debug a program written with multiple threads.
+
+So let's jump into Visual Studio.
+
+I have written this beforehand.
+
+So we have a for loop.
+
+And we're creating ten different threads.
+
+And the work that each thread needs to perform is pretty simple.
+
+First we output thread started working and then the thread has to sleep for 10s and after that it basically
+
+said the thread finished working.
+
+So if we were to run this in debug mode, let's run it and you will see all of the threads started working.
+
+But in order to actually see what is actually working, you can pause it or you can set a breakpoint
+
+at a certain place.
+
+One important concept that you need to understand is that once I pause the program, all of the threads
+
+are being paused.
+
+It's not like currently this function is being performed by one of the threads.
+
+It's not like only that threads is being parsed.
+
+All of the threads are being parsed right now in debug mode, and there are a few things you can utilize.
+
+One of them is this threads window.
+
+And then there is this parallel syntax.
+
+These are only used in debugging multithreaded programming.
+
+If I close them first.
+
+If I close them how do you find them?
+
+First of all, you go to the debug menu and then go to the windows.
+
+And here you can see different things.
+
+And hiding in here you can see parallel stacks.
+
+So click on that and you have this parallel stacks display on the right hand side.
+
+And then you go back over here.
+
+You can also see the threads window over here.
+
+So let's take a look at the threads window.
+
+First let's close this parallel stack.
+
+And you can see that we have a bunch of threads way more than ten.
+
+Some of them have names and some of them don't.
+
+The no name ones are actually the one that we created ourselves.
+
+And then we have the system threads.
+
+This is for facilitate the program to run.
+
+So they have to be there.
+
+If we don't have to, then we don't need to focus on the system threads.
+
+We can just focus on the threads that we use ourselves.
+
+And let's say you only want to focus on a 1 or 2 different threads.
+
+You don't want to see all of the threads in the window.
+
+One way you can do it, you can see this flag thing on the left.
+
+Let's say I want to see these three different threads and then you come over here, you say show flagged
+
+threads only now it takes actually a second to react.
+
+Now you can see that the window is only displaying these three different threads.
+
+If I want to recover I can just click this button again.
+
+Now all of the threads will be displayed.
+
+I can then flag it Another way to flag an UN flag is to right click on here.
+
+And you can just do flag and right click on here.
+
+You can say UN flag authorize.
+
+So once you locate the thread that you are interested in you want to debug here at the location here
+
+you can see every one of the thread has similar call stack right from main to the function.
+
+And if I go to the main thread.
+
+So let's make this window.
+
+Let's hide the call stack for now.
+
+So you can see that we have the ten threads going.
+
+And then we have this work to do for each thread.
+
+I also called the oh I stopped it.
+
+Okay let's do it again.
+
+But before we do it you can pay attention here.
+
+We are also calling the work function in the main thread.
+
+So let's run it again.
+
+And then let's pause.
+
+So if I go to the main thread here and open up the call stack, you can see starts from line eight.
+
+Right.
+
+And then it goes into the work function here.
+
+And currently it's at Thread.sleep.
+
+So you can see the call stack of the main thread.
+
+Right.
+
+So this is just a demo application.
+
+If you have complicated thread programming algorithm then you will be able to see the entire stack under
+
+here.
+
+You see this arrow here it's pointing to the main thread.
+
+Right.
+
+And at this moment if I come to the immediate window here and if I say thread dot current thread dot
+
+uh managed thread id and I hit enter, you can see one.
+
+So this is the managed ID of the main thread.
+
+And if I want to switch to this particular thread I just double click on this.
+
+And then I go to the immediate window again.
+
+And then check the managed thread id, I get 18 and this corresponds to the manage id.
+
+So this is what I'm saying.
+
+All of the threads are being paused.
+
+If you want to check a particular thread, just double click on it.
+
+And right now this window is basically showing everything within the current thread.
+
+Well of course you're paying pay attention to the work that the thread performs.
+
+And another thing that you may want to see is what?
+
+You can't see it.
+
+But here is a um marker and they call it thread marker.
+
+So this is an icon that is similar to this.
+
+And when when you hover your mouse over it, it will show you the thread information including the name
+
+and everything.
+
+So this is not so important when you know how to use the threads window.
+
+Okay.
+
+Another thing I want to show you is the parallel stack.
+
+So let me close this threads window and let's go to debug and then let's go to windows and then let's
+
+go to parallel stacks.
+
+Okay.
+
+Parallel stacks.
+
+Now you have the main thread.
+
+And then you have ten different threads that we created.
+
+And then you have the seven external threads with this view.
+
+They are grouped together.
+
+So these are the ten worker threads that we created.
+
+And this is the main thread that the system created.
+
+And these are the external threads that belong to the system.
+
+And help us to help our program to run.
+
+Mouse over one of the group.
+
+You can see all of the threads, and then you can also switch between threads like this.
+
+You double click and all of them.
+
+You can see that there are no names.
+
+So if you add a name to the threads, let's say over here you do thread dot name equals thread eye.
+
+Let's go over here.
+
+Let's say thread dot current thread dot name.
+
+Let's say this is the master thread we gave all the threads our name.
+
+This one is the main thread.
+
+Then if we run in debug mode and if we pause, or we set a breakpoint breakpoint here and let's run
+
+it again.
+
+Let's run it.
+
+Set a breakpoint here.
+
+And this breakpoint is being hit.
+
+And now you can see the name of the thread.
+
+It says Master thread here.
+
+And then not all of the threads are being created yet because we paused the program.
+
+Right.
+
+But you can see the thread name over here.
+
+And if we look at our threads window, let's again bring up the threads window.
+
+Now the name is being displayed right here.
+
+So we have the master thread.
+
+And we have all of the ten threads as well.
+
+So let's close the threads window again.
+
+And with the parallel stack you can see the threads that are waiting for locks.
+
+So let's switch to a different solution that we worked on previously.
+
+The deadlock is simple.
+
+So the deadlock, basically one thread is waiting for the other and another one is also waiting for
+
+the previous one.
+
+So if we run it and then we pause now you can immediately see red flags.
+
+Basically tells us it's deadlocked already and it's basically telling telling us two or more threads
+
+have deadlocked.
+
+Inspect threads that have deadlock and it gives you information here.
+
+It says this main thread is waiting on lock owned by thread 26568.
+
+And whereas thread 26568 right here 26568.
+
+Right.
+
+The main thread ID here is 15772.
+
+This is not the managed ID.
+
+I think this is the system ID and then here it says the waiting on lock owned by the thread 15772 which
+
+is the main thread.
+
+So you can see the deadlock information or just locking information in general in the parallel stacks.
+
+If we open up the threads window here again.
+
+So let's go to debug and then threads where it threads.
+
+Go to window and then go to threads right over here.
+
+Now you can't see the lock information unless you open up the.
+
+Let's say we open up the main thread.
+
+And then you can see this information waiting on lock owned by thread whatever.
+
+And then you can see the ID here.
+
+And it says thread 26568.
+
+Then you locate 26568.
+
+You can enter that from here to 6568.
+
+Then it helps you to filter and see the thread that you're looking for.
+
+And then you open up this location thing.
+
+You can see the stack and then you can see the that lock information in the threads window as well.
+
+Before we finish this video, let's, uh cover One of the concept of freeze and stall is try to close
+
+this solution and go back to the other one that we created for this lesson before we run it.
+
+Let's pay attention.
+
+We have three worker threads, and then one main thread is calling the work function.
+
+And let's run debug mode.
+
+And let's pause now in the threads window here, let's say I want to freeze the main thread so you can
+
+see that we have this button here freeze thread.
+
+So I can freeze one thread like this.
+
+And then I can click on the stop thread to make it thaw.
+
+So when I freeze it, it means that in the debugger window I forces threads to pause.
+
+So whether you have the sleep or not, it just doesn't run anymore.
+
+So for example, if I run continue and then I go to the window here and you can see that uh, thread
+
+zero finished, one finished.
+
+So 0 to 9 all finished, but the master thread is our thread here, so you can see that we have our
+
+name of the main thread named as Master Thread.
+
+You don't see the master thread finished, so let's come back and click on this pause button again.
+
+Now you don't see the other threads anymore in the parallel stacks, you don't see the other threads
+
+except the three external threads.
+
+Those are system threads, but we do see the master thread.
+
+Why is it still here?
+
+Because we froze it.
+
+Now if I make it stall and then I click on continue.
+
+Now we come back here, you can see finally the master thread finished working.
+
+So this way you can place a pause on any thread that you want to pause and you interfere the sequence
+
+of the executing of the threads.
+
+Okay, this is how you can debug application with multi threads in Visual Studio.
+
+If you have any questions, please let me know if not I will see you in the next one.
+
+
+Play
