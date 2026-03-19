@@ -1,0 +1,131 @@
+In this video, let's talk about what is a way to do.
+
+Exactly.
+
+So we have seen that a wait keyword is like a magic.
+
+A lot of things happens after we use the await keyword.
+
+Of course the async and await are a pair, and when the compiler sees the async await, it does something
+
+magical.
+
+So in this video we're going to talk about what exactly the await keyword does when we use it.
+
+So when the compiler sees the async await keyword on a function or method, it's going to actually create
+
+a state machine.
+
+A state machine is a special class that can be created to navigate between different states.
+
+So let's take a look at an example.
+
+This code we have used in one of the previous videos to talk about the continuation by using the await
+
+keyword.
+
+So when we talk about the returning values and the await, we were using this code and we have two await.
+
+The first await get the Pokemon list JSON.
+
+The second await, get the first Pokemon JSON.
+
+And when the compiler sees this code, it actually breaks this code into three different sections.
+
+Why does it break this code into three different sections?
+
+Not including the first line?
+
+This whole thing here, it belongs to the main method.
+
+Remember we talk about this.
+
+We don't have this main method in this new form of console application.
+
+But in the old console application we have the main method.
+
+You have seen that.
+
+So that means the main method now becomes the async method.
+
+When the compiler sees that method, it tries to break it down.
+
+How does it break it down.
+
+So it breaks it down in this case into three different states.
+
+This is the first state.
+
+This is the second state, and the rest is the third state.
+
+So it basically just sees the await keyword.
+
+And everything above, including this line, is going to be considered part of the first state.
+
+And then this is the second state and the rest is the third state.
+
+So the state machine here is used to first of all separate this into three different states.
+
+And then the state machine class also has different fields to remember the current state as well as
+
+the current variables.
+
+What are the variables here?
+
+So we have the variables.
+
+Variables all of these variables.
+
+It will be moved to the state machine.
+
+And the state machine will be able to remember what's the current state and what are the variable values.
+
+And then as soon as the first async method finishes, it's going to use the move next method to move
+
+to the next state and execute the next state.
+
+And so on and so forth.
+
+So with the state collection as well as the current variables, it's able to execute all of the code
+
+by the help of the state machine while maintaining the state of the machine.
+
+Another thing that is very, very important is that every time it runs to the await line, it captures
+
+the synchronization context.
+
+So for example here it captures synchronization context.
+
+Here it captures synchronization context.
+
+And then when the code continues basically means that when it moves to the next state, it's going to
+
+use the captured synchronization context to run this code here, for example, it will capture this
+
+synchronization context of this line.
+
+And then as soon as the asynchronous function finishes it's going to go to the next state.
+
+But it's going to go to the next state with the captured synchronization context, which is captured
+
+here.
+
+And that's why we don't have the synchronization context problems, which I showed in the previous video.
+
+When we use asynchronous wait, we don't have to worry about using the invoke method anymore because
+
+the state machine class tries to apply the captured synchronization context to run the continuation.
+
+So this is what I want to talk about in this video.
+
+So what is happening behind the await is the state machine.
+
+The compiler creates a state machine and breaks everything into different parts and run them right.
+
+These different parts represents the different states.
+
+Okay, that's everything I want to talk about in this video.
+
+If any questions, please let me know.
+
+If not.

@@ -1,0 +1,247 @@
+In this video, let's talk about what happens behind the scenes of parallel loops.
+
+And there are four different points I want to cover.
+
+The first one is data partition.
+
+So what do I mean by that?
+
+Let's jump into the code in Visual Studio.
+
+So this is the code that we wrote previously.
+
+We're simply just looping through this.
+
+And then we allow the parallel library to help us to create threads which we don't even see the threads
+
+here.
+
+Right.
+
+The only thing that we can have a taste of parallelism is that we're using the log to protect shared
+
+data, but we have been comparing the parallel loop for with the regular sequential for.
+
+And when we do that you might think, okay, Microsoft is just using one thread for each element in
+
+the array.
+
+For example, take this.
+
+I'm creating a thread to work with.
+
+Number one, creating another thread to work with number two.
+
+Therefore, for the whole array I'm going to create ten threads to work with the array, but that's
+
+not exactly what the parallel for.
+
+Do.
+
+In order to understand that, let's add a Console.WriteLine.
+
+Here we are going to output the current.
+
+You can say the current task id or current thread id, right?
+
+Actually, a task also has an ID.
+
+So let's say our current task id here.
+
+And then we can say task dot.
+
+So this is similar to say thread dot current thread dot manage thread ID.
+
+But we can say task dot task ID and let's run this.
+
+We can run this for a few times then see each time the results could be different.
+
+Let's run it.
+
+All right.
+
+You can see that current task ID is 1111234567.
+
+So how many threads is it using.
+
+It's using seven different threads for looping through this array here.
+
+Definitely not ten different threads.
+
+And let's try again.
+
+This time the number may change.
+
+And now you can see that it's using eight threads eight different threads.
+
+Anyways, you can see that it's definitely not that we are looping through an array with ten different
+
+elements.
+
+Therefore it creates ten different threads.
+
+Let's say that this array is from enumerable dot range.
+
+Let's say we're looking from 0 to 100, and let's try to add them together and we get the summary pretty
+
+quickly 4950.
+
+And as you can see, this time it's pretty clear that the number of threads that are being used is definitely
+
+way less, way less than the number.
+
+There are only 13.
+
+So that's the first thing I want to mention is the data partition.
+
+Data partition means that the parallel loops is working with a collection of data, but instead of creating
+
+one thread at a time, it needs to determine how many threads that it needs to be created.
+
+So therefore it needs to partition the data into different parts.
+
+It's the same concept that we talk about divide and conquer right?
+
+So the first step it does is that it tries to divide the collection into different chunks, and how
+
+many it needs to divide into different chunks.
+
+The default it depends on the number of CPU cores, the logical CPU processors.
+
+But it's way more complicated than that.
+
+It could be depends on different factors.
+
+You just have to know that Microsoft tries to make the best decision to determine how many threads should
+
+be used here.
+
+Depends on that number it partition or let's say divide the collection, which in this case is an array
+
+if into different chunks.
+
+And then within that chunk it does a loop and use the threads to the summarization.
+
+Or do whatever you put here use one thread for that chunk and then use another thread for another chunk.
+
+In the previous example, we were summarizing from 0 to 100 and it used 13 different threads, which
+
+means it divided this array into 13 different chunks.
+
+And then it used 13 different threads to work on the summarization here.
+
+That's the first thing I want to talk about.
+
+Secondly, we want to talk about the mostly right.
+
+It mostly uses thread pool thread.
+
+So for that we are actually going to output something else.
+
+Let's say we add it here.
+
+Is it is it a thread pool thread.
+
+And here we can say thread dot current thread dot is thread pool thread.
+
+Okay let's run this.
+
+And you can see it's mostly true right?
+
+Mostly true.
+
+There's one that is false.
+
+I'm not too sure why there could be one that is false.
+
+Again you have to trust Microsoft here, that it tries to use the best practice to determine what thread
+
+pool thread to use.
+
+Do we need to create a new one, or do we need to reuse a current thread pool thread?
+
+So that's the second point I want to talk about.
+
+The third one is that, well, I already talked about this for both data partition and whether to use
+
+thread pool thread or not.
+
+Microsoft here in parallel loops it tries to make the best decision for developers.
+
+Of course, if you really want to control everything by yourself, you should resort back to using thread
+
+instead of task, and then you can decide whether you want to use thread pool or not.
+
+You can decide how to partition the data just like here in our original programming.
+
+Here we decided arbitrarily divide the array into four different chunks.
+
+Number of threads four and then manually divide it into four different chunks and we are just doing
+
+the work ourselves, whether this is the correct way to do it.
+
+You need to determine based on your project.
+
+If you want to have total control, use thread and manually use thread pool.
+
+If you need to use thread pool or even just create your own thread pool with semaphores for example.
+
+Otherwise, you can just use parallel loops and trust that Microsoft makes the best decision for you.
+
+And then later, if you find it's not satisfactory, then you resort back to use your own threads or
+
+your own tasks.
+
+Okay, that's the third point.
+
+And the fourth point.
+
+Blocking call.
+
+So what do I mean by blocking call?
+
+This line of code here.
+
+Well, if you consider this as one line of code or definitely it's not, but it's, you know, it's
+
+a block of code.
+
+Whether you're using parallel for or parallel for each or parallel invoke, this is a blocking call,
+
+right?
+
+Parallel for is a blocking call parallel For each is a blocking call and parallel invoke blocking call.
+
+So when you wrote things like this, this line that is after the parallel for loops is going to be executed
+
+when all of the threads here finish its work, when all of them finished work, and then this line will
+
+be executed.
+
+You have to know this.
+
+And later when we talk about exceptions this is important point.
+
+So you can do a try.
+
+Catch over this and then you can continue afterwards.
+
+So you don't have to worry about okay this is going to run asynchronously.
+
+No it's not going to run asynchronously.
+
+And this is going to run synchronously.
+
+It's called is only going to be executed after everything finishes.
+
+All of the threads that is created inside.
+
+We don't know how many threads created inside, but all of them have to finish before this line can
+
+be executed.
+
+Okay, that's everything I want to cover in this video.
+
+You have any questions?
+
+Please let me know if not, I will see you in the next one.

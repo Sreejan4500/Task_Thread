@@ -1,0 +1,304 @@
+In this video, let's try to understand the basic syntax of the async and await keywords.
+
+So like I showed in the previous video, usually when you use async and await keyword and it's used
+
+within a method or function.
+
+So in this first example we're showing that using this async keyword and the keyword in a method.
+
+And you may ask, well this is not a method.
+
+This is a function because it has a task return type.
+
+Yes it does, but it also doesn't.
+
+You see, this task doesn't have a type within it.
+
+It's not a generic task where it returns something.
+
+And when we move on to the next example, you will know exactly what I'm trying to say here.
+
+You use async and then task is the return type of the function.
+
+But here it's actually a method.
+
+And then we're going to go to the key part here there is an inner task here the sum task.
+
+And we're awaiting that task to finish everything after the await keyword is a continuation.
+
+You just have to understand in this example that async keyword enables developers to use the await keyword.
+
+Second thing you need to understand is that you use a wait keyword in front of a task.
+
+The third thing you need to understand is that everything after the await keyword is the continuation.
+
+And the fourth thing you need to understand that if this method doesn't actually return anything, then
+
+the type of this method is a task.
+
+Okay, so let's jump into Visual Studio and let's understand this.
+
+All right I'm using a traditional console application.
+
+So we have a program class.
+
+And we have a main method here.
+
+And the main method has arguments.
+
+And it's basically a method because it has a void as the return type.
+
+Now if I want to do some asynchronous work here, let's say I need to work with a remote endpoint of
+
+API, which takes a longer time.
+
+Then I create a method.
+
+So in this case it's going to be a static method.
+
+Let's first work with void.
+
+Let's say I'm going to work asynchronously and I'm going to do a remote work work contacting API.
+
+Then I'm going to use task dot delay to simulate that.
+
+So this task dot delay is going to last for two seconds, simulating a long running task that runs for
+
+two seconds.
+
+If you hover your mouse over the delay method, you can see that it actually returns a task.
+
+If you want to wait for the task to finish and then execute something, for example, we're trying to
+
+write something to the console.
+
+Work is done.
+
+So this has to be executed after the task is finished.
+
+Then you have to put a wait keyword here.
+
+Basically everything after the keyword is the continuation of the task, and the delay method actually
+
+returns a task.
+
+Therefore, you have to use a wait keyword, or you can use continue with the old school way that we
+
+talked about in the previous chapter.
+
+Now you can see that it has a red squiggly line.
+
+It says you have a wait operator here.
+
+You cannot use it unless you have an async keyword.
+
+So then we can use async keyword here.
+
+You see this works, but usually this is not recommended.
+
+Having a void here only useful when you work with a event handler.
+
+Let's say you work with a windows form application and the existing event handler actually is a void
+
+method.
+
+Then you cannot just change it to task, you just keep it as void.
+
+You are allowed to do that.
+
+Usually when you create your own method, it's not recommended to use a void here.
+
+What you can do is that you can use task here okay.
+
+So we have this method here.
+
+And then we have this main method.
+
+Now let's perform the work in the main method.
+
+So it's going to call this.
+
+But then this is green screen line here.
+
+And it reminds you to use the await keyword.
+
+So then you can use the await keyword.
+
+And then it gives you this red green line.
+
+Again you can see that it forces you to use the async.
+
+You can use async keyword here, and you can keep this as void because it comes from the template by
+
+default.
+
+Or you can change this to task.
+
+It doesn't really matter.
+
+It doesn't matter here because this is the main method.
+
+But if you create your own method, the recommended approach is to use task instead of void.
+
+And the reason why task is recommended.
+
+We are going to talk about it later.
+
+Now again after the await keyword is our continuation.
+
+So we can do some continuation here.
+
+We can say press enter to exit and then we can do a console dot line here.
+
+And before that we can also output some information and we can say starting to do work okay.
+
+So you can see our basic syntax.
+
+Async enables developer to use await.
+
+Use await in front of a task.
+
+This work async returns a task.
+
+This already tells you the reason why we use a task here?
+
+Because then you can use a wait.
+
+After a wait after a wait, it helps you with the continuation.
+
+You don't have to use continuation method within a continuous measure.
+
+Within a continuation method, you can use a wait keyword and it just makes everything flow as if you're
+
+writing synchronous code.
+
+Okay, let's run the program and then you can see.
+
+You can see that starting to work.
+
+And after two seconds work is done.
+
+And then press enter to exit.
+
+So I can just press enter to exit.
+
+So this is the basic syntax.
+
+And we have the second possibility here which is you truly have a function which returns some kind of
+
+data.
+
+And that data is of the type type here okay.
+
+And then you can return that object.
+
+It could be just an integer right.
+
+If here is just a integer then here you just return a number for example like this.
+
+Let me change it back okay.
+
+So same stuff this except that here we're returning something.
+
+And then your task here defined as to use generic and corresponds to the type of this return object.
+
+Again use async to enable you to use await in front of a task.
+
+So to demonstrate this let's go back to Visual Studio.
+
+So here let's say we're going to fetch data.
+
+And then we use this to simulate we're fetching the data.
+
+And then here we can just return the fetch data.
+
+We can say return and we can just return a string let's say complex data.
+
+Now we're returning a string.
+
+Therefore our task has to use generic and returns the string inside.
+
+Now we can call the fetch data.
+
+Remember this function returns a task.
+
+So therefore we can use the await keyword.
+
+And the await keyword enables us to receive the value.
+
+So here we can simply get the data that is fetched.
+
+And then here we can say data is fetched.
+
+And what is the data?
+
+It is the data.
+
+And then we use the dollar sign here to enable string interpolation.
+
+Now when we run it we are going to get the data here.
+
+Thanks to our await keyword.
+
+We don't have to use dot result or dot wait this await keyword.
+
+Give us a continuation here.
+
+So all of this is continuation after this particular task.
+
+So when this task is finished we can continue with these lines.
+
+Otherwise it's going to wait there.
+
+All right let's run this.
+
+Starting to do work.
+
+Wait for two seconds.
+
+Data is fetched.
+
+Complex data is the result.
+
+Press enter to exit.
+
+I press enter and I exit.
+
+All right.
+
+That's that one.
+
+Just remember that we do have a possibility of using async keyword in front of void.
+
+But this is not actually recommended because you can actually continue with the next one.
+
+So imagine here in the previous example, instead of using task if I use void.
+
+When you call the work async method, you can't use await anymore.
+
+It truly becomes asynchronous.
+
+And then you have to use dot continue width in order to continue with the rest of the work, or you
+
+use the task dot wait method, which makes everything actually asynchronous.
+
+Just before I finish, I think I want to mention one thing which is the method naming.
+
+You can see that I have this async at the end.
+
+So this is actually a convention, but you don't have to follow.
+
+You can do just fetch data and it's going to work the same way.
+
+But usually when Microsoft writes a method, the method is an asynchronous method that has an async
+
+keyword at the beginning.
+
+Then it's going to end with the async keyword at the end of the method name.
+
+That's just a convention.
+
+Okay, that's everything I want to cover in this video.
+
+Any questions, please let me know.
+

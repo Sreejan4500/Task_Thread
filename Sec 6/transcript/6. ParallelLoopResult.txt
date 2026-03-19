@@ -1,0 +1,109 @@
+In this video let's talk about parallel loop result.
+
+So for all of the three different methods that enter the parallel class, they all actually return a
+
+result.
+
+When you hover the mouse over, you can see that the return result is of the type parallel loop result.
+
+And this is useful especially when you work with break or stop.
+
+So let's try to declare a variable right here.
+
+So I'm going to say parallel loop result.
+
+And I'm going to give it a name I'm just going to call it result.
+
+And this can be used right here right here like that.
+
+And let's set a breakpoint just below this.
+
+Remember this is a blocking call.
+
+So I'm going to definitely get a result when breakpoint is hit right here.
+
+So let's save the file and run in debug mode.
+
+All right.
+
+So breakpoint is hit.
+
+And let's go to here and hover the mouse over and let's see it says is completed is false.
+
+And the lowest break iteration is 65.
+
+Right.
+
+So when you use the brick method, the loop is broken, is stopped.
+
+Therefore it is completed is equal to false.
+
+Now it also tells you from which iteration it actually broke out.
+
+And we actually manually set it to 65.
+
+And therefore the return result is not telling lie.
+
+Right.
+
+It's telling us the truth.
+
+It's at 65.
+
+Now if we were to roll back to use stop some different result here and let's just comment out this.
+
+We don't need this for understanding the result.
+
+Let's run it again.
+
+Now we are at the breakpoint.
+
+Let's go up.
+
+Hover the mouse over it.
+
+We see that it is completed is false.
+
+And the lowest break iteration is null.
+
+So now you see a pattern.
+
+If you need to make a decision based on the result, for example you need to know whether the parallel
+
+has actually finished or not.
+
+You can just look at the result.
+
+If it's completed equal to true, that means all of the iterations have already run, but if it's false,
+
+that means not all of them has already run.
+
+But then, if you further want to know whether a stop method is used or break method is used, then
+
+you can look at this lowest break iteration here.
+
+If it's null and at the same time is completed is false.
+
+That means the stop method was used and if the is completed is false at the same time.
+
+The lowest break iteration has a number that means the break method.
+
+And what happens if there is an exception?
+
+If there is an exception, the result here is going to be showing is completed equals false.
+
+Lowest break iteration is null.
+
+So it's the same result as the stop method.
+
+But because you have this track hash so you know that the result is like that.
+
+It's because of the exception instead of the stop method.
+
+So that's what I want to talk about.
+
+In this video we covered all of the possibilities of the result.
+
+If you have any questions, please let me know.
+
+If not, I will see you in the next one.

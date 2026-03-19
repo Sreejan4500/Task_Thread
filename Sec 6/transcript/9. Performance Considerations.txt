@@ -1,0 +1,195 @@
+In this video let's talk about performance considerations in parallel loops.
+
+So this is the code that we used for local storage.
+
+Supposed to have pretty good performance because we're even using the thread local storage.
+
+So let's actually try to measure the performance.
+
+Let's go to the very top over here.
+
+And we can say date time.
+
+And we get the begin time.
+
+Begin time is datetime.now.
+
+And then after this whole thing finishes, remember this is a blocking call, right.
+
+So I can do it right here.
+
+A time end time is datetime.now.
+
+And over here I can output the time that it actually spent by just saying time spent.
+
+And then I can use the end time to minus the begin time.
+
+And I can use a bracket.
+
+So this everything within the bracket is going to be a time span.
+
+So I can say total milliseconds and we have microseconds and nanoseconds if milliseconds is not enough.
+
+All right.
+
+So let's give it a try and see how long this takes.
+
+Let's run it.
+
+And we can see that this whole thing takes about 59 milliseconds for just looping through from 1 to
+
+10.
+
+Now that's actually a pretty long time.
+
+Let's actually try to do 1 million.
+
+This is 1 million and see how long this is taking.
+
+So for one 1 million it spans about 46 milliseconds.
+
+Not too slow.
+
+But what I want to try now is to actually comment out this whole thing and then comment out from here
+
+all the way to the end of the parallel loop.
+
+And let's actually use a regular sequential loop.
+
+And here we just need to do this very simple addition here.
+
+And let's see how long this takes.
+
+Remember the previous one talks about 46 milliseconds.
+
+Now you can see the time span is 15 milliseconds.
+
+What that means is that sequential loop is actually faster.
+
+Why the sequential loop is faster?
+
+Well, the work that we want this to be done is very simple.
+
+It's just simple addition.
+
+So this is simple addition.
+
+And the work that we want the parallel loop to be done is the same thing.
+
+Simple addition.
+
+However when we use parallel loop it creates multiple threads.
+
+And you know that it costs time and space to create a thread.
+
+And when there are multiple threads going on, it takes time and space.
+
+And also when you switch between different threads, there is this time that is spent in context switching
+
+not only time, but also we need to move things around in different memory and cache as well, right?
+
+CPU cache.
+
+So that also takes time.
+
+So therefore not every situation is good for using multithreading.
+
+In this case, we only have a small thing to do for each iteration.
+
+You shouldn't actually consider using parallel loops, unless maybe, let's say you have a very huge
+
+loop.
+
+A very huge loop, or each iteration takes a longer time.
+
+Then you can consider using parallel parallelism or concurrency or multi-threading, whatever you call
+
+it.
+
+But for this particular case, it's not actually the right thing to do.
+
+Don't do this with the parallel loops or any type of multi-threading because it's slow.
+
+However, if we let's say we increase this, I don't know how many.
+
+Let's experiment that.
+
+Let's add another three zeroes and let's see how long this takes.
+
+This is still sequential loop.
+
+Let's see whether it's going to do anything.
+
+So I think already five seconds passed.
+
+Let's say 6789 ten 1112, 13, 14.
+
+You can see that it doesn't actually return me a value for for a very long time.
+
+So I'm going to just close this and I'm going to comment out this sequential loop.
+
+And let's use the parallel loop and see whether the parallel loop can actually help us to return a value
+
+within a reasonable number of seconds.
+
+All right.
+
+Let's run it again.
+
+123.
+
+Well, it's already outputting.
+
+And the result is here.
+
+And this is really because I have this line here.
+
+I don't even need this.
+
+And let's run this.
+
+And 1234 four seconds you can see time spent 3.8 milliseconds.
+
+The sum is.
+
+Well, the sum doesn't look correct here.
+
+It's probably because this is overflow.
+
+Let's change to long and let's change this to long as well.
+
+So this TLS is going to be long.
+
+And let's try this again 234.
+
+And now we get the number just to make sure that we are actually getting the correct value.
+
+Let's change it back to ten and let's run it.
+
+We should get 55.
+
+We still have 55.
+
+So the algorithm is correct.
+
+And as you can see when we have a huge number, what number did I think I used this.
+
+And this is a billion.
+
+So for a billion a sequential loop definitely doesn't work anymore.
+
+And the parallel loops definitely wins.
+
+You can see that the simple criteria is that if you have a huge loop, then use parallel loop, or if
+
+you have a smaller range, but with each iteration it takes a longer time, then you can also consider
+
+it using parallel loop instead of sequential loop.
+
+But the best thing is to measure it.
+
+Okay, that's everything I want to talk about in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

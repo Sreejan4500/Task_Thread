@@ -1,0 +1,277 @@
+In this video, let's learn about a weight and synchronization context.
+
+We have talked about the synchronization context issues when we talk about the threads.
+
+So when we use a different threads other than the UI thread we have this synchronization context which
+
+is related to thread affinity.
+
+Let me remind you what the problem is.
+
+So let's go to this Windows Forms application that we use to demo the synchronization context issue.
+
+So this is a windows form.
+
+And we have two buttons.
+
+When we click on each button a thread is created just to show a message.
+
+And within this method we just make the thread sleep for a little bit.
+
+And then afterward we display a message in a label on the form.
+
+So here we have to use the invoke method.
+
+Otherwise there's going to be an exception thrown.
+
+Because this thread that executes this method is in a different context from the UI thread.
+
+The main UI thread is one context.
+
+And then because we have different threads, those are worker threads Executes this method.
+
+Therefore.
+
+Thus execution context here is different.
+
+So therefore we have to use this invoke method.
+
+However, the await keyword here works differently.
+
+We know that everything that is after the await keyword here is considered a continuation of a task,
+
+so it's going to be executed in a different thread.
+
+However, the await keyword makes the continuation run on the same context.
+
+So this is actually one of the benefits of using the await keyword.
+
+You don't have to worry about the synchronization context.
+
+So let's try to use async and await to reimplement this Windows Forms application and see how this resolves
+
+our problems.
+
+Now let's change this method first.
+
+So this is a method is going to be executed in a different task.
+
+So therefore it's going to return a task.
+
+Remember the basic syntax.
+
+The method returns a task.
+
+And we're going to call the task delay method, which is going to help us to delay the execution.
+
+And this delay method actually returns a task.
+
+So therefore we can await on it.
+
+Remember basic syntax use the await keyword before a task.
+
+But now you can't use a wait keyword unless you decorate this method with the async keyword.
+
+So async enables await and then everything after this is considered as a continuation.
+
+We don't need to worry about the synchronization context.
+
+Everything will be executed in the same context as the US thread, so we don't have to worry about this.
+
+Now here we want to execute this as a separate task.
+
+We don't need to use this.
+
+We don't need to worry about this.
+
+We don't need to worry about that.
+
+We can delete them.
+
+We can just directly call this method.
+
+But remember this method returns a task so we can treat it as a task.
+
+First message I think I'm missing a curly brace here.
+
+That's why there's some complaint here.
+
+Okay.
+
+First message and then three seconds.
+
+So this is a task.
+
+Therefore, we can use a weight.
+
+And in order to use a weight, we use the async keyword.
+
+So now you can see that we use async await.
+
+Async await.
+
+We can have a chain of reaction.
+
+That's why we want this method to return task instead of void.
+
+At least one of the reasons want everything to continue like that.
+
+And we're going to do the same thing for the second button, except that we're going to change this
+
+message to second message and maybe change this delay from 3 seconds to 4 seconds.
+
+And don't forget to add the async keyword.
+
+All right.
+
+So now remember that if I run this application even before I change it, if I run the application without
+
+debug, then we don't see the exception.
+
+But if we run with debug when it comes over here it's going to throw exception.
+
+Now I'm going to set a breakpoint here And then I'm going to run in debug just to make sure that we
+
+don't run into exceptions, because I don't expect any exceptions.
+
+That's really because the await keyword tries to make the continuation execute on the same context as
+
+the UI thread.
+
+So form is here.
+
+Click on the message button.
+
+Now we're hitting the breakpoint.
+
+I'm going to step over this.
+
+And you can see that the message is set first message.
+
+And nothing is throwing any exceptions.
+
+Let's just continue.
+
+And now you can see that the first message is displayed on the form.
+
+I can try the second one.
+
+And after four seconds the second message is displayed right here.
+
+Now I can switch back and forth.
+
+Nothing is being blocked.
+
+So this is another benefit of using task instead of thread.
+
+You don't have to worry about the synchronization context anymore.
+
+And the same thing is going to happen for the Blazor application.
+
+Remember Blazor application.
+
+We have that example as well.
+
+Let's close the solution and try to find our Blazor Laser.
+
+Examples of laser thread affinity.
+
+Example.
+
+Here let's go back and we have this issue where we click a button, try to display the time.
+
+But then we created a thread and trying to display the current time on the page.
+
+And then we have to use this invoke async method in order to rerender the web page.
+
+Now which task is going to work differently?
+
+Let's follow the basic syntax.
+
+Let's create a function first.
+
+So we already have a display time method here.
+
+So this would be confusing.
+
+Let's call it on display time clicked.
+
+And then I'm going to change this method.
+
+Now I'm going to create the real display time method right here.
+
+And instead of void I'm actually going to use task.
+
+And you know the drill I'm going to use async in front of it.
+
+And then I'm going to use await to do a task dot delay for 50 milliseconds.
+
+After that, I'm going to just do a current time equals date time dot now.
+
+Same thing.
+
+So two string.
+
+And then over here I can delete this.
+
+And I can add an async over here.
+
+I'm going to call await display time before we try it.
+
+Don't forget to call.
+
+The state has changed method.
+
+The state has changed method will force the page to rerender.
+
+We had a delay for 50 milliseconds, which means the page has already rendered.
+
+And if we try to rerender it, we have to tell the page that you need to rerender.
+
+So by calling state has changed.
+
+This is going to force rerendering the page.
+
+And this was where the problem was.
+
+So if we use thread without the invoke async method and just call the status change method here, it's
+
+going to tell you that you're trying to call the status changed method in a different context, so you
+
+are not allowed to do it now.
+
+Let's try this and see what happens.
+
+All right.
+
+So we have this.
+
+And let's click on the display time button now.
+
+And immediately you can see this.
+
+And if you go to F12 open up the developer console.
+
+Remember when we had the thread synchronization context issue here.
+
+There are a whole bunch of exceptions displayed in red.
+
+Now there's nothing.
+
+And let's try again.
+
+Click on this after half a second.
+
+This time change and nothing actually is being complained on the right hand side here.
+
+So remember the await keyword does a lot of magic.
+
+One of them is that it's trying to put a continuation on the same context as the UI thread, so you
+
+don't have to worry about the thread affinity issue, the synchronization context issue.
+
+And that's everything I want to talk about in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

@@ -1,0 +1,199 @@
+In this video, let's talk more about continuation after returning value.
+
+Let's go back to one of the previous videos.
+
+You see that a way keyword returns a value, and then everything after that await keyword is a continuation.
+
+So this two characters enables us to write asynchronous functionalities synchronously.
+
+It feels like synchronous.
+
+These two are the key characters of asynchronous.
+
+Wait.
+
+And that's why we want to talk about this in this video.
+
+Here I have one of the previous code when we talk about the chain of continuation.
+
+So when we use Continuewith we can chain them together like this and continue with C we have continue
+
+with after continue with after, continue with.
+
+So this task is from the previous continuous.
+
+And then we have this task and then this task continue with the next one.
+
+So as you can see it's quite involved.
+
+And after two continuation you would have to use unwrap.
+
+So it's not as nice as we want it to be, so we can use async and await to fix this problem.
+
+And especially when we use await, it will give us the result after it finishes the task and then we'll
+
+continue.
+
+So let's see what we can do to make this continuation chain feel much more natural.
+
+Okay so this getString async.
+
+As you can see it returns a task of string.
+
+Therefore we can use a wait here.
+
+And once we use await the result of this is basically the result of the task.
+
+So here instead of call it task I'm going to just call it Pokemon list JSON because this is truly the
+
+Pokemon list JSON.
+
+And once we have the Pokemon list JSON, we're going to perform the next task, which is going to the
+
+JSON.
+
+Basically parse the JSON and get the URL.
+
+So we're going to do a comment here.
+
+I'm going to say get the first Pokimane's URL maybe lowercase this.
+
+Okay.
+
+So let's copy this code out and paste it over here.
+
+Now the result is basically the Pokemon list JSON.
+
+So let's paste it over here.
+
+We are not returning, we are just declaring another variable URL.
+
+Okay.
+
+And then we can delete this because we finished this part.
+
+The next part of the continuation chain is to actually get the details right.
+
+First Pokemon details JSON.
+
+We're going to copy this and this is the first Pokemon details JSON.
+
+And what we can do is again we use await client, get string async and we provide the URL here.
+
+And now the await keyword.
+
+Once again give us the result after this particular task finishes.
+
+Again if you hover the mouse over this is a task.
+
+Remember this.
+
+This is a task.
+
+Therefore you can use the await keyword and then it gives the result after the task finishes.
+
+Then we can continue because everything after the await is a continuation.
+
+Now what we can do here is the next one so we can delete this.
+
+Next task is to parse the detailed JSON.
+
+Now let's copy this.
+
+And basically here is the final step I need to add another comment here.
+
+So get the first Pokemon's details info.
+
+And at last here we get the weight and the height, and the document variable is already declared here.
+
+So we can just delete this var and the route variable is also already declared here.
+
+So let's remove the type and we're going to copy and paste it over here because this is the details
+
+JSON.
+
+We're going to use the JSON document to parse it.
+
+And the rest of the lines we don't need to change.
+
+And we're going to delete this because we finished replacing that.
+
+Now you can see the feeling is so natural right.
+
+We are facing a big fat task right.
+
+This is something resides on a different server somewhere in the world.
+
+We don't know where it is, so we use the await keyword to run it asynchronously so that it doesn't
+
+block the calling thread.
+
+Well, in this case the calling thread is the main thread, so it's kind of blocking.
+
+That's because we want to continue.
+
+So everything after this await is part of the continuation of this particular task.
+
+So this is the continuation of that particular task.
+
+And then we are going to grab the URL from that result.
+
+And now we run into the next big task.
+
+We get the details of this particular Pokemon again somewhere in the world out there.
+
+We don't know where it is.
+
+So it's long running task.
+
+We put it aside, but using async and await.
+
+And once that finished, this is another continuation.
+
+After that we get this JSON, we parse it and we get the detailed information.
+
+So as you can see, we write everything naturally task by task by task.
+
+So basically before you write everything, you can just write comments.
+
+I want to get the first Pokemon's URL.
+
+I want to get the first Pokemon's detail information.
+
+I want to get the weight and height.
+
+So everything is synchronous.
+
+And when you write it, although the thing runs asynchronously, the feeling of writing this code feels
+
+like synchronous.
+
+And this all because a weight keyword has two features.
+
+One is it returns you the result once the task finished, so that you can use it in the continuation
+
+after that.
+
+Secondly, everything after the await keyword is considered as a continuation.
+
+So imagine you're going to have another 1 or 2 await because you want to use something from the first
+
+Pokemon JSON, and then you want to get the result from that one, and you want to use that result to
+
+do something else.
+
+So you chain all of that together.
+
+Imagine if you want to use continue with the continue with method.
+
+How complicated would that be?
+
+But how easy is this?
+
+It is so easy, so natural and that is everything.
+
+I want to talk about in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

@@ -1,0 +1,269 @@
+In this video, let's talk about exception handling in parallel loops.
+
+When you use thread or task separately by themselves, you have a better control over exception handling
+
+because you know how you created the task or you created the threads and you have a better control,
+
+more granular control.
+
+Whereas here when you use parallel loops, the threads or the task are actually not created by you.
+
+You don't have a control over it.
+
+So when it comes to exception handling, what do you do and when do you know an exception actually occurred?
+
+Do you want to stop all of the threads, or do you want to stop one of the threads?
+
+Those are the questions.
+
+So in this video let's talk about this.
+
+And in order to talk about this let's use a diagram.
+
+First parallel loops again is focusing on working with a collection of data.
+
+And you want to process that in parallel or concurrently.
+
+So let's say that this represents a collection of data.
+
+And we know that in order for parallel loops to work, first of all, it needs to divide this into different
+
+chunks, right?
+
+Divide and conquer.
+
+So let's say that we're dividing this into, let's say three different chunks.
+
+This is the first one.
+
+This is the second one.
+
+Third one.
+
+So this collection is now divided into three different chunks.
+
+What does that mean.
+
+It means that there are three different tasks going to work on this right.
+
+So let's again use a circle to represent a task or thread right.
+
+So circle number one.
+
+Circle number two.
+
+Circle three.
+
+So these threads are working on this chunk.
+
+What does it mean.
+
+It means that the threads in itself is going to loop through this and try to do the work that is assigned
+
+by the developer.
+
+Now let's use the example that we had here.
+
+We're trying to summarize from 0 to 100 basically from 0 to 99.
+
+Nine.
+
+And let's say at one moment this first thread is working on which one is working on, let's say number
+
+20.
+
+So make the number slightly bigger.
+
+And then let's say this one is working on number 65.
+
+And let's say this one is working on number 90.
+
+And all of a sudden the second thread throws exception.
+
+It doesn't matter which one.
+
+I'm just arbitrarily chose this one.
+
+So let's say here at iteration 65.
+
+Now what happens afterwards.
+
+So what is happening here is that once the parallel loop knows that there is an exception that is in
+
+a particular iteration within a particular thread, it tries to no longer go to the next iteration because
+
+without exception, this first thread is going to go to iteration 21.
+
+This second thread is going to jump to the next one, which is To 66.
+
+And of course this one is going to go to 91.
+
+But because there is one thread that throws exception in one of the iteration, it tried not to go to
+
+the next one.
+
+So this one will just try to finish this particular iteration, which is the iteration 20.
+
+This one stops right away.
+
+This one is trying to finish.
+
+Iteration 90 is not going to start a new iteration, which is the next one.
+
+91 right.
+
+This one is not going to try to start 21.
+
+And once all of the iterations ceases execution it stops execution or I should say finishes.
+
+Then the exception or the exceptions, because there could be multiple exceptions be put together into
+
+an aggregate exception and then the parallel loop.
+
+Remember the parallel loop is whether it's for or for each or invoke It's going to be blocking right.
+
+So it's going to be blocking.
+
+So when every single thread finishes the execution all of the exception will be aggregated together
+
+and put into the aggregate exception.
+
+And then that either is for or for each or invoke it's going to throw that aggregate exception.
+
+So when the developer tries to handle exceptions developer should try to use a try catch outside of
+
+the for or for each or invoke in order to handle exception.
+
+Okay, let's hopefully this is clear in theory right.
+
+So let's actually jump into Visual Studio here.
+
+And let's see the exception throwing thing.
+
+So let's say here I'm going to just throw a invalid operation exception here.
+
+I'm just going to say that it's on purpose.
+
+But I have to say that if I equals let's say 65 we use 65 as an example.
+
+Right So when the number index here is 65.
+
+We are going to throw an exception.
+
+And let's run this.
+
+All right.
+
+We can see at the very end we have this unhandled exception because we didn't use try catch.
+
+And the exception type is aggregate exception.
+
+And internally we have this invalid operation.
+
+This is on purpose.
+
+So this is one exception.
+
+At the very end when the everything finished, when all of the iteration finishes, or at least the
+
+iteration that is being executed when the exception is being thrown, it's not going to go to the next
+
+one, right?
+
+This particular one is not going to be 66, and the other thread is not going to move on to the next
+
+one.
+
+So this is what I mean here.
+
+Now I would like you to know a important concept here is that here in the body, we're doing a very
+
+simple task here.
+
+Basically we're just doing a addition and this is very quick.
+
+But sometimes you're going to have a body that lasts for longer time, right?
+
+Pretty long time.
+
+Let's say you are doing some complicated calculation against a big file, and you have many, many big
+
+files.
+
+That's why you want to use parallel loop to loop through each files.
+
+And then it creates reasonable number of threads or tasks to work on each one of those files.
+
+But each one of the files may last for a few seconds, or maybe up to a minute.
+
+In that case, let's jump back into the diagram here.
+
+Let's say this file is on file number 65.
+
+And then this file is on file number 20.
+
+This one is on file number 90.
+
+And all of a sudden this file throws exception when the second thread is a file number 65 throws exception.
+
+Now we know that Microsoft the parallel loop is now going to forcibly stop the processing of the current
+
+iteration, which is 20 or 90.
+
+But what if you want to stop?
+
+As a developer, you know that each iteration is going to last for a long time.
+
+So if there is a different thread that is already throwing exception in a different iteration, you
+
+just want to stop other threads from executing the current iteration, whichever this iteration is on.
+
+For example, this thread just want to stop processing number 20 when the other thread already throws
+
+an exception.
+
+Same here.
+
+So what do you do in that case?
+
+Well, we have a different overload.
+
+Access this.
+
+And then here we can say I.
+
+But with a bracket here the parameter from the state variable.
+
+Here we can check whether other threads has exceptions already is exceptional.
+
+And if you hover the mouse over this you can see that it says gets.
+
+Whether any iteration of the loop has thrown an exception that went unhandled, but that try to do this.
+
+So if exceptional then you can just force it to stop.
+
+Or you can just say if not exceptional, you want to do here this way, because Parallel Loop knows
+
+there is already an exception.
+
+It's not going to start a new one, so this one will quickly exit.
+
+There's just one condition here to test.
+
+So this is what I want to talk about.
+
+Exception handling.
+
+Again if you want to handle exception you can handle it from outside just like this edge here.
+
+And you can catch the exception.
+
+Or you can just catch the aggregate properly in whatever way you want.
+
+Okay.
+
+That's everything I want to talk about in this video.
+
+Any questions please let me know.
+
+If not, I will see you in the next one.

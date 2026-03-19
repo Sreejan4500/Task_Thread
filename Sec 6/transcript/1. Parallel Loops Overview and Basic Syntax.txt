@@ -1,0 +1,319 @@
+In this video, let's talk about parallel loops, overview and basic syntax.
+
+In the previous section we talked about async and await, which are two keywords that are actually a
+
+pair, and we use them write asynchronous code as if we're writing code synchronously with parallel
+
+loops.
+
+It helps us with the other aspect of concurrent programming or multi-threading programming, which is
+
+divide and conquer.
+
+So async await help us with the asynchronous side which is offload the long running task, whereas the
+
+parallel loops help us with the divide and conquer side of parallelism in programming.
+
+How does that work?
+
+Let's take this program that we wrote before as an example to learn about the divide and conquer concept.
+
+We have an array from 1 to 10, and we have a function to help us to summarize any part of the array.
+
+And then we divide an array into four different chunks, and we use one thread for each chunk and summarize
+
+the entire value.
+
+Basically one plus two plus three until plus ten.
+
+We want to get a result, and we wanted to use multiple threads to help us to summarize.
+
+But if we were to just simplify this, to use sequential programming instead of concurrent, then it
+
+will actually look something really, really simple.
+
+I think we did that before.
+
+In order to learn parallel loops, let's just use a regular sequential loop and see how that works,
+
+and then it will help us to understand how parallel loops works.
+
+So for regular sequential programming, we're going to just use a simple loop, right?
+
+We're going to loop from zero until the lens.
+
+And each time we increase the I by one.
+
+Now we Need a separate variable.
+
+And we're going to call it sum.
+
+And we're going to initialize to zero.
+
+And each time we're in the loop body we're just basically just add that current value in the array to
+
+the sum.
+
+And at the end we know what the summarized value the sum is let's say sum.
+
+So this is the simple programming that we all know how to do.
+
+And comparing with or comparing with this how simple is it's very simple.
+
+Everybody understand how this one works.
+
+And if we run it it still runs pretty fast because it's just summarizing from 1 to 10.
+
+It's really, really fast.
+
+We got the correct result.
+
+Now, is there a way to write code that works like this with different threads to help us to do the
+
+work concurrently, but writes like sequential programming?
+
+Yes, that's where Parallel Loops comes.
+
+To help us to do this again, we'll need a variable and then we will need the for loop.
+
+But instead of using the regular for loop we're going to say parallel for and from zero.
+
+Now this is very very similar to the go up to a regular this one.
+
+So what we did was this right.
+
+And let's comment it out.
+
+The reason why I want to do it here just to compare this and this, we are going from 0 to 10.
+
+Why is from 0 to 10.
+
+It's because the length of the array is like this.
+
+So if I write it like this, you can see that we are actually just mimicking a sequential for loop.
+
+And here's an important concept that you have to remember the start value.
+
+See the from value is inclusive and it's just like the regular for loop.
+
+And we're going to say zero.
+
+Now the two value here is exclusive.
+
+And that is just like the for loop here regular sequential loop.
+
+And that's why Microsoft when they created the parallel loop they are using the same concept as a sequential
+
+loop.
+
+So therefore the from parameter is inclusive and the two parameter is exclusive.
+
+So that we can use the same thing as if we are writing a sequential loop.
+
+Now the third parameter is a action delegate.
+
+But keep in mind there are so many different overloads for this four method.
+
+Here we are going to just do our work, which is to just summarize this so you can see that this is
+
+the action delegate, but it with a integer parameter.
+
+So we can say I and what is that I this is the basically this I write this is the index here.
+
+So you have a feeling that this is exactly the same as this, although it's not exactly the same, but
+
+it feels the same, right?
+
+So therefore there is the I here.
+
+And then we can use the I as the index to access the array.
+
+So then here what we need to do is to do some equals sum plus array I.
+
+And that's exactly what we did just now right inside the regular for loop body.
+
+Now this summary it's a shared variable right.
+
+And it's going to be changed across different threads.
+
+Why.
+
+Well of course this is a parallel library.
+
+So although it feels like you're writing a sequential for loop, but it's not actually as a sequential
+
+for loop.
+
+So there are going to be threads involved.
+
+And we're going to talk about how many threads in probably in the next video.
+
+But here just know that the summary is going to be used in different threads.
+
+So therefore you will have to protect it and you have to protect it with a lock or different mechanisms.
+
+So here let's use a very simple exclusive lock here.
+
+Therefore we're going to create a lock object I'm going to say lock some or some lock doesn't really
+
+matter.
+
+Create it.
+
+And then I'm going to lock this I'm going to lock this object.
+
+So lock some.
+
+And now I'm going to move this inside.
+
+Move this inside.
+
+And that's it.
+
+Right.
+
+The only thing we need to do here is just to output the result or put the result line.
+
+And then I'm going to say the sum is sum.
+
+And add a dollar sign here.
+
+And that's it okay.
+
+Let's delete this.
+
+And as you can see this is not more complicated than using the for loop.
+
+The regular for loop slightly more complicated.
+
+But here it's just a different way of writing similar thing.
+
+Here.
+
+There's an extra thing we need to take care of and that's it.
+
+Those are the only differences.
+
+And then when you run it, it will give you the same result.
+
+Sum is 55, right?
+
+It works.
+
+So as you can see this is the basic syntax of using parallel for which feels almost exactly the same
+
+as a regular for loop now other than the for in the parallel class.
+
+Right.
+
+So if we try to access it here, you can see we have for we have for each.
+
+And we also have invoke.
+
+And there are three main methods.
+
+And each one of them has a async method here.
+
+Now when you use for it's basically you're saying that the data that you're working with is is is it
+
+ordered.
+
+It's ordered data.
+
+They have a index from small to big.
+
+Whereas you can work with ordered data with for each, you can work with a collection of data that is
+
+an ordered.
+
+Either way, you're working with a collection of data.
+
+You either use for to loop through the data and provides that parallelism and add that parallelism to
+
+your code, or you use for each to loop through the data and add that parallelism to your code as well.
+
+This for each is also pretty similar as regular for each.
+
+You first of all provide what you are you trying to loop through.
+
+And then here you provide a delegate.
+
+Here we can use the for each for this instance instead of for and this I basically represents the element
+
+in each one of this array, just like when you do regular for each.
+
+If you say for each, you would say var item in array and you would do something like this.
+
+Here you can say, okay, I'm looping through the array and the item is just I.
+
+And of course here you're going to say I this I is the item instead of the index.
+
+So let's remove this and let's run it again and we get the same result 55.
+
+So for example if we change the last one to let's say 15 instead of ten.
+
+So we should the final result should be 60 instead of 55.
+
+I'm changing this just to make sure that you understand correctly that this I is no longer the index
+
+anymore, it's just the element itself.
+
+So you can see that it's 60.
+
+So this I itself represents each one of these elements just like in regular for each.
+
+Okay.
+
+So let me delete this.
+
+Recover back to our previous code, which is the for loop.
+
+Now another thing that is under the parallel class is the invoke right?
+
+So for invoke it just takes an array of delegate like this one.
+
+And then you can do another one.
+
+Just provide the second delegate two and let's do another 123 right here okay.
+
+Summary is 55.
+
+Let's press enter in order to enter the this section of the code which is use parallel to invoke press
+
+enter.
+
+So when you run it multiple times you might run into a situation where maybe three shows up first,
+
+right?
+
+Whichever one that is selected by the thread scheduler to be run first and will show up first.
+
+So these are the basic syntax of parallel loops.
+
+What I want you to understand here is that first of all, why, just like I said, with parallel loops,
+
+you're writing multi-threading programming just like you're writing sequential programming.
+
+So things run concurrently.
+
+But when you write it, it feels like you're writing a sequential program, which helps you multi-threading
+
+programming easily.
+
+And this is actually a recommended approach by Microsoft instead of using our own threads, because
+
+you never know whether you are using the correct number of threads, whether you're doing everything
+
+correctly here under the parallel class, everything is implemented for you.
+
+Of course, if you have something like the shared data, of course you need to use lock monitors or
+
+whatever we learned before in order to coordinate between different threads here, but other things
+
+you don't need to worry about, and we're going to go into that in the next one as well.
+
+And that's everything I want to talk about in this video.
+
+So please let me know.
+
+If not, I will see you in the next one.

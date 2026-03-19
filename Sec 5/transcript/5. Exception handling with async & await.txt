@@ -1,0 +1,91 @@
+In this video we're going to talk about exception handling with async and await.
+
+So previously when we used task without async await we know that all of the exceptions is hidden within
+
+the tasks themselves.
+
+So in order to actually look at them we have to loop through a exception that is called aggregate exception
+
+which internally contains the list of exceptions.
+
+And then we can react accordingly.
+
+Once we use async await we expect things to happen similarly to asynchronous program.
+
+But if the exceptions are not being thrown out, we're running into problems because exceptions are
+
+hidden.
+
+So the state of the application could be very wrong.
+
+So therefore, long time ago I already mentioned that when you use a await keyword is actually throws
+
+the first exception.
+
+So let's actually use this example.
+
+We have three tasks running in parallel.
+
+And when we output the exceptions, we see all three exceptions within the inner exceptions of the aggregate.
+
+If we change this to use await, then what's going to happen is of course it's going to throw the first
+
+one.
+
+But before we try that, let's remind ourselves what is actually happening.
+
+So you can see that all of the three different kinds of exceptions are being output to the console.
+
+We have general exception.
+
+We have invalid operation.
+
+Exception we have value cannot be found which is argument null exception.
+
+So all of these three exceptions are being written out to the console window.
+
+Now, if we change this, let's comment this out to use a wait keyword.
+
+Then let's see what's going to happen.
+
+So task one all you know that when you use one all it's going to create a task which is going to start
+
+with all of the three tasks finished.
+
+And therefore we can just use a await keyword here.
+
+And when we do that it's supposed to throw an exception.
+
+And that exception will be the first exception in the inner exceptions of the aggregate exception whether
+
+this one go first or this one go first, or this one will go first.
+
+It could be random because these tasks are independent threads under the hood.
+
+So which one will run first?
+
+I'm not too sure.
+
+Usually this one would go first, because this one is really the first task that is requested from the
+
+thread pool, but who knows which one will actually get it.
+
+It depends on the thread scheduler.
+
+So let's run this program and see what is the result.
+
+Okay, now we have a handle exception.
+
+This means that we actually throwing out exception instead of everything is hidden within.
+
+We throwing out which exception the invalid operation exception which is the first exception here.
+
+But don't depend on this.
+
+The sequence could be pretty random.
+
+And that's all I want to talk about in this video.
+
+And any questions, please let me know.
+
+If not, I'll see you in the next one.

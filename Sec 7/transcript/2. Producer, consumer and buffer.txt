@@ -1,0 +1,129 @@
+In this video, let's talk about how parallel links works behind the scene.
+
+So let's jump back into Visual Studio here.
+
+And we talk about that.
+
+We have two different parts right.
+
+This part actually produces the result.
+
+In this case it produces the even numbers.
+
+And then in this part we're iterating through the result which in a way is consuming the result.
+
+That's why we're saying that the parallel links actually follow the producer and consumer pattern.
+
+And let's jump back into the diagram here.
+
+And if we look at the producer and consumer pattern there is a buffer here.
+
+Right.
+
+So the producer produces the products and put the products into the buffer.
+
+And then the consumers can take a look at the buffer, take the result from the buffer, take the products
+
+from the buffer and consume the products.
+
+Now the question is how much should it buffer?
+
+How many products should it buffer before the consumer starts producing?
+
+You can actually configure that.
+
+Let's jump back into Visual Studio here And for this example we have to use for each.
+
+Only the for each actually follows this approach and you can actually configure that.
+
+I'm going to talk about the difference between for each and for all in probably the next video.
+
+Okay.
+
+So here after as parallel you can configure stuff.
+
+And for appealing parallel link, most of the options you can do is after as parallel and you can say
+
+with merge options.
+
+And here you can specify merge options.
+
+You can see that we have not buffered default auto buffered and fully buffered.
+
+So default and auto buffered is actually the same.
+
+Basically if you don't specify merge options you're using default which means all the buffer and auto
+
+buffer means that you let the system choose the behavior for you, whereas fully buffered means that
+
+the buffer has to be full.
+
+Or at least there's a lot of items in there before the consumer can start picking the products Not buffered.
+
+Of course, it means that as soon as there is a product in the buffer, the consumer should actually
+
+start consuming the products.
+
+Let's take a look at how fully buffer would work.
+
+Well, before we do that, let's remove this and let's see what's the default behavior.
+
+And as you can see that let's scroll all the way to the top.
+
+It's actually producing a lot.
+
+And then it started consuming producing producing producing and start consuming consuming consuming
+
+producing.
+
+Right.
+
+It's a healthy mix between producing and consuming.
+
+That's when you want a system to make a decision for you.
+
+Now, if you want to change the behavior, let's say I just want everything to be done first before
+
+I consume it.
+
+Then you can use fully buffered.
+
+And I'm going to run this and let's scroll all the way to the top.
+
+And now you can see that we're producing producing producing until everything is produced.
+
+Everything is produced.
+
+And after that we're consuming, consuming, consuming.
+
+So that's fully buffered, right.
+
+And if we change to not buffered not buffered doesn't mean there is no buffer still going to be buffered
+
+somewhere because you need a place where you can put the product for the second part to take the product
+
+from.
+
+So let's run this now.
+
+Let's scroll all the way up.
+
+Now you can see that we're still using a lot of buffering.
+
+And the behavior is that we're consuming way more than the auto buffer.
+
+And then we're buffering and then consuming a lot.
+
+Right.
+
+So this is not buffered not significantly different from auto buffered.
+
+But I would recommend you use auto buffer unless you have a special requirement.
+
+And remember for this you have to use for each instead of for all.
+
+And we're going to talk about that.
+
+If any questions please let me know.
+
+If not I will see you in the next one.

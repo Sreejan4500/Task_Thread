@@ -1,0 +1,118 @@
+In this video, let's talk about cancellation in parallel link.
+
+Just like all of the cancellations, you would need to use Cancellationtokensource.
+
+So let's declare a Cancellationtokensource at the top, and with Cancellationtokensource as usual,
+
+you would use it using so that it can be disposed because it's an unmanaged resource.
+
+So I'm going to say CTS equals new cancellationtoken here.
+
+And then as always, if you want to configure anything for parallel link, you would have to do it after
+
+as parallel.
+
+So we already have with options.
+
+Now we can chain it right afterwards.
+
+We can say with cancellation and now we can provide the cancellation token.
+
+Here we can say CTS dot token.
+
+Once we provide a token then we can trigger the cancellation.
+
+Let's say while we are looping through this, if the item is greater than let's say greater than eight,
+
+then going to cancel this entire operation, I'm going to say CTS dot cancel.
+
+When this is called, they're still going to be threats that is trying to deal with the the other chunks,
+
+right.
+
+So this is going to be similar behavior as parallel loops where it tries to stop as soon as possible.
+
+However, there could be things that are already started.
+
+It could be threads already started.
+
+Their current iteration needs to be finished.
+
+So you will see the behavior when I run it.
+
+Let's try to do this.
+
+But first of all, before we run it, let's actually comment out these two lines or actually delete
+
+these two lines because we're throwing exceptions.
+
+And then let's run and see the result.
+
+Okay.
+
+So you can see that it started running on number 20.
+
+Number three, number 456.
+
+And then when it comes to well we don't see eight, we don't see eight.
+
+But we see this unhandled exception.
+
+And the type is operation canceled exception.
+
+Right.
+
+We didn't catch that exception right here.
+
+It's not part of the aggregate exception.
+
+Operation cancel exception is not part of the aggregate exception.
+
+But what I want you to pay attention is that you can see number 20 started, which means that you can
+
+see item is greater than 20.
+
+So 20 is item is greater than eight.
+
+And you know that 20 is greater than eight.
+
+This is what I want you to pay attention to.
+
+It doesn't mean that this is going to actually completely follow because everything is parallelized
+
+when it's parallelized.
+
+It could happen.
+
+Things are not running in.
+
+And in order to catch that operation here, catch that exception here, you would have to catch this
+
+operation cancel exception.
+
+Let me copy this right here.
+
+And now.
+
+You can handle this one by just output it and or do whatever you want here.
+
+So I'm going to say message okay.
+
+And if we run it again actually I wanted to increase it to let's say 200 and then let's run it and see
+
+the results.
+
+Okay.
+
+Now it's easier to see bigger numbers 185 18.
+
+Everything is greater than eight right.
+
+But eventually we got this exception query has been canceled where the token supplied with cancellation.
+
+And that's how you do cancellation with parallel link.
+
+If any questions please let me know.
+
+If not, I will see you in the next one.
+

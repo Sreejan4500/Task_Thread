@@ -1,0 +1,159 @@
+In this video, let's talk about exception handling in parallel link.
+
+In parallel link, the exception handling are mostly the same as in parallel loops.
+
+It's going to throw an aggregate exception.
+
+But there's one thing that we want to talk about which is related to what we talked about in the previous
+
+video where this is executed, or I should say this.
+
+This is executed only when you're actually looping through.
+
+So the behavior here is delayed until you're actually iterating through the collection.
+
+So therefore if there is anything inside this body that throws exception you cannot catch it here.
+
+You can only catch it here.
+
+So let's just take an example.
+
+If x let's say if x is five then I'm going to throw an exception.
+
+And we're going to throw a let's say invalid operation exception.
+
+And we're going to say this is intentional.
+
+And then if we try to do the try catch over here, It's not going to catch anything.
+
+So if we just try to catch a generic exception, it's not going to do it.
+
+Run it and you will see we cannot run it right now because this trycatch changed the scope of this variable.
+
+So let's say parallel query integer.
+
+Let's define the even numbers outside and then we can run it.
+
+Okay let's run it.
+
+And now we have an exception.
+
+So we were not able to actually catch it.
+
+We have the aggregate exception.
+
+And the inner exception is this is intentional which is invalid operation.
+
+So the exception is thrown from here instead of here.
+
+Right.
+
+It's thrown from the consumer instead of the producer.
+
+So we can do the same thing here.
+
+We can go to try catch in the consumer part okay.
+
+And let's try to do that.
+
+Try let's paste this over here So then we do a control CF to format it.
+
+And let's run it again.
+
+Now it looks like we are throwing exception.
+
+That's just because we're doing a x2 string.
+
+So if we are just outputting the message, then we're going to see that the format changes.
+
+Okay.
+
+So we're able to do everything.
+
+And then when it comes to number five it says one or more errors occur.
+
+This is intentional.
+
+So we were able to catch it.
+
+And you have seen that this is actually an aggregate exception or aggregate exception.
+
+We can just catch the aggregate exception and then hear from the exception we can actually have.
+
+We can use the handle method takes a function delegate.
+
+And the type of this x is a exception.
+
+And this is basically just looping through the internal the inner exceptions of the aggregate exception.
+
+And then I'll put everything x here.
+
+We can just return true and then we can run it.
+
+And this is going to give us this is intentional.
+
+We can even add another line here.
+
+And let's say that if this is 19 let's throw another exception.
+
+And this time we're going to throw a different type of exception.
+
+So argument null exception and rule two.
+
+Let's say this one is this is intentional one.
+
+Actually let's instead of using one and two let's actually output the number here.
+
+So here we failed at iteration number five right.
+
+So let's say and this one is 19.
+
+We don't have to use string interpolation because we can hardcode.
+
+And when we run this we get this is the intentional number five.
+
+Well as you can see number 20 ran first and then number five.
+
+And because all of these threads actually launched.
+
+So once the exception started right it is thrown parallel.
+
+Link tries to shut down the process.
+
+So therefore you couldn't see the other one the 19.
+
+So if I change this to 20 for whatever reason, number 20 is always, not always, but very likely to
+
+be chosen to run first.
+
+So let's see what happens this time okay.
+
+Number 20 is chosen.
+
+And then this time you can see that both number 20 and number five throw an exception.
+
+So you can see both exception output to the console.
+
+And that's because number 20 is done by thread ID number one.
+
+And then number five is done by thread 90 number nine.
+
+And they're launched at the same time while threading number one is main thread.
+
+Anyways there are certain number of threads that is being launched at the beginning.
+
+And therefore when they throw exception they're throwing from both threads.
+
+And when you catch you can catch the aggregate exception which includes both exceptions.
+
+That's why when you use exception dot handle, you're able to output both exceptions.
+
+And that's everything I want to cover in this video.
+
+Just remember that when you use try catch ten exceptions, you can only do that on the consumer part.
+
+You can't do that right here.
+
+You won't be able to catch anything.
+
+All right I'll see you in the next one.

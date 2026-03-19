@@ -1,0 +1,91 @@
+In this video, let's try to learn about using break to exit out from the parallel loop.
+
+The break method is very similar to stop method, but it's different.
+
+It's similar in terms of its proactive comparing with exceptions, right?
+
+Exceptions is reactive.
+
+Break and stop are both proactive.
+
+We intentionally try to stop the parallel whereas different.
+
+So it's different and it's a little bit complicated.
+
+So let's borrow this diagram.
+
+Let's say again we want to break at iteration 65.
+
+Now if we were to use stop then parallel loop is going to try to stop all the new iterations from start.
+
+However, if we were to use break on iteration 65, then what it means is that any iteration that is
+
+higher than 65 or later than 65, the parallel loop is going to try to avoid starting new iterations.
+
+However, anything that is lower than it's going to still try to start them.
+
+Which means if you look at this thread right, this thread is going to handle Iterations that are lower
+
+than 65 for sure.
+
+And that means this thread will remain to be active because all of its iterations are lower than 65.
+
+So this thread is going to finish all of its iterations.
+
+Whereas for the second thread here, it's going to stop at 65.
+
+So not going to launch 66.
+
+And of course for the third one it's going to stop at 90.
+
+It's not going to launch any new ones.
+
+So this is how break is different from now for break method.
+
+Multiple iterations can call the break method at the same time.
+
+Therefore there is actually a property in the state variable there, the state parameter there to tell
+
+us the lowest break iteration.
+
+So let's jump into Visual Studio here.
+
+So here we can use break here in order to break out at iteration 65.
+
+Now instead of using it stopped we need to use a combination of two different properties.
+
+Here I'm going to say state dot should exit current iteration.
+
+And at the same time if state dot lowest break iteration smaller than the current iteration number,
+
+then we shouldn't execute this.
+
+So we need to revert this.
+
+So if it shouldn't exit current iteration or greater or equal to I, then we can continue do our work
+
+here.
+
+Otherwise we shouldn't.
+
+Is this a little bit confusing.
+
+So if this is a little bit confusing then we should do something like this.
+
+If both of this condition is met.
+
+So if state should exit current iteration, and if the lowest iteration is smaller than I to do, we
+
+just need to return.
+
+Otherwise we can go into the normal work.
+
+So that is how brick works.
+
+It's different from stop.
+
+And hopefully this diagram helps you to understand the difference between break and stop.
+
+And if you have any questions, please let me know.
+
+If not, I will see you in the next one.

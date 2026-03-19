@@ -1,0 +1,370 @@
+In this video we're going to talk about thread local storage in parallel loops.
+
+What does that mean?
+
+Thread local storage.
+
+Well, from the naming here, you can tell that we're going to have some local storage for each thread.
+
+So let's jump into Visual Studio here.
+
+This is the example that we used to learn about parallel loops in the first video, in the section where
+
+we use the Parallel.for in order to loop through this array and then summarize the total number, we
+
+know that we're going to use number of threads for this operation.
+
+We don't know the exact number, but we know.
+
+And then each thread will be waiting for the lock to be released in order to use this shared resource.
+
+However, for this short array, which we only have ten different elements, it's probably okay, although
+
+we're going to talk about performance later.
+
+But right now using the lock at least is not going to create any issues for this short array.
+
+However, let's say that we're going to have a enumeration of range and use this to create an array.
+
+And we're going to say, let's say we are going to 100,000.
+
+We're going to count maybe a million.
+
+Let's do this.
+
+Now we are going to create hundreds of thousands of different threads in order to create this.
+
+We don't know the exact number, but we know that they're going to be a lot of threads going to be involved
+
+because this array will be chunked.
+
+Although this is going to be chunked, it's going to be chunked into pieces.
+
+And there are a lot of there will be a lot of threads involved.
+
+And in this case, because the operation is pretty short and the range is pretty big, therefore the
+
+stress is going to be waiting for the lock to be released.
+
+And if you use a monitor to monitor the situation, you will find that a lot of time is just wasted
+
+by waiting for the lock to be released.
+
+Now to solve this problem, we actually had a solution.
+
+Bring the original code here.
+
+Let's go back over here.
+
+So this is the original code.
+
+When we just learned the threading, we arbitrarily decided we're going to use four threads.
+
+And because of that we had four different variables.
+
+And these are the variables.
+
+These are not the shared variables although it's declared as shared variables.
+
+For example the first variable is only used within the first thread, the second variable is only used
+
+within the second thread.
+
+So on and so forth.
+
+So you can say these are the local variables according to the thread to the thread.
+
+This is a local variable and at the end we can aggregate all of them together to get the total sum.
+
+So if we were able to do similar stuff here in parallel loops, if we were able to create a temporary
+
+local variable for each thread, and then eventually we aggregate them together in order to get the
+
+sum, then we should be able to complete this more efficiently because we're no longer relying on a
+
+lock anymore.
+
+Why?
+
+Because the local storage is only local to that thread.
+
+It's not shared anymore.
+
+Therefore, we are going to be more efficient.
+
+Fortunately, there is a built in functionality like this in parallel loops.
+
+Whether you're looking at 4 or 4 each, you have this functionality here and it's quite complicated.
+
+Please bear with me and try to do this together.
+
+Okay, so if we examine the different overloads here I think number nine.
+
+So let's go to number nine.
+
+Here you can see that number nine has the same from inclusive to exclusive.
+
+And then there is this local init.
+
+What does this mean.
+
+So this is a func a function delegate right.
+
+That is used to initialize a local storage And the type of that variable is t local, which means that
+
+you can use any type.
+
+It doesn't really matter.
+
+Of course, for this particular instance we're going to use integer.
+
+And then you are going to the next one which is the body.
+
+The body we're familiar with this one.
+
+And the last one is in the additional one which is local.
+
+Finally what does it mean?
+
+It means that when everything finishes, when all of the iteration finishes, this action delegate will
+
+be triggered.
+
+And when we trigger this, we can access the local variable at that time in order to aggregate all of
+
+the local storage variables together.
+
+Right.
+
+So we have two additional parameters here, which is the third one that is used to initialize the local
+
+storage variable, and the last one which is used to aggregate the local storage variable.
+
+Okay.
+
+Let's try to use that.
+
+The first one and the second one stays the same.
+
+The third one is the function delegate that is used to initialize the local storage variable.
+
+And therefore we're going to just use lambda expression.
+
+And this will initialize the local storage variable.
+
+And it's similar to the divide and conquer example.
+
+We use some one some two.
+
+Right here we're basically assigning zero to someone or some two or some x.
+
+And we don't actually know how many threads are involved.
+
+But we're using this lambda expression to assign the initial value, which is zero, to all of the local
+
+storage variables.
+
+Okay.
+
+Now we are going to the fourth one, which is what we have here.
+
+This is the body.
+
+But in this case we cannot just use I, we have to use these three different things.
+
+First one is the index.
+
+Second one is date.
+
+And we use the state before we learned about it.
+
+The third one is the local storage variable.
+
+We can use that.
+
+We usually just call it thread local storage.
+
+You can use TLS or LZ.
+
+Now I can access the local storage variable here, so we are no longer going to lock on the shared some
+
+variable anymore.
+
+We're going to just use this local storage variable.
+
+Thread local storage variable.
+
+We're going to access the array using the index variable.
+
+So basically we're just increment the local variable which is local to that thread.
+
+And when this finishes we get a summary of that particular chunk.
+
+And then at the end we have another lambda expression which is the local.
+
+Finally which we are going to use it to aggregate the result.
+
+So I'm going to say TLS goes to.
+
+And then here we can access the final value.
+
+So TLS this particular value here is going to be the final value.
+
+Right.
+
+Because this function delegate will only be executed after all of the iterations within that particular
+
+thread finishes.
+
+Now we can say sum M equals sum plus TLS.
+
+Now for this sum we still have to use the lock.
+
+The exclusive lock here.
+
+And let's move this in here.
+
+So now you may ask why we need to use this.
+
+This is only called after all of the iterations.
+
+Yes.
+
+It's only called after all of the iterations.
+
+But it's only for that particular thread.
+
+Right.
+
+So when this particular thread finishes, whichever thread it is, it's going to use this and add it
+
+up to the sum.
+
+However when this is executing by let's say thread number one, it could be also being executed by,
+
+let's say thread number three.
+
+When both threads are contending for the shared resource use, again it's going to run into problems.
+
+Therefore we use this lock to lock it.
+
+But this is not going to affect the performance much because this is only called once per thread.
+
+And even for this 1 million data range we are not going to have too many threads here.
+
+So let's actually see how many threads we have.
+
+I'm going to say the task ID is and we're going to just provide the task ID.
+
+I'm going to say task dot current ID.
+
+And now you see this red squiggly line here.
+
+This is actually a function delegate.
+
+So you have to actually return this TLS.
+
+And that's it.
+
+So let's give it a try and see how this goes.
+
+Let's run this.
+
+And very quickly you see the result.
+
+Although this is a million it's still pretty fast.
+
+And you can see we only use eight different tasks.
+
+So what does that mean.
+
+So it's eight different threads.
+
+And that means this is only called a different times.
+
+Although the eight different threads could be calling this line the same time.
+
+That's why we use the lock.
+
+But this is not going to affect your performance.
+
+It's only eight times.
+
+However, if you use this exclusive lock inside here, this is called a million times, right?
+
+This is because we have a range from 1 to 1 million.
+
+So this line is going to be executed for that many times.
+
+So you're going to be contending for the shirt rewards for so many times.
+
+And a lot of the time is going to spend your time waiting for the lock to be released.
+
+Here, it's only as many as the number of chunks.
+
+In this case we have eight different chunks.
+
+So eight different threads.
+
+Okay, so just to sum up it looks a little bit complicated a little bit intimidating.
+
+But just remember here you initialize the thread local storage variable and then you use it here by
+
+providing this as a parameter.
+
+And last but not least, you aggregate that and aggregate that to your shared variable.
+
+And just don't forget to use exclusive lock or any other synchronization techniques that we have learned,
+
+right?
+
+Last thing before I finish is this TLS data type here.
+
+Now if I hover the mouse over you can see this is an integer.
+
+And that's really just because I initialize it to zero.
+
+Now you don't have to initialize it to zero.
+
+Let's say you want to use a dictionary.
+
+You can just initialize it as this.
+
+For example string and string.
+
+And now if I hover my mouse over this you can see the data type of the TLS parameter is a dictionary
+
+of string and string.
+
+Same here.
+
+Dictionary of string and string.
+
+Of course we're going to run into problems because we're considering this is a number.
+
+Some is a number.
+
+We can't do this kind of operation against the dictionary and integer.
+
+So let's roll it back to zero.
+
+And that's everything I want to cover just to make sure that we are actually calculating it correctly.
+
+Let's change this back to 1 to 10 okay.
+
+1 to 10.
+
+We know the result is 55.
+
+We want to make sure that we're calculating it correctly.
+
+So even for this we're using four different threads.
+
+And the sum is 55.
+
+And that's everything I want to cover in this video.
+
+If any questions please let me know.
+
+If not I will see you in the next one.
+

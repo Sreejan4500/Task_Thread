@@ -1,0 +1,101 @@
+In this video, let's learn about concurrent stack.
+
+Again.
+
+It's very similar to a regular stack.
+
+It's a last in first out data structure, and it's just that it's able to handle multiple threading,
+
+which means it's able to deal with thread synchronization within itself.
+
+So when you use it, you use it in the same way as regular stack.
+
+Of course you're going to have to do tripod instead of regular pop adding to it.
+
+Just like the concurrent queue you don't need to use try.
+
+However, when you try to take things out from the collection, you have to use try.
+
+Let's modify this code.
+
+Here we're going to say stack, stack and then new stack integers.
+
+And we're going to push push some stuff into it.
+
+Let's say first one, second one and third one okay.
+
+Now when we want to take things out from it we have to use the pop method.
+
+And you can see that we have a regular pop.
+
+That's because I forgot to use concurrent here.
+
+So I'm going to say concurrent stack here.
+
+And this stack doesn't have a pop method.
+
+It only has a try pop method.
+
+You can use try pop range to pop a range of elements from the stack, but that's extra stuff.
+
+Let's focus on this regular try pop and we can just pop out a the first element right from here.
+
+So var and then result.
+
+And what is this result.
+
+We can write it out because this last in first out.
+
+So it must be number three here.
+
+In this case let's try it.
+
+All right.
+
+You can see number three is popped out okay.
+
+So that's very very simple.
+
+And in the previous case when we try to simulate the web server okay.
+
+Let me paste that over here.
+
+Well this web server simulation we have a request queue.
+
+Can we use the concurrent stack over here.
+
+It doesn't make quite a lot of sense.
+
+The first request that comes in should be requests that should be processed because we don't want user
+
+to wait for too long, but in some cases not.
+
+In this case.
+
+We may want to use a stack instead of queue, but the usage is very similar.
+
+You don't need to worry about dealing with concurrency.
+
+Thread synchronization just uses regular stack and you're good to go because internally it's able to
+
+deal with all of the threads synchronization.
+
+And so concurrent queue and concurrent stack, they're thread safe.
+
+But of course when you use concurrent key or concurrent stack, if your code has extra stuff that needs
+
+to access shared resources, not only reading but also modifying the shared resources, then you need
+
+to apply your lock in your own code.
+
+You just don't need to worry about the queue data structure, the stack data structure, because internally
+
+they're able to do that themselves.
+
+All right.
+
+That's everything I want to cover in this video.
+
+Any questions please let me know.
+
+If not, I will see you in the next one.

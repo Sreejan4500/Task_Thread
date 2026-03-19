@@ -1,0 +1,73 @@
+In this video, let's talk about the stop method.
+
+The stop method works in a very similar way to the exceptions.
+
+The exceptions is just more prioritized because it indicates that iterations are in a exceptional state,
+
+so it needs a more emergency type of handling where the stop is more proactive.
+
+It's not that we encounter something that unexpected, it's just that we're expecting under a certain
+
+condition, the entire loop needs to stop in a similar fashion as the exception, although everything
+
+is expected.
+
+So let's go back to the previous diagram here and just review this.
+
+For example, if I call the method stop at iteration 65, instead of throwing an exception at iteration
+
+65, I just call the method stop.
+
+Then the behavior afterwards is very similar.
+
+I don't want to cover this.
+
+I have iterated many times in the previous video how this works, right?
+
+It's very similar.
+
+All of the iterations that I've already started will try to finish.
+
+No other new iterations should start, so that's where the stop method.
+
+So let's go over here.
+
+So the way to to do it is instead of throwing the exception here I can just call state dot stop and
+
+this will work in a similar fashion as the exceptions.
+
+Now here we're trying to use the state dot exceptional to see whether there are other iterations that
+
+are already just thrown exceptions.
+
+But when we call stop, what we can use is to say is stopped.
+
+And if you read the description here, it says get whether any iteration of the loop has called the
+
+stop method.
+
+So if I call the stop method then we don't have to start a new one.
+
+This is when our iterator iteration takes a long time, and you don't want a new iteration to start.
+
+That's when you call this a stop method, and it's very similar to the is exceptional.
+
+The way to use it.
+
+The reason to use it is very similar to the is exceptional property here.
+
+Okay.
+
+So that's it in one word is that the stop is more proactive.
+
+The exceptions are not proactive or reactive.
+
+And the way to tell from other iterations, whether a iteration has called the stop method is to use
+
+this is stopped property which corresponds to the is exception is exceptional property.
+
+Okay, that's everything I want to cover in this video.
+
+If any questions please let me know.
+
+If not, I will see you in the next one.

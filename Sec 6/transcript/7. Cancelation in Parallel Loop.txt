@@ -1,0 +1,171 @@
+In this video, let's talk about cancellation in parallel loop.
+
+We can directly jump into Visual Studio.
+
+Let's take this example that we used when we learned task cancellation.
+
+Let's copy it to clipboard.
+
+And now let's come to Visual Studio and just paste it over here.
+
+So let's review this code.
+
+We have created a cancellation token source here.
+
+And then we use this token within it in a task.
+
+And then we just run the task to do the work here.
+
+And we allow the user to press on C and enter in order to trigger the cancellation.
+
+Now inside the work here we check the is cancellation requested, and then we throw an exception when
+
+it's.
+
+So this is what we did here.
+
+Now if we were to use parallel loops to implement this we can replace this with parallel loops.
+
+We cannot actually try to get rid of this task, because if we do that remember parallel loops are blocking.
+
+So if we do it here then we will never be able to receive user input until everything finishes.
+
+If we do it after the red line here, then we will never be able to read this while the work is being
+
+done.
+
+So we will have to replace this sequential loop with parallel loops, which actually makes sense.
+
+So let's try to do that.
+
+So let's get rid of this.
+
+And then I'm going to say parallel dot four.
+
+We're going to go from 0 to 100,000 just like before right.
+
+And then over here there is a overload here.
+
+Let's go to the next one.
+
+Next one.
+
+You see here there's a parallel options.
+
+This is where you can specify the token source which we have already created here.
+
+So let's create the parallel options I'm going to say options equals new parallel option.
+
+And then we can specify the cancellation token as the CTS dot token.
+
+So it's as simple as that.
+
+And then here the third parameter is going to be the options.
+
+And after that it's the same thing.
+
+So we're going to use the lambda expression I goes to.
+
+And then I'm going to do whatever we need to do here.
+
+I think before what we did was that we just simply output the current timestamp.
+
+I'm going to do the same thing string interpolation date time now and then it's going to output the
+
+current time.
+
+And we also did Deadspin wait.
+
+And we waited for I think 300 million.
+
+And this is about a second wait.
+
+But when we do this, you're going to notice that this performance is much better than before, because
+
+before we were using sequential loop, now it's parallel loops means we're going to divide and conquer
+
+it.
+
+So you will see the time outputs in batches.
+
+However, the way that we cancel the parallel loop is the same We are waiting for the user to enter
+
+C and then if it's C then we are going to call the cancel method, which in turn triggers the cancellation
+
+of the parallel loop.
+
+And after that a exception is going to be automatically thrown.
+
+So we're going to see what happens.
+
+So let's run this program.
+
+Okay.
+
+You can see that time goes out in batches.
+
+We were blocked I think the spin rate is too long.
+
+I added an extra zero.
+
+So let's change it to 30 million.
+
+And then let's try to test the program again okay.
+
+Now you can see that it goes in batches right.
+
+So that's because we have multiple threads going on in there for in the parallel loops.
+
+Now I'm going to do C enter.
+
+And immediately you see unhandled exception.
+
+Let me increase the font size for you.
+
+You can see it throws an aggregate exception.
+
+And then internally you can see this is task canceled exception okay.
+
+So this is the default behavior of the parallel loop.
+
+So whether you're using for or foreach or invoke you're going to have the same type of syntax.
+
+Provide the options which internally contains the cancellation token and then the parallel loops internally
+
+handles.
+
+Checks the request of cancellation and it will handle that.
+
+All we got to do inside this body is whatever we need to do the cancellation request.
+
+Okay.
+
+And then another thing you need to pay attention to is that this parallel loop because it blocks itself,
+
+right.
+
+It's blocking.
+
+Therefore it actually throws the exception out and it throws the aggregate exception because in each
+
+different threads there could be multiple exceptions.
+
+So what you can do is to use a try catch around the parallel loop.
+
+Just like I think we talked about this before.
+
+We just need to catch the exception again to catch the aggregate exception.
+
+Or you can choose to just catch the general exception.
+
+Whatever you want to do, you can just string something like this.
+
+That's it.
+
+You can do this.
+
+And that's everything I want to talk about the cancellation for Parallel Loops.
+
+Any questions please let me know.
+
+If not, I will see you in the next one.

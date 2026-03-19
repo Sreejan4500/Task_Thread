@@ -1,0 +1,234 @@
+In this new section we're going to talk about async and await.
+
+So this is still a task based asynchronous programming.
+
+But I just put async and await in a separate section because we have a lot about them to talk about.
+
+So in the previous example, when we talk about continue with and continue with the continuation chain,
+
+you have seen that task continuation still could be quite involved.
+
+You have a lot to do and you have a lot to be mindful.
+
+Let's take the first part of the continuation, which is the continue width.
+
+This is the example that we wrote when we were talking about continue width method.
+
+So we have one continue width.
+
+But you just have to write everything inside a lambda expression.
+
+Is there a way to make it feel like you're writing asynchronous code.
+
+And that's exactly what async and await helps us to do.
+
+So let's change this a little bit.
+
+Let's comment out this for now and let's look at this task.
+
+So what does this task do.
+
+This gets sketch the Pokemon less.
+
+So let's call this get Pokemon list.
+
+And then what we can do, of course, to make it synchronous is to just simply use result.
+
+And we have the response like this.
+
+And of course this response is the JSON string.
+
+And then what we can do is we can copy this code and put it over here and comment this.
+
+Let's put it over here okay.
+
+And then let's delete this.
+
+Now this looks like writing synchronous code.
+
+The only problem is that this line is blocking.
+
+Is there a way to do this but not actually blocking.
+
+There is.
+
+And that's like I said we're going to use the await keyword.
+
+But let's make sure this works properly first.
+
+So let's run the application and it shows up everything properly except that this is blocking.
+
+And you can see that this is the end of the program.
+
+That's exactly where the await keyword can help us to do.
+
+So let's simply make a little change here.
+
+So instead of using result, let's use the await keyword.
+
+So remove the result and then use the await keyword.
+
+Once we use await keyword, you can see that we have the response as a string as well.
+
+We don't have to call the result.
+
+We already have the result right here.
+
+And if we run it we get the same thing the name, the URL.
+
+And then it says this is the end of the program.
+
+So this looks like it's blocking but it's actually not.
+
+So let me move this these functionalities into a function.
+
+And then you will see.
+
+All right.
+
+So I'm gonna say void.
+
+And then I'm going to just say output first Pokemon.
+
+And I'm going to actually move this whole thing.
+
+Now what you can see is that there is a red squiggly line here.
+
+It says the await operator can only be used within an async method.
+
+So I have to use the async keyword here to decorate the method.
+
+Now I have a method that I can use.
+
+Well, why just now we didn't have to use the async keyword, because in this new format of writing
+
+a console application, we don't have the main method.
+
+We write the main method just like a few years ago when we didn't have this Python console application.
+
+Then you would still have to use the async keyword in front of the main method.
+
+All right.
+
+So we have the async and we have the await.
+
+And we can simply just call this.
+
+Let's call this and let's run the program again.
+
+Now you see the order is reversed.
+
+This is at the end of the program.
+
+And then it outputs the first Pokemon and the first pokemons name and the first pokemons URL.
+
+So as you can see, once you put everything into a method and it's an async method, then this is actually
+
+running asynchronously instead of synchronously.
+
+But everything that you're writing here feels like you're writing synchronous code.
+
+The reason why previously, when we didn't use a method here, the result of the program seems like
+
+asynchronous program.
+
+It's just because everything after the await keyword is considered the main thread.
+
+Including this part because previously threw back a little.
+
+Okay.
+
+Previously the code is like this.
+
+So we have the await keyword here.
+
+So everything after the await keyword here is considered continuation.
+
+Therefore it feels like we were running everything synchronously, but it's actually not.
+
+So here when we put everything inside a method then you can tell that this is not actually running synchronously.
+
+It's running asynchronously.
+
+Everything inside this method is a continuation, but these two lines are outside of the asynchronous
+
+method.
+
+Therefore this line actually shows up first.
+
+So there are a few characters of the async await.
+
+And we're going to cover them in this section.
+
+For now I'm just listing them out.
+
+So let's take a look at them.
+
+Okay.
+
+The first one is everything.
+
+After a wait keyword is considered as a continuation, which I have just talked about when the program
+
+runs to the await keyword, the calling thread is immediately released so that it is free to do any
+
+other things.
+
+When we run through the asynchronous method and when this method is called, once this line executes,
+
+the calling thread is immediately released.
+
+This is the calling thread, which is the main thread, and the execution of these two lines is actually
+
+also on the main thread.
+
+But then once we encounter this await keyword, the main thread is released and it is free to do the
+
+rest of the things.
+
+And that's why we see this output first, and everything else is considered a continuation.
+
+And once the asynchronous method here the getString async finishes, the continuation is executed in
+
+another task.
+
+Of course, the task uses a thread under the hood.
+
+So that's the first character.
+
+And let's look at this one.
+
+So when we use the await keyword it returns the value c over here.
+
+When we use the await keyword it actually returns the value.
+
+Because here if I hover the mouse over it, you can see this is a task of string.
+
+So if we don't use the await keyword we have to say task dot result in order to access the result.
+
+When we use the await keyword, it gives us the result without us having to access the task.
+
+That's the second feature.
+
+And when we use the await keyword, I think I mentioned it before, it actually throws the first exception
+
+in the aggregate exception collection.
+
+So if your task contains many exceptions, it's going to throw the first one.
+
+And then last but not least, when we use the asynchronous await keyword, the system helps us to manage
+
+the synchronization context.
+
+So this synchronization context is the one we had problems with for example the UI thread.
+
+Remember we have to use the invoke method to synchronize the execution context.
+
+So all of these we're going to talk about in detail in the future videos.
+
+And that's everything I want to cover in this video.
+
+You have any questions please let me know.
+
+If not I will see you in the next one.
+

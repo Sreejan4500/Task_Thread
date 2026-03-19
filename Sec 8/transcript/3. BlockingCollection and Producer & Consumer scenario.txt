@@ -1,0 +1,347 @@
+In this video, let's learn about the blocking collection.
+
+The blocking collection is actually a wrapper which is used to wrap around either a concurrent queue
+
+or a concurrent stack, or a concurrent back, which we didn't cover yet, and I'm not planning to cover
+
+the concurrent back.
+
+In this course, you can just refer to the documentation.
+
+It's actually very similar to concurrent queue, and concurrent stack is just an ordered.
+
+A back is an ordered.
+
+You can put things in it, and when you take it out, it's not exactly in the same order as before.
+
+You can use a blocking collection to wrap around the concurrent collections.
+
+What it does is that it provides you two different features.
+
+The first one is obviously blocking, the second one is binding.
+
+Both of these features are actually related to the producer and consumer pattern.
+
+So let's borrow the diagram that we used previously.
+
+When we talk about parallel link.
+
+When we talk about parallel link, we mentioned that the buffer actually can be configured to have a
+
+certain size.
+
+So the bounding and blocking is actually referring to this buffer.
+
+The features of the buffer.
+
+Bounding means there is a maximum capacity of the buffer.
+
+You can specify that.
+
+And blocking means that when the maximum capacity is reached, the producer should stop producing and
+
+wait until consumers consume products in the buffer.
+
+And when there's more space, then the producer can continue producing.
+
+That's blocking on the upper bound.
+
+And there's also blocking on the lower bound, which means that when the buffer is empty, then consumers
+
+should stop consuming.
+
+Obviously, it needs to stop consuming, so the consumer thread needs to be blocked when the buffer
+
+is empty and producer thread needs to be blocked when the buffer reaches the upper bound.
+
+So that's why we have this blocking and bounding features for blocking collections, and the blocking
+
+collection is actually specific for the producer and consumer pattern.
+
+Let's jump into Visual Studio and take a look at this.
+
+This is the code example that we created for our concurrent queue lecture.
+
+And we have this concurrent queue.
+
+And we can actually wrap around the concurrent queue with the blocking collection.
+
+So for example here I can say blocking collection.
+
+And then I can specify that the thing that is within the collection should be a string just like the
+
+concurrent queue.
+
+I can specify that and I can say collection just like this.
+
+And when I create it you notice the destructors here.
+
+So one of them you can see that we have this AI producer consumer collection as the first parameter.
+
+And then the last overload here is having a collection as well as the bounded capacity.
+
+The maximum capacity here, right?
+
+So I producer consumer collection.
+
+This is an interface.
+
+This interface is actually implemented by concurrent queue or concurrent stack or concurrent back.
+
+So let's go to the definition of concurrent queue.
+
+And you can see that concurrent queue implements the eye producer consumer collection interface.
+
+Same thing if you go to concurrent stack or concurrent pack.
+
+All of these three different concurrent data structure implements the eye producer consumer collection,
+
+which means that first of all, the concurrent data structures are actually specifically for the producer
+
+and consumer pattern, which is a very common pattern for multi-threading programming.
+
+And then you can use this request queue is the concurrent queue.
+
+So we can put it here.
+
+And then we can provide a upper bound.
+
+Right.
+
+Let's say that we want it to be free so that we can actually when we test it we can fill it.
+
+Now over here, when we try to enqueue the request instead of working with the request queue itself,
+
+we now need to work with the collection.
+
+So therefore let's remove this and we're going to say collection dot add.
+
+And we just directly add input.
+
+Now we move on to the monitor queue method here.
+
+So the responsibility of this monitor queue is basically check whether the queue has any items.
+
+If it has any item, it will try to dequeue and then try to process that particular request that is
+
+Dequeued.
+
+In here, when we work with the blocking collection, we don't actually have to use the dequeue method,
+
+and we don't actually have to check request queue whether it has any items in it or not.
+
+Because remember it's a blocking collection.
+
+If it has no items, the consumer thread will be blocked and therefore it actually has a special enumerator.
+
+We can use that and it will automatically do the job for us so we can do for each.
+
+We try to loop through that collection, but what we can do is we're going to say var request in collection
+
+dot get consuming enumerable.
+
+So this is a special enumerable.
+
+Once we are looping through enumerating through this collection, by using this enumerator, it will
+
+actually dequeue the request or the item from the collection for us.
+
+So we don't have to specifically say, I want to do this.
+
+We just need to do this and then use use this directly.
+
+So let me copy this out and paste it over here.
+
+And then here we just need to process this request.
+
+And then we can delete this.
+
+And this for each actually has a special feature that it will actually not finish until we make this
+
+whole process complete.
+
+So let's say I set a breakpoint here and let me run it.
+
+And then I will show you what I mean by that.
+
+So if I say ss a a b whatever I input here and you can see that it's processing and the breakpoint here,
+
+it's never hit.
+
+So that means we don't even need this while loop here.
+
+Remove this and we should actually move this inside.
+
+Move this thread.sleep inside for each just in case that we're moving through this too fast.
+
+You can determine whether this is necessary or not by measuring the time, but let's say that we are
+
+just keeping this thread.sleep over here to prevent consuming it too fast.
+
+All right.
+
+That's basically everything we need to do here.
+
+And when we have this, we can still run this without any problems.
+
+This foreach loop will be running infinitely Until we actually finish the whole thing.
+
+See, I can continuously enter data over here and there will be no ending for this whole process.
+
+Now, how do we know that we have a bounding?
+
+How do we know that the buffer is actually three as we specified here?
+
+What we can do is we can over here, when we try to read letters from the console we can output this.
+
+So I'm going to say console dot write line.
+
+And then we can say include something right.
+
+We include the input and we can spit out the queue size.
+
+So the queue size is going to be changed to dollar sign.
+
+And then the queue size is collection.
+
+All right.
+
+So let's try this and see whether we can see the size of the queue.
+
+So now you can see that the queue size is Sizes 0110111.
+
+This is because I entered too slow.
+
+I enter too slow.
+
+Let me try to enter faster this time.
+
+So I'm going to say see whether I can reach two.
+
+So it looks like I still enter too slow.
+
+Maybe we can add a sleep over here.
+
+So instead of 100 milliseconds, we can say 2000 milliseconds so that the consuming action is slow and
+
+consuming action is slow.
+
+That way we can see the upper bound of our buffer.
+
+All right.
+
+So let's try this.
+
+Now you can see once I reach number three the whole process is very slow.
+
+My producing thread which is the main thread is blocked.
+
+So I can no longer enter very quickly.
+
+Now the whole queue is Processed and I can continue to enter.
+
+And once I reach three, I'm blocked again.
+
+My entering process is blocked.
+
+So the operating system has itself has a buffer for the keystrokes.
+
+So therefore you can see that the the process input is more than three because one of them is queued
+
+inside that keystroke.
+
+So for example if I try many many times.
+
+So I tried many many times.
+
+And then now I'm finished and you can see it's still processing.
+
+It's still processing.
+
+The queue size keeps number three.
+
+It doesn't decrease.
+
+Why?
+
+It's because every time it's consumed, another one is added to it from the queue of the keystroke,
+
+basically the keyboard device.
+
+And then it's still processing it.
+
+Okay.
+
+Now now we actually have a problem with this code.
+
+Let's run it and I'll show you where the problem is.
+
+So here is a server is running type exit to stop.
+
+So if I enter something into the queue and they're all processed now.
+
+Now if I say exit and then hit enter, you can see that it's actually being blocked.
+
+It's not exiting at all.
+
+Why is that?
+
+Well, it's because this enumerator here from get consuming enumeration.
+
+So we are when we're enumerating this, like I mentioned, it will never exit until we tell it to complete.
+
+So how do we tell the whole process to complete.
+
+So come over here and we say we received exit.
+
+What we can do is we can say collection dot complete adding.
+
+So this method, if we read the description here, it marks the collection instance as not accepting
+
+any more additions at all.
+
+When we do that, we break off from the while loop, and then here, when we are still going through
+
+this infinitely, we need to check whether the collection is marked as complete or not.
+
+So if it's marked as complete, then we should break out from here.
+
+So what we can say is we can say collection dot is completed.
+
+If it's completed, we can break from the for each loop.
+
+Okay.
+
+Let's give it a try.
+
+And now if I say as a, b c d e, f g and it will continue process a little bit until the queue is cleared.
+
+And now I can enter exit and hit enter.
+
+Now you can see I exit out from this program.
+
+All right.
+
+So this is how you use the blocking collections As for implementing the producer and consumer pattern.
+
+So to sum up, you have the blocking collection as a wrapper.
+
+You can wrap around any concurrent collection that implements the AI producer consumer pattern interface.
+
+And then you can provide a upper bound.
+
+You don't have to, but if you provide an upper bound, then it will be blocking and it will be bounded.
+
+So both features will be implemented.
+
+And then the next thing you learned is that you can use this get consuming enumerable from the blocking
+
+collection.
+
+And when you do that, this for each loop actually removes the element from the collection.
+
+And when it's enumerating through that enumerable.
+
+And the last thing that you learned is that you can use these complete paired with complete adding to
+
+tell the whole process to finish.

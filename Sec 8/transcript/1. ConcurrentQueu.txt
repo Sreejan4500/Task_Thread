@@ -1,0 +1,223 @@
+In this section, let's talk about concurrent collections.
+
+In the first concurrent collection we're going to learn about is the concurrent queue.
+
+It's actually very similar to the regular queue with some slight differences.
+
+So let's just jump into Visual Studio and directly try to learn about within Visual Studio.
+
+So to use it of course first you need to declare it and we're going to have a queue.
+
+So instead of using the regular queue like this I'm going to use concurrent queue.
+
+So concurrent queue and it belongs to a different namespace here.
+
+And here we just need to specify the type of the object within the queue that you want to store.
+
+So for example in this case we want to use an integer.
+
+And we can just like normal in queue numbers.
+
+Let's say I'm going to enqueue one two and three.
+
+And a concurrent queue is basically a first in first out data structure, which is the same as a regular
+
+cue.
+
+But now it comes the difference.
+
+First of all, when you try to DQ, you cannot just say DQ.
+
+It doesn't really exist, but there is a try.
+
+DQ y needs to use try DQ instead of just use regular DQ.
+
+Well, remember this is a concurrent queue, which means that this is designed for supporting multiple
+
+threading programming.
+
+When there are multiple threads using the queue, the DQ method could be called within different threads
+
+at the same time or about the same time.
+
+So if you dequeue and when the queue is already has no element, you're going to run into problems.
+
+That's why we want to use try dequeue so that even though you might run into the situation where when
+
+you try to dequeue and there's no element in it because some other thread already dequeued the last
+
+element or the last item, you're going to be fine.
+
+You will not run into exceptions.
+
+That's why you will find there is a pattern here that for concurrent collections, when you try to modify
+
+the collection in any way, there is going to be a try.
+
+It's a prefix, right?
+
+You try to add, you try to dequeue, you try to make some changes instead of just directly add, dequeue
+
+or change update.
+
+So you always have a try.
+
+So this is the first difference.
+
+Of course the main difference here is that within the implementation of the concurrent collection,
+
+in this case our concurrent queue, there is already a locking mechanism that implements thread synchronization.
+
+So you don't need to worry about applying any locks to the queue in order to make it work for multiple
+
+threads.
+
+So let's try to use this a little bit.
+
+So this is you need to use the alt keyword.
+
+And then you can say var result.
+
+And now you can just output the result as zero.
+
+Let's say result.
+
+And if I run this well let me add something.
+
+Let me say just say read.
+
+And then when I run it you will have number one because this is a first in first out data structure.
+
+All right.
+
+You can see number one is displayed right here.
+
+Okay.
+
+You just remember you try Dick.
+
+Okay.
+
+Now let's change this program.
+
+Let's use this.
+
+This is the code that we implemented for the web server.
+
+Right?
+
+We were simulating a web server in the main thread.
+
+Here we have a while loop here receiving user input.
+
+And a user input is enqueued into a request queue.
+
+And then we have a monitor queue which is being called within thread.
+
+Second thread.
+
+And this thread is a monitoring worker thread started at the very beginning.
+
+So whenever there's elements in the request queue so you can see that it's as well.
+
+And it's checking whether there's any elements in it.
+
+If there's any elements in the queue, it's going to dequeue, and then it's going to create a new thread
+
+to process that request.
+
+And the processing method here is basically just output whatever that is in the queue.
+
+You can see that when we did the implementation we use a regular queue.
+
+And using a regular queue at that time didn't create any issue.
+
+At least we didn't find it.
+
+It was just because we were entering the request pretty slowly, and there's basically just one user
+
+entering the request.
+
+But for a real web server, you're going to have people around the world entering requests at the same
+
+time.
+
+And most likely you will have problems when you use a regular queue just because multiple threads is
+
+accessing the queue and making changes to the queue at the same time.
+
+Therefore, we just need to change this to a concurrent queue, right?
+
+Remember, the concurrent queue is very similar to regular queue.
+
+We just say concurrent queue.
+
+We do control dot import a namespace and then we use it the same thing right here in queue.
+
+We still have the method here to enqueue.
+
+It's just that when we monitor the queue and when we try to dequeue here, instead of using dequeue,
+
+try dequeue try dequeue.
+
+And then we're going to say out var.
+
+And we can basically just delete this.
+
+And this can be used right here.
+
+And that's it.
+
+This is very very simple.
+
+You just need to make the changes.
+
+You don't need to worry about applying any locks.
+
+You don't need to create a lock object.
+
+You don't need to use the lock keyword.
+
+You don't need to create a monitor.
+
+You don't need to do anything.
+
+Concurrent queue itself is guaranteed to be able to handle synchronizations for you before I run it.
+
+I think we need to take advantage of this return value.
+
+Try.
+
+Dequeue returns a boolean value if it succeeds to actually dequeue from the queue, or dequeue the element
+
+from the queue.
+
+So I need to apply this just.
+
+Just so that we don't waste resource.
+
+We don't want to create a new thread to process nothing.
+
+We only want to launch a thread to process input.
+
+If there is any input in it, then we can use this return value just like this.
+
+And if we do it this way, we'll run our program.
+
+The program is going to run the same way as before.
+
+So I'm just entering different letters and it's going to just process those letters, those inputs.
+
+The only difference is that this is thread safe because we're using concurrent queue instead of a regular
+
+queue.
+
+So it does all of the synchronization techniques for me in the most proper way.
+
+Okay.
+
+That's everything I want to talk about in this video.
+
+If any questions, please let me know.
+
+If not, I will see you in the next one.

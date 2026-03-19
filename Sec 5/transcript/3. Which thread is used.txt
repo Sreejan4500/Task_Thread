@@ -1,0 +1,145 @@
+In this video, let's dig deeper into which thread is being used before and after the await keyword.
+
+So let's jump into Visual Studio.
+
+And this is the previous example where we learn about the basic syntax.
+
+So now we have this await keyword here.
+
+And we also have this await keyword here.
+
+So what I want to do is to output the thread ID.
+
+Like I mentioned before a task you usually still use a thread under the hood so we can still output
+
+the managed thread id.
+
+So let's try to use Console.WriteLine in here and say the main thread id.
+
+We know the main thread id is always one, but let's still output it.
+
+And let's go over here.
+
+And when I say thread current thread dot manage thread id and then we're going to come back over here.
+
+So this is before the await.
+
+And then over here the thread ID after this await keyword.
+
+And now we're going to put the same output here before the await keyword and then after the keyword.
+
+So in order to distinguish which one is which.
+
+I'm going to say this is one, and this is two, and this one is three.
+
+And of course this one is four.
+
+And now let's run it.
+
+Main thread ID is one starting to work.
+
+So three thread ID is one four, thread ID is six and then two thread ID is six.
+
+So the execution sequence is.
+
+This is executed first and then three, and then four, and then two.
+
+Because we use a wait keyword which sets up the continuation.
+
+So everything inside will have to be executed first and then continue with this.
+
+Therefore the sequence is like that.
+
+But if we look at the thread ID again okay, let me enlarge it.
+
+So the main thread id is always one.
+
+We know that.
+
+And then you can see that number three which is here is also using the main thread.
+
+And after that number four using thread number six.
+
+So this is using thread number six which means that everything after this await keyword which is continuation
+
+at that one is using a separate thread and afterwards this one finishes.
+
+Calling this method finishes.
+
+So there's a new continuation here.
+
+This continuation still uses the same thread here.
+
+And then we exit.
+
+So by looking at this how do we understand it.
+
+Well I want you guys to focus on a couple points here.
+
+First of all the initial await when the initial await is called, the code inside the asynchronous function
+
+still runs on the same thread as the calling thread.
+
+In this case it's the main thread.
+
+So here this still runs on the main thread.
+
+That's the initial execution.
+
+And then afterwards that's the second point.
+
+As soon as you have a await the continuation.
+
+After that, await may be executed on a different thread depending on the thread pool.
+
+The thread pool may decide to reuse a previous thread in this case when it comes over here.
+
+So this is a different continuation.
+
+After the await keyword, you can see that this continuation and this continuation, they both use a
+
+different thread than the main thread, but they are using the same thread.
+
+Thread number six.
+
+Why is that?
+
+Well, thread pool decides to reuse thread number six.
+
+Therefore, we're seeing thread number six showing up twice, which means this one is executed within
+
+thread number six.
+
+And this one is also executed within thread number six.
+
+So this behavior allows asynchronous methods to start on the calling thread.
+
+In this case this line.
+
+It starts on the calling thread and then continue on potentially different threads optimizing resource
+
+usage.
+
+So this behavior optimizes here.
+
+We don't have to create a new thread for just executing everything before the await, because this method
+
+is called in the calling thread.
+
+In this case it's the main thread.
+
+Therefore, we can use the main thread to execute this.
+
+No problem.
+
+Once a task is executed, then the continuation potentially can be executed on a different thread.
+
+In order to optimize the resource usage and improve the responsiveness and performance.
+
+And this is what to cover in this video.
+
+Have any questions?
+
+Please let me know.
+
+If not, I will see you in the next one.

@@ -1,0 +1,445 @@
+In this new section, we're going to learn about parallel links.
+
+In this video we're going to learn about some basics of parallel link.
+
+In the previous section, when we learned about parallel loops, we know that parallel loops are for
+
+using parallelism with a collection of data.
+
+Same here.
+
+We're working with a collection of data, and when we work with any enumerables we can use regular link.
+
+It helps us a lot because it is very helpful tool and I trust that you have used link before.
+
+Now when there is a lot of stuff in the collection of data, and when the work that we want to perform
+
+for each element is a lot, we might want to do do it in a concurrent fashion.
+
+That's where parallel link helps.
+
+So let's directly jump into Visual Studio and see how that works.
+
+Here we have one line of code.
+
+We're using Enumerables to get a range from 1 to 20.
+
+So this items is of the type I innumerable.
+
+So we can use link against this.
+
+Let's say that we are going to use a regular link, and we want to get the even numbers from this collection.
+
+So we're going to say var even numbers equals items dot.
+
+And we can use where.
+
+And I'm going to say x.
+
+I don't know actually how to call this mod I think.
+
+And this is basically try to get the even numbers when this condition is met.
+
+Then we're getting even numbers in this collection.
+
+Now we can output the number of even numbers here.
+
+So I'm going to say there are this number of even numbers.
+
+So I'm going to say count even numbers collection.
+
+All right.
+
+So when I run it it will give me I believe 1010 numbers okay So there are ten even numbers in the collection.
+
+Now this is working as a sequential.
+
+So this is going to actually loop through this enumeration here.
+
+How do I know that.
+
+Okay let's change this lambda expression to a full format.
+
+So I'm going to add curly braces here.
+
+And then I'm going to just return this because this needs to be returned just like this.
+
+And now I'm going to add a console write line here.
+
+So here I'm just going to say processing number.
+
+Which number I'm going to say number x okay.
+
+Like this.
+
+And this is going to tell me which number is processing.
+
+And then eventually it's going to give me this count.
+
+So the same thing I'm going to just add a line break over here.
+
+All right.
+
+Try this.
+
+And now you can see that we have processing number 123 all the way to 20.
+
+And then the line break is not there.
+
+But anyways there are ten even numbers in the collection is at the bottom.
+
+So you can see this is sequential programming, right?
+
+Asynchronous programming.
+
+Everything is actually looped through from the beginning to the very end.
+
+But what if we have a pretty big number here?
+
+So instead of 20, maybe we can have 200 million, 200 million like this.
+
+And if we run it this way, of course we have to comment out this.
+
+Otherwise it's going to take forever.
+
+So let's run this and it takes about two seconds to get the result.
+
+So in a case like this and if we try to add another zero here it's going to take a long time.
+
+I don't think I can even wait speaking while I'm waiting.
+
+And it's just the result doesn't come back.
+
+And my CPU is working really hard trying to get the result.
+
+So let's close this.
+
+So when we have a lot to loop through to work with, especially when we have a work that needs a long
+
+time to process.
+
+So this one is a simple processing here.
+
+What if there's more complicated stuff to work on?
+
+Then each one of the iterations is going to take longer time.
+
+And the result?
+
+So therefore we would definitely think about using multi threads.
+
+And with enumerations like Enumerables here there's already a built in way to do it.
+
+And the way to opt in into that is just to change the items from enumerable to parallel query.
+
+So we can just do something like this as parallel.
+
+And if I hover the mouse over it, you can see that the return result is parallel query.
+
+So when we have a parallel query then we can do the same thing.
+
+We can do exactly the same thing.
+
+Right.
+
+Because we can still use link against the query.
+
+And under the hood multiple threads will be created.
+
+Work with the collection.
+
+Right.
+
+Same thing as parallel loops.
+
+It's going to divide the collection into different chunks and then take different threads to work with
+
+the chunks, and eventually it's going to give you the result faster.
+
+So let's try this.
+
+I'm going to remove this.
+
+And what I'm going to do is I'm going to do items dot as parallel.
+
+And then I'm just going to chain it with regular the where method here or the where function here.
+
+And I'm going to do the same thing for let's do it from 1 to 20.
+
+And I'm going to output this processing number and basically do the exactly the same thing.
+
+And I'm going to just run it.
+
+All right.
+
+So now you can see that the sequence is different.
+
+Now it first processed number 20.
+
+This is random.
+
+If you run it again the first one is not going to be 20.
+
+And you have seen that before.
+
+This is all out of sequence.
+
+And then eventually we get the same result ten different even numbers.
+
+All right Let's try that again.
+
+And you will see that this time it's still 20.
+
+And this time you can see the first one is number three.
+
+And everything is not in sequence.
+
+So this is totally random.
+
+If you run it again it's going to be different.
+
+Why is this.
+
+Well by now you're familiar with this is because multiple threads are being used.
+
+So which thread is taking care of which chunk is random and which thread is selected by the thread scheduler.
+
+It is random.
+
+So therefore you see this in random sequence, but you get the result faster.
+
+So let's say that we're going to change this to 200,000,200 million.
+
+We used to take about two seconds.
+
+Let's see how long this takes.
+
+And we need to comment out this.
+
+Let's try.
+
+It's slightly faster.
+
+And because the work here is just too short.
+
+So it might be even slower when you want to switch between the context.
+
+Remember we talked about this when we talk about the performance considerations in parallel loops.
+
+So even though you can use as parallel to bring parallelism into collections of data, you still have
+
+to think about in what scenario you want to do this.
+
+Right.
+
+When the work is just like this, you may not want to use parallelism.
+
+Sequential programming could be faster, so you have to measure.
+
+We're just using this as an example.
+
+I don't want to bring complicated ideas into education here.
+
+Let's say I add another zero right.
+
+Previously when I add another zero, when it becomes 2000 million, which is 2 billion, then it just
+
+doesn't respond.
+
+So let me see whether this will actually help to shorten the time.
+
+And so that we can wait for a reasonable number of seconds and then get the result.
+
+So let's run it.
+
+Still we're waiting and I don't see the result yet after a few seconds.
+
+But see, I get the result now it's just in about maybe 3 or 4 seconds, maybe five seconds.
+
+I already got the result, but if I changed it back, if I remove as parallel, it's going to take forever,
+
+right?
+
+I waited for at least 20s I didn't see the result.
+
+So now you can see that this is actually improving the performance with simply adding as parallel.
+
+So this introduces so.
+
+So to opt in just simply add as parallel.
+
+That's all you need to do okay.
+
+Let's change back to 20 I want to show you something else here.
+
+We're just opening the number of even numbers.
+
+Let's say that we're going to loop through this.
+
+So for each var items in even numbers.
+
+And I'm going to just output the actual even number just like this okay.
+
+We see the result 2468.
+
+It's in a sequence.
+
+Let's actually change this to a bigger number, let's say 200 and let's run it again.
+
+Well, now when you look at the result, it's not actually in a sequence.
+
+When we use a shorter number, it doesn't actually reflect the reality.
+
+Now we use a slightly bigger number 200.
+
+And we see everything is out of sequence.
+
+Right.
+
+Well this is normal.
+
+We're using multiple threading.
+
+Now if you want to use multiple threading or multi threading and at the same time reserve the order.
+
+What you can do is after the as parallel you can do as ordered.
+
+So this will reserve the.
+
+The sort order however is going to definitely make the performance worse.
+
+So you just need to think about what you actually want.
+
+Now when I output you can see that everything is in a sequence two, four, six, eight all the way
+
+to 200.
+
+Okay.
+
+So this is another thing I want to talk about as ordered.
+
+When you want to add, use the as ordered when you want to preserve the order.
+
+Now another thing I want to talk about is that you can see that.
+
+Let me remove this s -- order first.
+
+You can see that we actually have two different parts.
+
+One is this.
+
+The other one is looping through the result.
+
+We know that when we use this, it's going to use multi-threading.
+
+And in order to make sure what we can do is we can output the thread ID or the task ID.
+
+Let's say we output the task ID right?
+
+Output the task id well, instead of task ID let's try thread id actually thread id and I'm just going
+
+to say thread dot current thread dot managed thread id.
+
+And same thing here I'm going to output the thread id as well.
+
+So I'm going to say the item number is just like that.
+
+And then I'm going to say thread ID and I'm going to say thread dot current thread dot managed thread
+
+ID.
+
+You can use task id, I use thread id for purpose.
+
+Let's run this now.
+
+Let's actually change it back to 20.
+
+Okay, let's run it again Now you can see that these are the two parts, right?
+
+The processing part, which is the looping through that we can also call it the filtering part.
+
+And then this is the iteration part which is we're looping through the results.
+
+And as you can see we're using thread ID number one which is the main thread right.
+
+The main managed thread ID that's always number one.
+
+So since we have two different parts one is the filtering part, the other one is iterating part.
+
+If you want to make both concurrent then you can do something else with parallel link.
+
+There's already a built in way to do that.
+
+So let me comment out this.
+
+And what you can do is you go to even numbers and then you say, for all this, for all actually automatically
+
+introduces parallelism in your iterating part.
+
+The second part of your work, okay And you can see that it says invokes in parallel the specified action
+
+for each element in the sequence.
+
+So for each element, let's say the element is x.
+
+For this, you want to do any work as simple as just output this.
+
+It's actually going to do it in parallel.
+
+But what we are going to do is we're going to do the same thing with this over here.
+
+Okay.
+
+And then I'm going to change this to item.
+
+And now let me run it.
+
+All right.
+
+So now you can actually see that this is everything is mixed together.
+
+Which means that both this first part and the second part is actually being run in a concurrent fashion.
+
+And you have thread ID and thread ID here.
+
+So in both cases we're using different threads to process it.
+
+And this is the other thing I want to mention which is for all if you want to incorporate multithreading
+
+in the iteration part, which is the second part you want to use for.
+
+And that's basically it.
+
+That's everything I want to talk about in this video.
+
+And just to sum up, in order to introduce parallelism into your link, just use as parallel and then
+
+you can do whatever you want afterwards.
+
+Right.
+
+And then you can do all the link functions that you usually do right.
+
+For example you use where to filter.
+
+You use select to project.
+
+You can do anything, but as soon as you do as parallel, the work that will be done is going to use
+
+multiple threads instead of single thread, and you can test the performance to choose between whether
+
+you want to do it in a sequential fashion, or you want to do it in parallel fashion.
+
+Okay.
+
+And then another thing that I want to mention is the you can use as ordered here to maintain the sequence.
+
+And also you can use for all to add parallelism to the second part of the work, which is the iterating
+
+part.
+
+And that's everything I want to talk about in this video.
+
+If any questions please let me know.
+
+If not, I will see you in the next one.

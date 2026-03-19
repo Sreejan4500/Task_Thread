@@ -1,0 +1,151 @@
+In this video, let's talk about the difference between for each and for all.
+
+And before that, we are going to actually cover an important concept that I hope that you already know
+
+that the work here is not started until you're looping through this.
+
+So this is a delayed behavior.
+
+So even in regular link you are not actually executing anything until your loop you're iterating through
+
+the collection.
+
+So for example, if I just comment out this and I set a breakpoint right here and I set breakpoint in
+
+here.
+
+And if I run it.
+
+You can see that this breakpoint is hit but this breakpoint is never hit.
+
+However if I.
+
+Uncomment this.
+
+And now as I prepare inside it and run it in debug mode.
+
+Now you can see the first breakpoint is hit is actually inside here.
+
+So what that means is that once we're looping through the collection, we have to go through the producer
+
+first because you have nothing to loop through here, right?
+
+You have nothing to iterate until you have some results.
+
+Remember the producer and the consumer pattern that we talked about in the previous video.
+
+So this breakpoint is hit first and then when there's enough stuff in it because remember this is fully
+
+buffered here.
+
+So if there's enough products in the buffer then this is actually going to start.
+
+So this breakpoint is going to be hit later.
+
+And you can see when I run run run run it's all about this breakpoint.
+
+Unless there's enough products in the buffer.
+
+Now it comes to here I just have to remove this breakpoint okay.
+
+So that's the first concept you need to understand.
+
+Now we're coming to the topic between the difference between the for each and for all.
+
+Remember in the previous video we talked about using the merge options to control the buffering size.
+
+Right.
+
+Buffering behavior here.
+
+That's because when we use for each we have a something that is called merge.
+
+So there is a merge behavior.
+
+What does that mean is that remember that this collection is divided into different chunks and for different
+
+threads to work on.
+
+Now also remember that in this for each loop we're using the main thread.
+
+So that means that the results from the first one has to be merged, right?
+
+The results from the first one, or have to say the products from the first one, has to be merged together
+
+for the main thread to work on that.
+
+So there is a merging behavior, whereas in for all there is no merging behavior.
+
+Let's run again, let's run, let's make it shorter.
+
+So instead of 200 we use 20 again.
+
+And we can take a look at what is actually happening here.
+
+Thread ID number one.
+
+Right.
+
+That means we are using the main thread for the second part for the consumer, and we're using different
+
+threads for the producing part.
+
+Now if I uncomment this and change it back to for all.
+
+And let's run it.
+
+Let me increase the font a little bit.
+
+You can see that although first of all what we observed.
+
+First of all, even though I use fully buffered, but you can see that the consuming and the producing
+
+and consuming actually interweaving.
+
+Right.
+
+We just produce a little bit and then started consuming produce a little bit.
+
+Started consuming.
+
+That's the first one.
+
+And if you look carefully here, number two is consumed by thread ID four.
+
+And if you look for number two which is right here above it, it is also produced by thread ID number
+
+four.
+
+So so the same thread is used for producing and consuming And if you look at this number four is consumed
+
+by thread ID number seven and number four is produced by thread id number seven.
+
+Again, the same number is produced and consumed by the same thread.
+
+And that's the pattern no matter which one you look at.
+
+So let's say number ten.
+
+Number ten is right here produced and consumed by the same thread.
+
+Number seven.
+
+Number 16 produced by 11 and consumed by 11.
+
+Number eight produced by thread ten and consumed by thread ten.
+
+So you can see this doesn't have a merging behavior.
+
+The result doesn't have to be merged.
+
+In other words, there is virtually no buffer.
+
+The same thread just works on two different jobs at the same time.
+
+That's the difference between for each and for all.
+
+So this means that if you have some work that you don't actually need the result to be merged together,
+
+then you should use for all because it doesn't even need to put the data together.
+
+And that's faster than for each.
