@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "DltpUisKY1g=",
+  "success": true,
+  "projectFilePath": "H:\\Thread, Async, Parallel Programming\\tools\\notes-kid-book\\NotesKidBook.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Tradelab\\.nuget\\packages\\markdig\\0.43.0\\markdig.0.43.0.nupkg.sha512",
+    "C:\\Users\\Tradelab\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
+    "C:\\Users\\Tradelab\\.nuget\\packages\\microsoft.playwright\\1.54.0\\microsoft.playwright.1.54.0.nupkg.sha512",
+    "C:\\Users\\Tradelab\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

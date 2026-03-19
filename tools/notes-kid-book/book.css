@@ -1,0 +1,217 @@
+/* Minimal book-like styling for HTML->PDF (enhanced) */
+:root {
+  --text: #111;
+  --muted: #4a5568;
+  --rule: #e3e3e3;
+  --code-bg: #f6f8fa;
+  --paper: #ffffff;
+  --accent: #2b6cb0;
+  --accent-soft: #ebf4ff;
+  --accent-border: #bee3f8;
+}
+
+html, body {
+  color: var(--text);
+  background: var(--paper);
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-size: 11.3pt;
+  line-height: 1.55;
+}
+
+.book {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Avoid awkward splits right after headings */
+h1, h2, h3 { page-break-after: avoid; }
+
+/* Cover page */
+.cover {
+  break-after: page;
+  padding: 22mm 0 0 0;
+}
+
+.cover-title {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-size: 30pt;
+  font-weight: 800;
+  letter-spacing: -0.3pt;
+  margin: 0 0 8pt 0;
+}
+
+.cover-subtitle {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-size: 14pt;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 14pt 0;
+}
+
+.cover-meta {
+  color: var(--muted);
+  max-width: 80ch;
+}
+
+h1 {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-size: 28pt;
+  letter-spacing: -0.2pt;
+  margin: 0 0 8pt 0;
+}
+
+h2 {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-size: 18.5pt;
+  margin: 18pt 0 10pt 0;
+  padding-top: 6pt;
+  border-top: 2px solid var(--rule);
+}
+
+h3 {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-size: 14.2pt;
+  margin: 14pt 0 8pt 0;
+  color: var(--accent);
+}
+
+/* Start each chapter (lesson file) on a fresh page */
+h3.chapter-title {
+  break-before: page;
+}
+
+blockquote {
+  border-left: 3px solid var(--accent-border);
+  background: var(--accent-soft);
+  padding: 8pt 10pt;
+  margin: 12pt 0;
+  color: var(--muted);
+  border-radius: 8pt;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 14pt 0;
+}
+
+pre, code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+pre {
+  background: var(--code-bg);
+  padding: 10pt 12pt;
+  border-radius: 8pt;
+  overflow: auto;
+  page-break-inside: avoid;
+  border: 1px solid #e6eef8;
+}
+
+code {
+  background: var(--code-bg);
+  padding: 1pt 4pt;
+  border-radius: 4pt;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10pt 0;
+  page-break-inside: avoid;
+}
+
+th, td {
+  border: 1px solid var(--rule);
+  padding: 6pt 8pt;
+  vertical-align: top;
+}
+
+th {
+  background: #fafafa;
+}
+
+@media print {
+  a { color: inherit; text-decoration: none; }
+}
+
+.toc {
+  break-after: page;
+}
+
+.toc h2 {
+  break-before: auto;
+  border-top: none;
+  padding-top: 0;
+}
+
+/* TOC as a clean, clickable table */
+.toc-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10pt;
+  border: 1px solid var(--rule);
+  border-radius: 10pt;
+  overflow: hidden;
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-size: 10.2pt;
+}
+
+.toc-table thead {
+  /* Repeat header on every TOC page when printed */
+  display: table-header-group;
+}
+
+.toc-table thead th {
+  background: #0b1f35;
+  color: #fff;
+  text-align: left;
+  padding: 8pt 10pt;
+  border: none;
+}
+
+.toc-table tbody td {
+  border-top: 1px solid var(--rule);
+  padding: 7pt 10pt;
+  vertical-align: top;
+}
+
+.toc-table tbody tr:nth-child(even) td {
+  background: #fbfdff;
+}
+
+.toc-table a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.toc-table a:hover {
+  text-decoration: underline;
+}
+
+.toc-table .toc-section td {
+  background: var(--accent-soft) !important;
+  border-top: 1px solid var(--accent-border);
+  font-weight: 700;
+}
+
+.toc-table tbody.toc-group {
+  break-inside: avoid;
+}
+
+.toc-table tr.toc-section {
+  break-after: avoid;
+}
+
+.toc-table .toc-sec {
+  width: 48pt;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.toc-table .toc-ch {
+  width: auto;
+}
+
+
